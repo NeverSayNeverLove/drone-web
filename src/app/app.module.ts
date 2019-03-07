@@ -10,6 +10,14 @@ import { SigninComponent } from './signin/signin.component';
 import { UserCalendarComponent } from './user-calendar/user-calendar.component';
 import { HeaderComponent } from './user-general/header/header.component';
 
+// syncfusion
+import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import {
+    TimelineViewsService, TimelineMonthService, MonthAgendaService,
+    DayService, WeekService, MonthService, ResizeService, DragAndDropService
+} from '@syncfusion/ej2-angular-schedule';
+import { MultiSelectComponent } from '@syncfusion/ej2-angular-dropdowns';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,13 +25,16 @@ import { HeaderComponent } from './user-general/header/header.component';
     ProductComponent,
     SigninComponent,
     UserCalendarComponent,
-    HeaderComponent
+    HeaderComponent,
+    MultiSelectComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ScheduleModule,
   ],
-  providers: [],
+  providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
+    TimelineMonthService, MonthAgendaService, TimelineViewsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,17 @@
-<p>
-  user-calendar works!
-</p>
+<div class="control-section">
+  <div class="col-lg-2 property-section">
+    <h4> Drone Training </h4>
+    <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone' [placeholder]='placeholderDrone'></ejs-multiselect>
+  </div>
+  <div class="col-lg-10 content-wrapper">
+      <ejs-schedule #scheduleObj width='100%' height='660px' [selectedDate]="selectedDate" [eventSettings]="eventSettings" [(currentView)]="scheduleView"
+          (eventRendered)="oneventRendered($event)">
+          <e-views>
+              <e-view option="Day"></e-view>
+              <e-view option="Week"></e-view>
+              <e-view option="Month"></e-view>
+              <e-view option="MonthAgenda"></e-view>
+          </e-views>
+      </ejs-schedule>
+  </div>
+</div>
