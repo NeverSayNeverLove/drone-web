@@ -20,103 +20,113 @@ export class HeaderComponent implements OnInit {
   // Menu items definition 
   public data: MenuItemModel[] = [
       {
-          text: 'Appliances',
+          text: 'Trang chủ',
+          url: Config.api_endpoint
+      },
+      {
+          text: 'Giới thiệu',
+          url: Config.api_endpoint + 'gioithieu',
+          items: [
+            {
+                text: 'Nông nghiệp 4.0 & Máy bay nông nghiệp', 
+                url: Config.api_endpoint + 'gioithieu'                 
+            },
+            {
+                text: 'Sử dụng máy bay nông nghiệp', 
+                url: Config.api_endpoint + 'gioithieu'+'/sudung'                 
+            },
+            {
+                text: 'Ứng dụng máy bay nông nghiệp tại Việt Nam', 
+                url: Config.api_endpoint + 'gioithieu'+'/ungdung'                
+
+            },
+            {
+                text: 'Trailer Video', 
+                url: Config.api_endpoint + 'gioithieu'+'/trailer-video'                 
+
+            },     
+          ]
+      },
+      {
+        text: 'Sản phẩm',
+        url: Config.api_endpoint + 'sanpham',                 
+
+        items: [
+        {
+            text: 'Máy bay nông nghiệp',
+            url: Config.api_endpoint + 'sanpham'+'/drone'                
+        },
+        {
+            text: 'Phụ kiện',
+            url: Config.api_endpoint + 'sanpham'+'/phukien'                
+        },
+        {
+            text: 'Hóa chất',
+            url: Config.api_endpoint + 'sanpham'+'/hoachat'                
+        },
+        {
+            text: 'Phần mềm quản lí',
+            url: Config.api_endpoint + 'sanpham'+'/software'                
+        },
+        {
+            text: 'Khuyến mãi',
+            url: Config.api_endpoint + 'sanpham'               
+        },
+        {
+            text: 'Sản phẩm mới',
+            url: Config.api_endpoint + 'sanpham'                
+        }  
+        ]
+      },
+      {
+        text: 'Diễn đàn',
+        url: Config.api_endpoint + 'diendan'+'/tintuc',                
+
           items: [
               {
-                  text: 'Kitchen',
-                  items: [
-                      { text: 'Electric Cookers' },
-                      { text: 'Coffee Makers' },
-                      { text: 'Blenders' }
-                  ]
+                  text: 'Tin tức', 
+                  url: Config.api_endpoint + 'diendan'+'/tintuc',                
               },
               {
-                  text: 'Washing Machine',
-                  items: [
-                      { text: 'Fully Automatic' },
-                      { text: 'Semi Automatic' }
-                  ]
-              },
-              {
-                  text: 'Air Conditioners',
-                  items: [
-                      { text: 'Inverter ACs' },
-                      { text: 'Split ACs' },
-                      { text: 'Window ACs' }
-                  ]
+                  text: 'Thảo luận', 
+                  url: Config.api_endpoint + 'diendan'+'/thaoluan',                
               }
           ]
       },
       {
-          text: 'Accessories',
-          items: [
-              {
-                  text: 'Mobile',
-                  items: [
-                      { text: 'Headphones' },
-                      { text: 'Memory Cards' },
-                      { text: 'Power Banks' }
-                  ]
-              },
-              {
-                  text: 'Computer',
-                  items: [
-                      { text: 'Pendrives' },
-                      { text: 'External Hard Disks' },
-                      { text: 'Monitors' }
-                  ]
-              }
-          ]
+        text: 'Đào tạo',
+        url: Config.api_endpoint + 'daotao'+'/baigiang',                
+        items: [
+            {
+                text: 'Bài giảng', 
+                url: Config.api_endpoint + 'daotao'+'/baigiang',                
+            },
+            {
+                text: 'Bài test', 
+                url: Config.api_endpoint + 'daotao'+'/baitest',                
+            },
+            {
+                text: 'Lịch tập bay',
+                url: Config.api_endpoint + 'daotao'+'/user-calendar',                
+            },
+        ]
       },
       {
-          text: 'Fashion',
-          items: [
-              {
-                  text: 'Men',
-                  items: [
-                      { text: 'Shirts' },
-                      { text: 'Jackets' },
-                      { text: 'Track Suits' }
-                  ]
-              },
-              {
-                  text: 'Women',
-                  items: [
-                      { text: 'Kurtas' },
-                      { text: 'Salwars' },
-                      { text: 'Sarees' }
-                  ]
-              }
-          ]
+        text: 'Liên hệ',
+        url: Config.api_endpoint + 'lienhe'
       },
-      {
-          text: 'Home & Living',
-          items: [
-              {
-                  text: 'Furniture',
-                  items: [
-                      { text: 'Beds' },
-                      { text: 'Mattresses' },
-                      { text: 'Dining Tables' }
-                  ]
-              },
-              {
-                  text: 'Decor',
-                  items: [
-                      { text: 'Clocks' },
-                      { text: 'Wall Decals' },
-                      { text: 'Paintings' }
-                  ]
-              }
-          ]
-      }
   ];
 
   public userData: object = [
-      { text: 'My Profile' },
-      { text: 'Orders' },
-      { text: 'Rewards' },
-      { text: 'Logout' }
+      { text: 'Lịch sử mua hàng',
+        url: Config.api_endpoint + 'user'+'/lichsu-muahang'        
+    },
+      { text: 'Thông tin tài khoản',
+      url: Config.api_endpoint + 'user'+'/thongtin-taikhoan'               
+    },
+      { text: 'Logout',
+      url: Config.api_endpoint + 'logout'        
+    }
   ];
 
   public menuTemplate: any = '#shoppingMenu';
