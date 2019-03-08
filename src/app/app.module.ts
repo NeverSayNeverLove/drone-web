@@ -17,6 +17,7 @@ import {
     DayService, WeekService, MonthService, ResizeService, DragAndDropService
 } from '@syncfusion/ej2-angular-schedule';
 import { MultiSelectComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { CalendarAllModule } from '@syncfusion/ej2-angular-calendars';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MultiSelectComponent } from '@syncfusion/ej2-angular-dropdowns';
     BrowserModule,
     AppRoutingModule,
     ScheduleModule,
+    CalendarAllModule,
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService],

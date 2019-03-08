@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs } from '@syncfusion/ej2-angular-schedule';
+import { DropDownList } from '@syncfusion/ej2-dropdowns';
+import { DateTimePicker } from '@syncfusion/ej2-calendars';
+import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs, WorkHoursModel, PopupOpenEventArgs } from '@syncfusion/ej2-angular-schedule';
 import { extend } from '@syncfusion/ej2-base';
 
 @Component({
@@ -10,10 +12,12 @@ import { extend } from '@syncfusion/ej2-base';
 export class UserCalendarComponent implements OnInit {
   @ViewChild('scheduleObj')
   public scheduleObj: ScheduleComponent;
-  public selectedDate: Date = new Date(2019, 2, 15);
-  public scheduleView: View = 'Week';
-  public datas: string[] = ['Day', 'Week', 'WorkWeek', 'Month'];
+  public selectedDate: Date;
+  public scheduleView: View = 'Month';
   public events: any[];
+  public workHours: WorkHoursModel = { highlight: false };
+  public startHour: string = '06:00';
+  public endHour: string = '17:00';
   public allowMultiple: Boolean = true;
   public temp: string = '<div class="tooltip-wrap">' +
   '<div class="content-area"><div class="name">${Subject}</></div>' +
@@ -146,6 +150,8 @@ export class UserCalendarComponent implements OnInit {
       enableTooltip: true,
       tooltipTemplate: this.temp
     };
+    this.selectedDate = new Date();
+    
     this.droneTraining = [
       { Id: 'Game1', Drone: 'American Football' },
       { Id: 'Game2', Drone: 'Badminton' },
@@ -161,6 +167,7 @@ export class UserCalendarComponent implements OnInit {
     this.fieldsDrone = { text: 'Drone', value: 'Id' };
   }
 
+  // set color for event
   oneventRendered(args: EventRenderedArgs): void {
       let categoryColor: string = args.data.CategoryColor as string;
       if (!args.element || !categoryColor) {
@@ -172,4 +179,25 @@ export class UserCalendarComponent implements OnInit {
           args.element.style.backgroundColor = categoryColor;
       }
   }
+  public onPopupOpen(args: PopupOpenEventArgs): void {
+    if (args.type === 'Editor') {
+        let statusElement: HTMLInputElement = args.element.querySelector('#EventType') as HTMLInputElement;
+        if (!statusElement.classList.contains('e-dropdownlist')) {
+            let dropDownListObject: DropDownList = new DropDownList({
+                placeholder: 'Choose status', value: statusElement.value,
+                dataSource: ['New', 'Requested', 'Confirmed']
+            });
+            dropDownListObject.appendTo(statusElement);
+            statusElement.setAttribute('name', 'EventType');
+        }
+        let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
+        if (!startElement.classList.contains('e-datetimepicker')) {
+            new DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+        }
+        let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
+        if (!endElement.classList.contains('e-datetimepicker')) {
+            new DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+        }
+    }
+}
 }
