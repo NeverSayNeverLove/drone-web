@@ -9,3 +9,14 @@
 .control-section {
     margin: 0px auto;
 }
+
+.scroll-menu-filter {
+    
+  overflow: scroll;
+}
+
+/* wireframe Menu */
+.header1 { grid-area: header1; }
+.menu1 { grid-area: menu1; }
+.main1 { grid-area: main1; }
+.footer1 { grid-area: footer1; }

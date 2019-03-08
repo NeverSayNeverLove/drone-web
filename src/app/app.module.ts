@@ -19,7 +19,7 @@ import {
 import { MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { CalendarAllModule } from '@syncfusion/ej2-angular-calendars';
-import { MenuModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { MenuModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
     MenuModule,
     ToolbarModule,
     MultiSelectAllModule,
-    DropDownButtonModule
+    DropDownButtonModule,
+    AccordionModule
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService],
