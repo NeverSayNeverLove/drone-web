@@ -1,1 +1,18 @@
-
+<div class="menu-section">
+    <div class="toolbar-menu-control">
+        <div id="shoppingMenu">
+            <ejs-menu [items]="data"></ejs-menu>
+        </div>
+        <button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Andrew"></button>
+        <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" /><span class="e-input-group-icon em-icons e-search"></span></div>
+        <!-- Render the Toolbar Component -->
+        <ejs-toolbar #toolbar (created)="onCreated()">
+            <e-items>
+                <e-item [template]='menuTemplate'></e-item>
+                <e-item [template]='searchTemplate' align='Right'></e-item>
+                <e-item [template]='ddbTemplate' align='Right'></e-item>
+                <e-item prefixIcon='em-icons e-shopping-cart' align='Right'></e-item>
+            </e-items>
+        </ejs-toolbar>
+    </div>
+</div>
