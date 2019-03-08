@@ -5,7 +5,7 @@
         </div>
         <button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Andrew"></button>
         <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" /><span class="e-input-group-icon em-icons e-search"></span></div>
-        <!-- Render the Toolbar Component -->
+
         <ejs-toolbar #toolbar (created)="onCreated()">
             <e-items>
                 <e-item [template]='menuTemplate'></e-item>
