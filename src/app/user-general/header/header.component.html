@@ -1,9 +1,11 @@
 <div class="menu-section">
+    
     <div class="toolbar-menu-control">
-        <div id="shoppingMenu">
+        <a id="nccbtn"type=button [href]="urlNccBtn" ejs-button cssClass='e-outline' [isPrimary]="true">Kênh NCC</a>
+        <div id="shoppingMenu"> 
             <ejs-menu [items]="data"></ejs-menu>
         </div>
-        <button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản" ></button>
+        <a type= button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"  ></a>
         <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" /><span class="e-input-group-icon em-icons e-search"></span></div>
 
         <ejs-toolbar #toolbar (created)="onCreated()">
@@ -12,7 +14,14 @@
                 <e-item [template]='searchTemplate' align='Right'></e-item>
                 <e-item [template]='ddbTemplate' align='Right'></e-item>
                 <e-item prefixIcon='em-icons e-shopping-cart' align='Right'></e-item>
+                <e-item [template]='nccbtn' align='Right'></e-item>
             </e-items>
         </ejs-toolbar>
     </div>
+    <!-- <div class=" align-self-center ">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Trang chủ</a></li>
+            <li class="breadcrumb-item active">Sản phẩm</li>
+        </ol>
+    </div> -->
 </div>
