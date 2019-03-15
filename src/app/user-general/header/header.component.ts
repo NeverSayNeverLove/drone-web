@@ -117,7 +117,7 @@ export class HeaderComponent implements OnInit {
       },
   ];
 
-  public userData: object = [
+  public userData: object[] = [
       { text: 'Lịch sử mua hàng',
         url: Config.api_endpoint + 'user'+'/lichsu-muahang'        
     },
@@ -129,9 +129,12 @@ export class HeaderComponent implements OnInit {
     }
   ];
 
+  
+  public urlNccBtn: any = Config.api_endpoint + 'ncc'; 
   public menuTemplate: any = '#shoppingMenu';
   public ddbTemplate: any = '#userDBtn';
   public searchTemplate: any = '#searchArea';
+  public nccbtn: any = '#nccbtn';
 
   public onCreated(): void {
       this.tbObj.refreshOverflow();

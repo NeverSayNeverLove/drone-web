@@ -9,6 +9,7 @@ import { SigninComponent } from './signin/signin.component';
 // user
 import { UserCalendarComponent } from './user-calendar/user-calendar.component';
 import { HeaderComponent } from './user-general/header/header.component';
+import { FooterComponent } from './user-general/footer/footer.component';
 
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
@@ -20,6 +21,8 @@ import { MultiSelectAllModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { CalendarAllModule } from '@syncfusion/ej2-angular-calendars';
 import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angular-navigations';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angu
     SigninComponent,
     UserCalendarComponent,
     HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,8 @@ import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angu
     ToolbarModule,
     MultiSelectAllModule,
     DropDownButtonModule,
-    AccordionModule
+    AccordionModule,
+    ButtonModule
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService],
