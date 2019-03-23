@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { resolve } from 'url';
-import { reject } from 'q';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,7 +11,7 @@ const httpOptions = {
   })
 };
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root'
 })
 export class ChuyenmucService {
