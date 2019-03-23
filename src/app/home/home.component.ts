@@ -3,6 +3,7 @@ import { BaivietService } from '../services/baiviet.service';
 import { ChuyenmucService } from '../services/chuyenmuc.service';
 import { ForumService } from '../services/forum.service';
 
+import { Post } from '../model/post';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +12,11 @@ import { ForumService } from '../services/forum.service';
 })
 export class HomeComponent implements OnInit {
 
+  post: Post;
   constructor(
     private postSrv: BaivietService,
     private chuyenMucSrv: ChuyenmucService,
-    private forumSrv: ForumService
+    private forumSrv: ForumService,
     ) { }
 
   ngOnInit() {
@@ -35,11 +37,13 @@ export class HomeComponent implements OnInit {
     // let chudeForumPromise3 = this.forumSrv.fetchCauhoiByNguoidatId(5);
     // let chudeForumPromise3 = this.forumSrv.fetchTraloiById(5);
 
-
-
-
-    
-    
+    // let postPromise = this.postSrv.fetchPostByIdNguoiTao(1);
+    // this.post = new Post('post 1', 'this is a fake post', null, true, 3, 1);
+    // console.log(JSON.stringify(this.post));
+    // this.postSrv.createPost(this.post).subscribe(
+    //   (post: Post) => {console.log(post)},
+    //   (error: any) => {console.log(error)});
   }
+
 
 }
