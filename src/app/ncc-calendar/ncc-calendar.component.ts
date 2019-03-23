@@ -5,11 +5,11 @@ import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs, WorkHou
 import { extend } from '@syncfusion/ej2-base';
 
 @Component({
-  selector: 'app-user-calendar',
-  templateUrl: './user-calendar.component.html',
-  styleUrls: ['./user-calendar.component.scss']
+  selector: 'app-ncc-calendar',
+  templateUrl: './ncc-calendar.component.html',
+  styleUrls: ['./ncc-calendar.component.scss']
 })
-export class UserCalendarComponent implements OnInit {
+export class NccCalendarComponent implements OnInit {
   @ViewChild('scheduleObj')
   public scheduleObj: ScheduleComponent;
   public selectedDate: Date;
@@ -37,19 +37,19 @@ export class UserCalendarComponent implements OnInit {
     this.events = [
       {
           Id: 1,
-          Subject: 'Story Time for Kids',
+          Subject: 'Outages1',
           StartTime: new Date(2019, 2, 11, 10, 0),
           EndTime: new Date(2019, 2, 11, 11, 30),
           CategoryColor: '#1aaa55'
       }, {
           Id: 2,
-          Subject: 'Camping with Turtles',
+          Subject: 'Outages 2',
           StartTime: new Date(2019, 2, 12, 12, 0),
           EndTime: new Date(2019, 2, 12, 14, 0),
           CategoryColor: '#357cd2'
       }, {
           Id: 3,
-          Subject: 'Wildlife Warriors',
+          Subject: 'Event 1',
           StartTime: new Date(2019, 2, 13, 10, 0),
           EndTime: new Date(2019, 2, 13, 11, 30),
           CategoryColor: '#7fa900'
@@ -61,7 +61,7 @@ export class UserCalendarComponent implements OnInit {
           CategoryColor: '#ea7a57'
       }, {
           Id: 5,
-          Subject: 'Birds of Prey',
+          Subject: 'Event 3',
           StartTime: new Date(2019, 2, 15, 10, 0),
           EndTime: new Date(2019, 2, 15, 11, 30),
           CategoryColor: '#00bdae'
@@ -180,24 +180,24 @@ export class UserCalendarComponent implements OnInit {
         }
     }
     public onPopupOpen(args: PopupOpenEventArgs): void {
-        if (args.type === 'Editor') {
-            let statusElement: HTMLInputElement = args.element.querySelector('#EventType') as HTMLInputElement;
-            if (!statusElement.classList.contains('e-dropdownlist')) {
-                let dropDownListObject: DropDownList = new DropDownList({
-                    placeholder: 'Choose status', value: statusElement.value,
-                    dataSource: ['New', 'Requested', 'Confirmed']
-                });
-                dropDownListObject.appendTo(statusElement);
-                statusElement.setAttribute('name', 'EventType');
-            }
-            let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
-            if (!startElement.classList.contains('e-datetimepicker')) {
-                new DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
-            }
-            let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
-            if (!endElement.classList.contains('e-datetimepicker')) {
-                new DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
-            }
+      if (args.type === 'Editor') {
+        let statusElement: HTMLInputElement = args.element.querySelector('#EventType') as HTMLInputElement;
+        if (!statusElement.classList.contains('e-dropdownlist')) {
+          let dropDownListObject: DropDownList = new DropDownList({
+            placeholder: 'Choose status', value: statusElement.value,
+            dataSource: ['New', 'Requested', 'Confirmed']
+          });
+          dropDownListObject.appendTo(statusElement);
+          statusElement.setAttribute('name', 'EventType');
         }
+        let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
+        if (!startElement.classList.contains('e-datetimepicker')) {
+          new DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+        }
+        let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
+        if (!endElement.classList.contains('e-datetimepicker')) {
+          new DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+        }
+      }
     }
 }

@@ -1,0 +1,106 @@
+<div class="grid-container">
+  <div class="header-wf-menu"><user-header></user-header></div>
+  <div class="menu-wf-menu">
+      <!-- minicalendar -->
+      <ejs-calendar></ejs-calendar>
+      <!-- filter -->
+      <ejs-accordion>
+          <e-accordionitems class="scroll-menu-filter">
+              <e-accordionitem expanded='true'>
+              <ng-template #header>
+                  <div>Drone</div>
+              </ng-template>
+              <ng-template #content>
+                  <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                      [mode]='default' [fields]='fieldsDrone'
+                      [placeholder]='placeholderDrone'></ejs-multiselect>
+              </ng-template>
+              </e-accordionitem>
+              <e-accordionitem  expanded='true'>
+              <ng-template #header>
+                  <div>Plant</div>
+              </ng-template>
+              <ng-template #content>
+                  <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                      [mode]='default' [fields]='fieldsDrone'
+                      [placeholder]='placeholderDrone'></ejs-multiselect>
+              </ng-template>
+              </e-accordionitem>
+              <e-accordionitem  expanded='true'>
+              <ng-template #header>
+                  <div>Teacher</div>
+              </ng-template>
+              <ng-template #content>
+                  <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                      [mode]='default' [fields]='fieldsDrone'
+                      [placeholder]='placeholderDrone'></ejs-multiselect>
+              </ng-template>
+              </e-accordionitem>
+              <e-accordionitem  expanded='true'>
+              <ng-template #header>
+                  <div>Status</div>
+              </ng-template>
+              <ng-template #content>
+                  <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                      [mode]='default' [fields]='fieldsDrone'
+                      [placeholder]='placeholderDrone'></ejs-multiselect>
+              </ng-template>
+              </e-accordionitem>
+          </e-accordionitems>
+      </ejs-accordion>
+  </div>
+  <div class="main-wf-menu">
+      <!-- Schedule -->
+      <ejs-schedule #scheduleObj width='100%' height='650px'
+          [selectedDate]="selectedDate"
+          [eventSettings]="eventSettings"
+          [(currentView)]="scheduleView"
+          (eventRendered)="oneventRendered($event)"
+          [workHours]="workHours"
+          [startHour]="startHour" [endHour]="endHour"
+          (popupOpen)="onPopupOpen($event)">
+          <e-views>
+              <e-view option="Day"></e-view>
+              <e-view option="Week"></e-view>
+              <e-view option="Month"></e-view>
+              <e-view option="MonthAgenda"></e-view>
+          </e-views>
+          <ng-template #editorTemplate>
+              <table class="custom-event-editor" width="100%" cellpadding="5">
+                  <tbody>
+                      <tr>
+                          <td class="e-textlabel">Summary</td>
+                          <td colspan="4">
+                              <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="e-textlabel">Status</td>
+                          <td colspan="4">
+                              <input type="text" id="EventType" name="EventType" class="e-field" style="width: 100%" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="e-textlabel">From</td>
+                          <td colspan="4">
+                              <input id="StartTime" class="e-field" type="text" name="StartTime" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="e-textlabel">To</td>
+                          <td colspan="4">
+                              <input id="EndTime" class="e-field" type="text" name="EndTime" />
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="e-textlabel">Reason</td>
+                          <td colspan="4">
+                              <textarea id="Description" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </ng-template>
+      </ejs-schedule>
+  </div>
+</div>

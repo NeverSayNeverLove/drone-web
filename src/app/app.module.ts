@@ -24,6 +24,7 @@ import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { CalendarAllModule } from '@syncfusion/ej2-angular-calendars';
 import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { NccCalendarComponent } from './ncc-calendar/ncc-calendar.component';
 
 
 
@@ -37,6 +38,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
     HeaderComponent,
     FooterComponent,
     UserNewsComponent,
+    NccCalendarComponent,
   ],
   imports: [
     BrowserModule,
