@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { SigninComponent } from './signin/signin.component';
+import { UserNewsComponent } from './user-news/user-news.component';
 // user
 import { UserCalendarComponent } from './user-calendar/user-calendar.component';
 import { HeaderComponent } from './user-general/header/header.component';
@@ -25,6 +26,7 @@ import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angu
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +36,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
     UserCalendarComponent,
     HeaderComponent,
     FooterComponent,
+    UserNewsComponent,
   ],
   imports: [
     BrowserModule,

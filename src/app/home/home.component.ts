@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     // let chudeForumPromise3 = this.forumSrv.fetchCauhoiForum();
     // let chudeForumPromise3 = this.forumSrv.fetchCauhoiByChudeId(1);
     // let chudeForumPromise3 = this.forumSrv.fetchCauhoiByNguoidatId(5);
-    let chudeForumPromise3 = this.forumSrv.fetchCauhoiById(5);
+    // let chudeForumPromise3 = this.forumSrv.fetchTraloiById(5);
 
 
 
