@@ -167,37 +167,37 @@ export class UserCalendarComponent implements OnInit {
     this.fieldsDrone = { text: 'Drone', value: 'Id' };
   }
 
-  // set color for event
-  oneventRendered(args: EventRenderedArgs): void {
-      let categoryColor: string = args.data.CategoryColor as string;
-      if (!args.element || !categoryColor) {
-          return;
-      }
-      if (this.scheduleObj.currentView === 'Agenda') {
-          (args.element.firstChild as HTMLElement).style.borderLeftColor = categoryColor;
-      } else {
-          args.element.style.backgroundColor = categoryColor;
-      }
-  }
-  public onPopupOpen(args: PopupOpenEventArgs): void {
-    if (args.type === 'Editor') {
-        let statusElement: HTMLInputElement = args.element.querySelector('#EventType') as HTMLInputElement;
-        if (!statusElement.classList.contains('e-dropdownlist')) {
-            let dropDownListObject: DropDownList = new DropDownList({
-                placeholder: 'Choose status', value: statusElement.value,
-                dataSource: ['New', 'Requested', 'Confirmed']
-            });
-            dropDownListObject.appendTo(statusElement);
-            statusElement.setAttribute('name', 'EventType');
+    // set color for event
+    oneventRendered(args: EventRenderedArgs): void {
+        let categoryColor: string = args.data.CategoryColor as string;
+        if (!args.element || !categoryColor) {
+            return;
         }
-        let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
-        if (!startElement.classList.contains('e-datetimepicker')) {
-            new DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
-        }
-        let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
-        if (!endElement.classList.contains('e-datetimepicker')) {
-            new DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+        if (this.scheduleObj.currentView === 'Agenda') {
+            (args.element.firstChild as HTMLElement).style.borderLeftColor = categoryColor;
+        } else {
+            args.element.style.backgroundColor = categoryColor;
         }
     }
-}
+    public onPopupOpen(args: PopupOpenEventArgs): void {
+        if (args.type === 'Editor') {
+            let statusElement: HTMLInputElement = args.element.querySelector('#EventType') as HTMLInputElement;
+            if (!statusElement.classList.contains('e-dropdownlist')) {
+                let dropDownListObject: DropDownList = new DropDownList({
+                    placeholder: 'Choose status', value: statusElement.value,
+                    dataSource: ['New', 'Requested', 'Confirmed']
+                });
+                dropDownListObject.appendTo(statusElement);
+                statusElement.setAttribute('name', 'EventType');
+            }
+            let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
+            if (!startElement.classList.contains('e-datetimepicker')) {
+                new DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+            }
+            let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
+            if (!endElement.classList.contains('e-datetimepicker')) {
+                new DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+            }
+        }
+    }
 }

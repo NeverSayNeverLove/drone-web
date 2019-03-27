@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Config } from '../services/config';
 
 @Component({
   selector: 'app-signin',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SigninComponent implements OnInit {
 
+  signupLink = Config.front_endpoint + 'signup';
+  forgotpassLink = Config.front_endpoint + 'forgotpass';
   constructor() { }
 
   ngOnInit() {

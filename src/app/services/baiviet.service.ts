@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Observable} from 'rxjs';
+import { catchError } from 'rxjs/operators'; 
+import { Post } from '../model/post';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'accept': 'application/json',
-    'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
-    'x-requested-with': 'XMLHttpRequest'
+    // 'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
+    // 'x-requested-with': 'XMLHttpRequest'
   })
 };
 
@@ -172,9 +175,14 @@ export class BaivietService {
     return listPromise;
   }
 
-
+  private handleError() {
+  };
   
-
+  // create all POST
+  createPost(post: Post): Observable<Post> {
+    return this.http.post<Post>('http://localhost:8082/droneweb/api/bai-viet/save', post, httpOptions);
+    // .pipe(catchError(this.handleError);
+  }
   
   // 
   getPost() {

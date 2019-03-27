@@ -1,55 +1,53 @@
 <div class="grid-container">
     <div class="header-wf-menu"><user-header></user-header></div>
     <div class="menu-wf-menu">
-        <iframe height=403 width=180>   
-            <!-- minicalendar -->
-            <ejs-calendar></ejs-calendar>
-            <!-- filter -->
-            <ejs-accordion >
-                <e-accordionitems class="scroll-menu-filter">
-                    <e-accordionitem expanded='true'>
-                    <ng-template #header>
-                        <div>Drone</div>
-                    </ng-template>
-                    <ng-template #content>
-                        <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
-                            [mode]='default' [fields]='fieldsDrone'
-                            [placeholder]='placeholderDrone'></ejs-multiselect>
-                    </ng-template>
-                    </e-accordionitem>
-                    <e-accordionitem  expanded='true'>
-                    <ng-template #header>
-                        <div>Plant</div>
-                    </ng-template>
-                    <ng-template #content>
-                        <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
-                            [mode]='default' [fields]='fieldsDrone'
-                            [placeholder]='placeholderDrone'></ejs-multiselect>
-                    </ng-template>
-                    </e-accordionitem>
-                    <e-accordionitem  expanded='true'>
-                    <ng-template #header>
-                        <div>Teacher</div>
-                    </ng-template>
-                    <ng-template #content>
-                        <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
-                            [mode]='default' [fields]='fieldsDrone'
-                            [placeholder]='placeholderDrone'></ejs-multiselect>
-                    </ng-template>
-                    </e-accordionitem>
-                    <e-accordionitem  expanded='true'>
-                    <ng-template #header>
-                        <div>Status</div>
-                    </ng-template>
-                    <ng-template #content>
-                        <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
-                            [mode]='default' [fields]='fieldsDrone'
-                            [placeholder]='placeholderDrone'></ejs-multiselect>
-                    </ng-template>
-                    </e-accordionitem>
-                </e-accordionitems>
-            </ejs-accordion>
-        </iframe>
+        <!-- minicalendar -->
+        <ejs-calendar></ejs-calendar>
+        <!-- filter -->
+        <ejs-accordion>
+            <e-accordionitems class="scroll-menu-filter">
+                <e-accordionitem expanded='true'>
+                <ng-template #header>
+                    <div>Drone</div>
+                </ng-template>
+                <ng-template #content>
+                    <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                        [mode]='default' [fields]='fieldsDrone'
+                        [placeholder]='placeholderDrone'></ejs-multiselect>
+                </ng-template>
+                </e-accordionitem>
+                <e-accordionitem  expanded='true'>
+                <ng-template #header>
+                    <div>Plant</div>
+                </ng-template>
+                <ng-template #content>
+                    <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                        [mode]='default' [fields]='fieldsDrone'
+                        [placeholder]='placeholderDrone'></ejs-multiselect>
+                </ng-template>
+                </e-accordionitem>
+                <e-accordionitem  expanded='true'>
+                <ng-template #header>
+                    <div>Teacher</div>
+                </ng-template>
+                <ng-template #content>
+                    <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                        [mode]='default' [fields]='fieldsDrone'
+                        [placeholder]='placeholderDrone'></ejs-multiselect>
+                </ng-template>
+                </e-accordionitem>
+                <e-accordionitem  expanded='true'>
+                <ng-template #header>
+                    <div>Status</div>
+                </ng-template>
+                <ng-template #content>
+                    <ejs-multiselect id='sample-list1' [dataSource]='droneTraining'
+                        [mode]='default' [fields]='fieldsDrone'
+                        [placeholder]='placeholderDrone'></ejs-multiselect>
+                </ng-template>
+                </e-accordionitem>
+            </e-accordionitems>
+        </ejs-accordion>
     </div>
     <div class="main-wf-menu">
         <!-- Schedule -->
