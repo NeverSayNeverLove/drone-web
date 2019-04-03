@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AfterViewInit, ViewEncapsulation, Inject } from '@angular/core';
 import { compile, detach } from '@syncfusion/ej2-base';
 import { cardBook } from './data-source';
 import { MultiSelect, SelectEventArgs, RemoveEventArgs } from '@syncfusion/ej2-dropdowns';
 import { Query, DataManager, Predicate } from '@syncfusion/ej2-data';
+
+import { BaivietService, Post } from '../services/baiviet.service';
+import { DataService } from '../services/data.service';
 
 interface FilterKey {
   Code: string;
@@ -22,11 +25,27 @@ let multiselectComp: MultiSelect;
   encapsulation: ViewEncapsulation.None
 
 })
-export class UserNewsComponent {
+export class UserNewsComponent implements OnInit, OnDestroy {
+
   public DataList: any = [];
+  public postList: Array<Post> = [];
+
+  constructor(
+    private postSrv: BaivietService,
+    private dataSrv: DataService) { }
+
+  //ngOnInit: sau khi dữ liệu load xong
   public ngOnInit(): void {
+    console.log("dung");
     this.DataList = cardBook;
+    this.initData();
   }
+
+  //ngOnDestroy: khi chuyển sang trang mới
+  public ngOnDestroy() {
+    console.log("on destroy");
+  }
+
   ngAfterViewInit(): void {
     multiselectComp = new MultiSelect({
       // set the local data to dataSource property
@@ -114,6 +133,40 @@ export class UserNewsComponent {
       this.DataList = [];
       errorContent.style.display = 'flex';
     }
+  }
+
+  async initData() {
+    await this.getPost();
+  }
+
+  //To get data lên view
+  async getPost() {
+
+    //Lấy dữ liệu từ local trước
+    this.postList = JSON.parse(JSON.stringify(this.postSrv.getPost())); //deep : tạo 1 bản sao mới - truyền tham trị (kể cả object trong object)
+    //Nếu k có thì mới fetch
+    if (!this.postList.length) {
+      let postPromise = await this.postSrv.fetchPostByIdChuyenMuc(2);
+      postPromise.forEach(posts => {      //posts: mỗi page
+        posts.content.forEach(p => {      //posts.content: array<post>
+          let post: Post = new Post();
+          post.id = p.id;
+          post.tieuDe = p.tieuDe;
+          post.noiDung = p.noiDung;
+          post.tag = p.tag;
+          post.trangThai = p.trangThai;
+          post.chuyenMucId = p.chuyenMuc.id;
+          post.nguoiTaoId = p.nguoiTao.id;
+          this.postList.push(post);
+        });
+      });
+      this.postSrv.setPost(this.postList);
+      console.log('post list:', this.postList);
+    }
+  }
+
+  sendCurrPostID(id) {
+    this.dataSrv.sendPostID(id);
   }
 
 }

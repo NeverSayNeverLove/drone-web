@@ -41,10 +41,11 @@ export class HomeComponent implements OnInit {
     // let chudeForumPromise3 = this.forumSrv.fetchTraloiById(5);
 
     // let postPromise = this.postSrv.fetchPostByIdNguoiTao(1);
-    //   this.post = new Post('post 2', 'this is a fake post', null, true, 3, 1);
-    //   this.postSrv.createPost(this.post).subscribe(
-    //     (post: Post) => { console.log(post) },
-    //     (error: any) => { console.log(error) });
+
+    // this.post = new Post('tiêu đề post', 'this is a fake post', null, true, 2, 1);
+    // this.postSrv.createPost(this.post).subscribe(
+    //   (post: Post) => { console.log(post) },
+    //   (error: any) => { console.log(error) });
 
     // this.chuyenMuc = new ChuyenMuc ('chuyên mục fake name');
     // this.chuyenMucSrv.createChuyenMuc(this.chuyenMuc).subscribe(

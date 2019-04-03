@@ -26,36 +26,33 @@
               style="margin:auto;height:inherit;font-size:18px;font-weight:500;color:inherit">
               No results found. Please try a different search.</div>
           </div>
-          <div *ngFor="let task of DataList;">
+          <!-- Post List -->
+          <div *ngFor="let post of postList">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-              <div id='card_sample_{{task.id}}' class='card_sample'>
-                <div class='{{task.isHorizontal == true? "e-card e-card-horizontal" : "e-card"}}'>
-                  <div class='e-card-image'>
-                    <img src="{{task.cardImage.url}}">
-                  </div>
-                  <div class='e-card-header'>
-                    <div class='e-card-header-caption'>
-                      <div class='e-card-header-title'>
-                        {{task.header_title}}</div>
-                      <div class='e-card-sub-title'>{{task.header_subtitle}}
+              <div id="vertical_Sample">
+                <div tabindex="0" class="e-card e-card-horizontal" id="horizontal_product">
+                  <img src='' style="height:100px" />
+                  <div class='e-card-stacked'>
+                    <div class="e-card-header">
+                      <div class="e-card-header-caption">
+                        <div class="e-card-header-title">{{post.id}} {{post.tieuDe}}</div>
                       </div>
                     </div>
-                  </div>
-                  <div class='e-card-content'>{{task.cardContent}}</div>
-                  <div class='e-card-actions {{task.isHorizontal == true ? "e-card e-card-horizontal" : ""}}'>
-                    <a href='{{task.card_action_btn.action_btns[0].href}}'
-                      target='{{task.card_action_btn.action_btns[0].target}}'>{{task.card_action_btn.action_btns[0].text}}</a>
+                    <div class="e-card-content" style="height: 146px">{{post.noiDung}}</div>
+                    <button ejs-button cssClass="e-outline" [isPrimary]="true" (click)="sendCurrPostID(post.id)" routerLink='/user-detail-new' routerLinkActive="active menu">Read more</button>
                   </div>
                 </div>
               </div>
             </div>
+            <!--  -->
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div>
-    <ul id="pagination"class="pagination pagination-sm ">
+    <ul id="pagination" class="pagination pagination-sm ">
       <li><a href="#">1</a></li>
       <li><a href="#">2</a></li>
       <li><a href="#">3</a></li>

@@ -27,6 +27,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { NccCalendarComponent } from './ncc-calendar/ncc-calendar.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { UserDetailNewComponent } from './user-detail-new/user-detail-new.component';
 
 
 
@@ -43,6 +44,7 @@ import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
     NccCalendarComponent,
     SignupComponent,
     ForgotPassComponent,
+    UserDetailNewComponent,
   ],
   imports: [
     BrowserModule,
