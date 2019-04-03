@@ -2,7 +2,7 @@
 <div class="menu-section fixed">
     
     <div class="toolbar-menu-control">
-        <a id="nccbtn"type=button [href]="urlNccBtn" ejs-button cssClass='e-outline' [isPrimary]="true">Kênh NCC</a>
+        <button id="nccbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin" routerLinkActive="active menu">Kênh NCC</button>
         <div id="shoppingMenu"> 
             <ejs-menu [items]="data"></ejs-menu>
         </div>

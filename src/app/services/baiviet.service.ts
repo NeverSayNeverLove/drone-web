@@ -76,7 +76,7 @@ export class BaivietService {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}bai-viet/chuyen-muc/${idChuyenMuc}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          console.log(data);
+          // console.log('data: ', data);
           resolve(data);
         });
       });
@@ -84,9 +84,9 @@ export class BaivietService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}bai-viet/chuyen-muc/${idChuyenMuc}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            console.log(data);
+            // console.log('data: ', data);
             resolve(data);
           });
         });
@@ -196,12 +196,10 @@ export class BaivietService {
     return listPost;
   }
   
-  setPost(key, listPost) {
+  setPost(listPost) {
+    let key ='locPost';
     this.dataService.setItem(key, listPost);
   }
-
-
-  
   
 }
 
@@ -213,6 +211,7 @@ export class Post {
       public tag: any = "",
       public trangThai: boolean = false,
       public chuyenMucId: number = 1,
-      public nguoiTaoId: number = 1) {
+      public nguoiTaoId: number = 1,
+      public id: number = 0,) {
   }
 }
