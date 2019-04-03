@@ -4,7 +4,6 @@ import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { catchError } from 'rxjs/operators'; 
-import { Post } from '../model/post';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -178,9 +177,9 @@ export class BaivietService {
   private handleError() {
   };
   
-  // create all POST
+  // create a POST
   createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>('http://localhost:8082/droneweb/api/bai-viet/save', post, httpOptions);
+    return this.http.post<Post>(`${Config.api_endpoint}bai-viet/save`, post, httpOptions);
     // .pipe(catchError(this.handleError);
   }
   
@@ -204,4 +203,16 @@ export class BaivietService {
 
   
   
+}
+
+
+export class Post {
+  constructor(
+      public tieuDe: string = "",
+      public noiDung: string = "",
+      public tag: any = "",
+      public trangThai: boolean = false,
+      public chuyenMucId: number = 1,
+      public nguoiTaoId: number = 1) {
+  }
 }

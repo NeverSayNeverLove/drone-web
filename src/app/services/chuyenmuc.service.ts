@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -11,7 +12,7 @@ const httpOptions = {
   })
 };
 
-@Injectable({ 
+@Injectable({
   providedIn: 'root'
 })
 export class ChuyenmucService {
@@ -28,10 +29,10 @@ export class ChuyenmucService {
       let tmp;//đối tượng Promise lưu lại thông tin lần fetch đầu tiên
       tmp = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}chuyen-muc/?page=1&limit=${Config.pageSizeMax}`, httpOptions)// this.http.get()
-        .subscribe(data => {                                                                              //.subscribe: khi đã fetch đc dữ liệu
-          console.log(data);
-          resolve(data);
-        });
+          .subscribe(data => {                                                                              //.subscribe: khi đã fetch đc dữ liệu
+            console.log(data);
+            resolve(data);
+          });
       });
       listPromise.push(tmp);                      //thêm vào mảng
       let pages = tmp['totalPages'];              // lấy thuộc tính totalPages của tmp
@@ -39,10 +40,10 @@ export class ChuyenmucService {
       for (let page = 2; page <= pages; page++) { // for để fetch từ trang thứ 2 đến hết
         tmp = new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}chuyen-muc/?page=${page}&limit=${Config.pageSizeMax}`, httpOptions)
-          .subscribe(data => {
-            console.log(data);
-            resolve(data);
-          });
+            .subscribe(data => {
+              console.log(data);
+              resolve(data);
+            });
         });
         listPromise.push(tmp);
       }
@@ -53,19 +54,30 @@ export class ChuyenmucService {
   }
 
   //FETCH CHUYÊN MỤC THEO ID
-  async fetchChuyenMucById(idChuyenMuc){
+  async fetchChuyenMucById(idChuyenMuc) {
     let chuyenMucPromise: any;
-    try{
-      chuyenMucPromise = new Promise ((resolve, reject) =>{
+    try {
+      chuyenMucPromise = new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}chuyen-muc/${idChuyenMuc}`, httpOptions)
-        .subscribe(data => {
-          console.log(data);
-          resolve(data);
-        });
+          .subscribe(data => {
+            console.log(data);
+            resolve(data);
+          });
       });
-    }catch(error){
+    } catch (error) {
       throw error;
     }
     return chuyenMucPromise;
   }
+
+  // create a CHUYÊN MỤC
+  createChuyenMuc(chuyenMuc: ChuyenMuc): Observable<ChuyenMuc> {
+    return this.http.post<ChuyenMuc>(`${Config.api_endpoint}chuyen-muc/save`, chuyenMuc, httpOptions);
+  }
+}
+//-------------------------//
+export class ChuyenMuc {
+  constructor(
+    public tenChuyenMuc: string = "",
+  ) {}
 }
