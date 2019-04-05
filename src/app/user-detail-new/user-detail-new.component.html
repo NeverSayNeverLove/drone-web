@@ -3,11 +3,11 @@
 </head>
 <body>
   <user-header></user-header>
-  <div class= "container detail-new ">
+  <div class= "container detail-new " *ngIf="currPost">
     <div id= "detail-new" class="col-md-9" >
     <h2>{{currPost.tieuDe}}</h2>
     <div id= "date">3/4/2019</div>
-    <div id= "new-opening">asdjjkk</div>
+    <div id= "new-opening"></div>
     <div id= "new-content">
       <p>{{currPost.noiDung}}</p>
     </div>

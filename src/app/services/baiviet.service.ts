@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs';
-import { catchError } from 'rxjs/operators'; 
+import {Observable} from 'rxjs'; 
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -19,7 +19,8 @@ const httpOptions = {
 export class BaivietService {
 
   constructor(private http: HttpClient,
-    private dataService: DataService) { }
+    private dataService: DataService
+) { }
 
   //FETCH LIST POST THEO ID NGƯỜI TẠO
   async fetchPostByIdNguoiTao(idNguoiTao) {
@@ -184,11 +185,11 @@ export class BaivietService {
   }
   
   // 
-  getPost() {
+  getPost(key: string) {
     let listPost = [];
     let myItem: any;
-    let key;
-    key = 'locPost';
+
+    // key = 'locPostList';
     myItem = this.dataService.getItem(key);
     if (myItem) {
       listPost = JSON.parse(myItem);
@@ -196,10 +197,11 @@ export class BaivietService {
     return listPost;
   }
   
-  setPost(listPost) {
-    let key ='locPost';
+  setPost(listPost, key: string) {
+    // let key ='locPostList';
     this.dataService.setItem(key, listPost);
   }
+  
   
 }
 
