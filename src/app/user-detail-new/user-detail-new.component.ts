@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaivietService, Post } from '../services/baiviet.service';
 import { DataService } from '../services/data.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'user-detail-new',
@@ -10,29 +11,60 @@ import { DataService } from '../services/data.service';
 export class UserDetailNewComponent implements OnInit, OnDestroy {
 
   postList: Array<Post> = [];
+  // detailPostList: Array<Post> = [];
+
   currPost: Post;
   postID: number;
 
   constructor(
     private postSrv: BaivietService,
-    private dataSrv: DataService) { }
+    private dataSrv: DataService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.dataSrv.currPostID.subscribe(id => {console.log(id); this.postID = id});
+    this.dataSrv.currPostID.subscribe(id => { console.log(id); this.postID = id });//currPostID nhận id khi click, rồi chuyển cho postID
+
     this.initData();
   }
 
   ngOnDestroy() {
+    this.dataSrv.setItemLocal('detailPostID', this.postID);
   }
 
+  //To get data lên view
   initData() {
     this.getPost();
   }
 
-  getPost() {
-    this.postList = JSON.parse(JSON.stringify(this.postSrv.getPost()));
-    this.currPost = this.postList.find(p => p.id === this.postID);
-    console.log('selected post', this.currPost);
+  async getPost() {
+    // Lay postID tu Ram hoac localCache
+    this.postID = this.postID ? this.postID : this.dataSrv.getItemLocal('detailPostID');
+    if (this.postID) { // Neu co postID
+      this.postList = JSON.parse(JSON.stringify(this.postSrv.getPost("locPostList"))); // deep copy postList from loc
+      if (this.postList.length){  // new trong Ram da co, thi tim currPost
+        this.currPost = this.postList.find(p => p.id == this.postID);
+      } else { // new trong Ram chua co -> refetch from server
+        let postPromise = await this.postSrv.fetchPostByIdChuyenMuc(2);
+        postPromise.forEach(posts => {
+          posts.content.forEach(p => {
+            let post: Post = new Post();
+            post.id = p.id;
+            post.tieuDe = p.tieuDe;
+            post.noiDung = p.noiDung;
+            post.tag = p.tag;
+            post.trangThai = p.trangThai;
+            post.chuyenMucId = p.chuyenMuc.id;
+            post.nguoiTaoId = p.nguoiTao.id;
+            this.postList.push(post);
+          });
+        });
+        this.postSrv.setPost(this.postList,"locPostList"); // save postList to loc (Ram)
+        this.currPost = this.postList.find(p => p.id == this.postID); // find currPost
+      }
+      this.dataSrv.setItemLocal('detailPostID', this.postID); // save currPostID to localStorage
+    } else {  // Neu khong co postID se chuyen ve user-news
+      this.router.navigateByUrl('/user-news');
+    }
   }
 
 }
