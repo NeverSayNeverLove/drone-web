@@ -1,0 +1,30 @@
+<head>
+  <title>Topic List</title>
+</head>
+
+<body>
+  <user-header></user-header>
+  <div class="container-fluid">
+    <user-forum-share></user-forum-share>
+
+
+    <div id="topic-list-table" class="col-sm-7">
+      <div>
+        <h2>Question Topics </h2>
+        <hr />
+      </div>
+      <div>
+        <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
+          [allowFiltering]="true" [filterSettings]='filterSettings'>
+          <e-columns>
+            <e-column field='OrderID' headerText='Order ID' textAlign='Right' width=90></e-column>
+            <e-column field='CustomerID' headerText='Customer ID' width=120></e-column>
+            <e-column field='Freight' headerText='Freight' textAlign='Right' format='C2' width=90></e-column>
+            <e-column field='OrderDate' headerText='Order Date' textAlign='Right' format='yMd' width=120></e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+  <user-footer></user-footer>
+</body>

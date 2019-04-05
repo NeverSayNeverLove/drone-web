@@ -1,0 +1,45 @@
+<head>
+  <title>Detail Question</title>
+</head>
+
+<body>
+  <user-header></user-header>
+  <div class="container-fluid">
+    <user-forum-share></user-forum-share>
+    
+    <div id="forum-content " class="col-sm-7">
+      <div>
+        <h2 id="title">Tiêu đề </h2>
+        <hr />
+      </div>
+
+      <div>
+        <h4>Người hỏi<span style="float: right; padding-right: 30px">Date</span></h4>
+        <p>Nội dung câu hỏi</p>
+        <hr />
+      </div>
+
+      <div>
+        <form id="form" action="/action_page.php">
+          <div class="form-group">
+            <label for="answer">Trả lời:</label>
+            <textarea class="form-control" id="answer" name="answer" rows="8" style="width: 50%;"
+              placeholder="Nội dung:"></textarea>
+          </div>
+          <button id="add-answer" type="submit" ejs-button [isPrimary]="true">Gửi</button>
+        </form>
+        <hr />
+      </div>
+
+      <div>
+        <h4>Người trả lời<span style="float: right; padding-right: 30px">Date</span></h4>
+        <p>Nội dung trả lời</p>
+      </div>
+    </div>
+  </div>
+
+
+  <user-footer></user-footer>
+
+
+</body>
