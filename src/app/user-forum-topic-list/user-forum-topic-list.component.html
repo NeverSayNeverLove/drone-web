@@ -14,13 +14,13 @@
         <hr />
       </div>
       <div>
-        <ejs-grid [dataSource]='data' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
-          [allowFiltering]="true" [filterSettings]='filterSettings'>
+        <ejs-grid #grid1 [dataSource]='data' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
+          [allowFiltering]="true" [filterSettings]='filterSettings' [selectionSettings]='selectionOptions'
+          (rowSelected)='rowSelected($event)'>
           <e-columns>
-            <e-column field='OrderID' headerText='Order ID' textAlign='Right' width=90></e-column>
-            <e-column field='CustomerID' headerText='Customer ID' width=120></e-column>
-            <e-column field='Freight' headerText='Freight' textAlign='Right' format='C2' width=90></e-column>
-            <e-column field='OrderDate' headerText='Order Date' textAlign='Right' format='yMd' width=120></e-column>
+            <e-column field='id' headerText='Topic ID' textAlign='Center' width=50></e-column>
+            <e-column field='tenChuDeCauHoi' headerText='Topic Name' width=120></e-column>
+            <e-column field='numOfPost' headerText='Number Of Posts' textAlign='Center' width=90></e-column>
           </e-columns>
         </ejs-grid>
       </div>

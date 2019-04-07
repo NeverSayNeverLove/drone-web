@@ -25,29 +25,30 @@ export class ForumService {
   async fetchChudeForum() {
     let listPromise: any;
     try {
-      let tmp;
-      tmp = await new Promise((resolve, reject) => {
+      listPromise = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}chu-de-forum/`, httpOptions).subscribe(data => {
-          console.log('List chude-forum', data);
+          // console.log('List chude-forum', data);
           resolve(data);
         });
       });
+
     } catch (error) {
       throw error;
     }
+    // console.log('listPromise',listPromise);
     return listPromise;
   }
   //FETCH CHỦ ĐỀ CÂU HỎI FORUM THEO ID
   async fetchChudeForumById(chudeForumId) {
     let listPromise: any;
     try {
-      let tmp;
-      tmp = await new Promise((resolve, reject) => {
+      listPromise = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}chu-de-forum/${chudeForumId}`, httpOptions).subscribe(data => {
-          console.log('List chude-forum by ID', data);
+          // console.log('List chude-forum by ID', data);
           resolve(data);
         });
       });
+;
     } catch (error) {
       throw error;
     }
@@ -61,7 +62,7 @@ export class ForumService {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}cau-hoi-forum/?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          console.log('List cau-hoi-forum page 1', data);
+          // console.log('List cau-hoi-forum page 1', data);
           resolve(data);
         });
       });
@@ -69,9 +70,9 @@ export class ForumService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}cau-hoi-forum/?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            console.log('List cau-hoi-forum', data);
+            // console.log('List cau-hoi-forum', data);
             resolve(data);
           });
         });
@@ -98,7 +99,7 @@ export class ForumService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}cau-hoi-forum/chu-de-id=${chudeId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             console.log('List cau-hoi by chu-de-Id ', data);
             resolve(data);
@@ -190,7 +191,7 @@ export class ForumService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}cau-hoi-forum/nguoi-dat-id=${cauhoiId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             console.log('List tra loi by cau hoi id ', data);
             resolve(data);
@@ -256,6 +257,7 @@ export class ForumService {
 export class ChuDeForum {
   constructor(
     public tenChuDeCauHoi: string = "",
+    public id: number = 0,
   ) { }
 }
 export class CauHoiForum {
@@ -264,6 +266,7 @@ export class CauHoiForum {
     public noiDung: string = "",
     public nguoiDatId: number = 1,
     public chuDeId: number = 1,
+    public id: number = 0,
   ) { }
 }
 export class TraLoiForum {
@@ -271,6 +274,7 @@ export class TraLoiForum {
     public noiDung: string = "",
     public nguoiTraLoiId: number = 1,
     public cauHoiId: number = 1,
+    public id: number = 0,
   ) { }
 }
 

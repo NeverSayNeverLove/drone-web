@@ -6,17 +6,19 @@
   <user-header></user-header>
   <div class="container-fluid">
     <user-forum-share></user-forum-share>
-    
+
     <div id="forum-content " class="col-sm-7">
       <div>
-        <h2 id="title">Tiêu đề </h2>
+        <h2 id="title">{{currPost.tieuDe}} </h2>
         <hr />
       </div>
 
       <div>
-        <h4>Người hỏi<span style="float: right; padding-right: 30px">Date</span></h4>
-        <p>Nội dung câu hỏi</p>
-        <hr />
+        <div>
+          <span><b>{{currPost.nguoiDat}}</b></span>
+          <span style="float: right; padding-right: 30px">{{currPost.ngayDat}}</span>
+        </div>
+        <div><p>{{currPost.noiDung}}</p></div>
       </div>
 
       <div>

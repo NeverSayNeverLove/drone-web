@@ -21,7 +21,6 @@ export class UserNewsComponent implements OnInit, OnDestroy {
 
    // pager object
    pager: any = {};
-
    // paged items
    pagedPostList: any[];
 
@@ -31,7 +30,7 @@ export class UserNewsComponent implements OnInit, OnDestroy {
     private dataSrv: DataService,
     private pagerService: PagerService) { }
 
-  //ngOnInit: sau khi dữ liệu load xong
+  //ngOnInit: sau khi dữ html load xong
   public ngOnInit(): void {
 
     this.initData();
@@ -68,7 +67,7 @@ export class UserNewsComponent implements OnInit, OnDestroy {
           this.postList.push(post);
         });
       });
-      this.postSrv.setPost(this.postList,"locPostList");  //lưu vào local
+      this.postSrv.setPost(this.postList,"locPostList");  //lưu vào local (RAM)
     }
     // initialize to page 1
     this.setPage(1);
@@ -77,7 +76,7 @@ export class UserNewsComponent implements OnInit, OnDestroy {
 
   sendCurrPostID(id) {
     this.dataSrv.sendPostID(id);
-  }
+  }// đưa id cho currID (người đưa thư)
 
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {

@@ -7,8 +7,8 @@ import { Post } from './baiviet.service';
 })
 export class DataService {
   //To send PostID
-  private postIDSource = new BehaviorSubject<number>(0);
-  currPostID = this.postIDSource.asObservable();        //
+  private idSource = new BehaviorSubject<number>(0); 
+  currID = this.idSource.asObservable();// người đưa thư        
   constructor() { }
   
   public storage: Map<string, any> = new Map();
@@ -29,8 +29,8 @@ export class DataService {
     return localStorage.getItem(key);
   }
 
-  //To send PostID
+  //To send ID
   public sendPostID(id: number) {
-    this.postIDSource.next(id);  //send: next()
+    this.idSource.next(id);  //send: next(): đưa cho currId để mang đi
   }
 }
