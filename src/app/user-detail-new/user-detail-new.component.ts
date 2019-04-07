@@ -25,6 +25,7 @@ export class UserDetailNewComponent implements OnInit, OnDestroy {
     this.dataSrv.currID.subscribe(id => { console.log(id); this.postID = id });//currID nhận id khi click, rồi chuyển cho postID
 
     this.initData();
+    this.dataSrv.currPostID.subscribe(id => this.postID = id);
   }
 
   ngOnDestroy() {

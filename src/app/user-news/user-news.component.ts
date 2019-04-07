@@ -36,7 +36,6 @@ export class UserNewsComponent implements OnInit, OnDestroy {
     this.initData();
   }
 
-  //ngOnDestroy: khi chuyển sang trang mới
   public ngOnDestroy() {
     // this.dataSrv.setItemLocal('detailPostID', );
 
