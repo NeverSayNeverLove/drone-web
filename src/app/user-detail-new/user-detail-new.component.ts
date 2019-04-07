@@ -22,7 +22,7 @@ export class UserDetailNewComponent implements OnInit, OnDestroy {
     private router: Router) { }
 
   ngOnInit() {
-    this.dataSrv.currPostID.subscribe(id => { console.log(id); this.postID = id });//currPostID nhận id khi click, rồi chuyển cho postID
+    this.dataSrv.currID.subscribe(id => { console.log(id); this.postID = id });//currID nhận id khi click, rồi chuyển cho postID
 
     this.initData();
   }
@@ -61,7 +61,7 @@ export class UserDetailNewComponent implements OnInit, OnDestroy {
         this.postSrv.setPost(this.postList,"locPostList"); // save postList to loc (Ram)
         this.currPost = this.postList.find(p => p.id == this.postID); // find currPost
       }
-      this.dataSrv.setItemLocal('detailPostID', this.postID); // save currPostID to localStorage
+      this.dataSrv.setItemLocal('detailPostID', this.postID); // save currID to localStorage
     } else {  // Neu khong co postID se chuyen ve user-news
       this.router.navigateByUrl('/user-news');
     }

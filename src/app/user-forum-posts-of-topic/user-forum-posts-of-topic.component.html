@@ -14,13 +14,14 @@
           <hr />
         </div>
         <div>
-          <ejs-grid [dataSource]='data1' [allowPaging]="true" [pageSettings]='pageSettings1' [allowSorting]="true"
-            [allowFiltering]="true" [filterSettings]='filterSettings1'>
+          <ejs-grid #grid2 [dataSource]='data1' [allowPaging]="true" [pageSettings]='pageSettings1' [allowSorting]="true"
+            [allowFiltering]="true" [filterSettings]='filterSettings1' [selectionSettings]='selectionOptions'
+            (rowSelected)='rowSelected($event)'>
             <e-columns>
-              <e-column field='OrderID' headerText='Order ID' textAlign='Right' width=90></e-column>
-              <e-column field='CustomerID' headerText='Customer ID' width=120></e-column>
-              <e-column field='Freight' headerText='Freight' textAlign='Right' format='C2' width=90></e-column>
-              <e-column field='OrderDate' headerText='Order Date' textAlign='Right' format='yMd' width=120></e-column>
+              <e-column field='tieuDe' headerText='Tiêu đề' textAlign='left' width=40%></e-column>
+              <e-column field='nguoiDat' headerText='Người đặt' width=20%></e-column>
+              <e-column field='ngayDat' headerText='Ngày đặt' textAlign='Right' format='yMd' width=20%></e-column>
+              <e-column field='numOfAns' headerText='Trả lời' textAlign='Right'  width=20%></e-column>
             </e-columns>
           </ejs-grid>
         </div>
