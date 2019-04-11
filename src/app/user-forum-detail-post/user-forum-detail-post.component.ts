@@ -5,7 +5,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum.service';
 import { DataService } from '../services/data.service';
 import { BaivietService } from '../services/baiviet.service';
-import { getPosition } from '@syncfusion/ej2-grids';
+
 
 @Component({
   selector: 'user-forum-detail-post',
@@ -39,21 +39,20 @@ export class UserForumDetailPostComponent implements OnInit {
     console.log('1', answerPromise);
     answerPromise.forEach(ansPage => {
       ansPage.content.forEach(ans => {
+        console.log(ans);
         let answer = new TraLoiForum();
         answer.id = ans.id;
         answer.noiDung = ans.noiDung;
-        answer.nguoiTraLoiId = ans.nguoiTraLoiId.id;
+        answer.nguoiTraLoiId = ans.nguoiTraLoi.id;
         answer.cauHoiId = ans.cauHoi.id;
         answer['nguoiDat'] = ans.nguoiTraLoi.hoTen;
         answer['ngayTraLoi'] = ans.ngayTraLoi;
         answer['numOfAns'] = 0;
         this.answerList.push(answer);
-        // let answerPromise =  await this.forumSrv.fetchTraloiByCauhoiId(post.id);
-        // console.log('1 answer promise ',answerPromise);
-        // postTr['numOfAns'] = answerPromise
 
       });
     });
+    this.baivietSrv.setPost(this.answerList,"locAnswerList"); 
 
 
 

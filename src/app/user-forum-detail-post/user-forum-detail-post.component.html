@@ -18,7 +18,9 @@
           <span><b>{{currPost.nguoiDat}}</b></span>
           <span style="float: right; padding-right: 30px">{{currPost.ngayDat}}</span>
         </div>
-        <div><p>{{currPost.noiDung}}</p></div>
+        <div>
+          <p>{{currPost.noiDung}}</p>
+        </div>
       </div>
 
       <div>
@@ -32,10 +34,16 @@
         </form>
         <hr />
       </div>
-
-      <div>
-        <h4>Người trả lời<span style="float: right; padding-right: 30px">Date</span></h4>
-        <p>Nội dung trả lời</p>
+      
+      <div *ngFor="let answer of answerList">
+          <div>
+            <span><b>{{answer.nguoiDat}}</b></span>
+            <span style="float: right; padding-right: 30px">{{answer.ngayTraLoi}}</span>
+          </div>
+          <div>
+            <p>{{answer.noiDung}}</p>
+          </div>
+          <hr/>
       </div>
     </div>
   </div>
