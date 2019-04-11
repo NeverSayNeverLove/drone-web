@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
     //   (chuyenMuc: ChuyenMuc) => { console.log(chuyenMuc) },
     //   (error: any) => { console.log(error) });
 
-    // this.chuDeForum = new ChuDeForum('fake nội dung');
+    // this.chuDeForum = new ChuDeForum('Drone chính hãng');
     // this.forumSrv.createChuDeForum(this.chuDeForum).subscribe(
     //   (chuDeForum: ChuDeForum) => { console.log(chuDeForum) },
     //   (error: any) => { console.log(error) }

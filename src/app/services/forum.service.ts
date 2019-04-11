@@ -192,7 +192,7 @@ export class ForumService {
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}cau-hoi-forum/nguoi-dat-id=${cauhoiId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
+          this.http.get(`${Config.api_endpoint}tra-loi-forum/cau-hoi-id=${cauhoiId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             console.log('List tra loi by cau hoi id ', data);
             resolve(data);
           });
@@ -277,4 +277,12 @@ export class TraLoiForum {
     public id: number = 0,
   ) { }
 }
+export class TopicTableRow{
+  constructor(
+    public id: number = 0,
+    public tenChuDeCauHoi: string = "",
+    public numOfPost: number = 0
+  ) { }
+}
+
 

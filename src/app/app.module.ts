@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +19,7 @@ import { UserDetailNewComponent } from './user-detail-new/user-detail-new.compon
 import { UserForumShareComponent } from './user-forum-share/user-forum-share.component';
 import { UserForumDetailPostComponent } from './user-forum-detail-post/user-forum-detail-post.component';
 import { UserForumTopicListComponent } from './user-forum-topic-list/user-forum-topic-list.component';
-
+import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user-forum-posts-of-topic.component';
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import {
@@ -32,8 +33,8 @@ import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angu
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { GridModule} from '@syncfusion/ej2-angular-grids';
 import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-grids';
-import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user-forum-posts-of-topic.component';
-
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 
 
 
@@ -61,6 +62,7 @@ import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     ScheduleModule,
     CalendarAllModule,
     MenuModule,
@@ -70,6 +72,8 @@ import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user
     AccordionModule,
     ButtonModule,
     GridModule,
+    DialogModule,
+    DropDownListModule,
 
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,

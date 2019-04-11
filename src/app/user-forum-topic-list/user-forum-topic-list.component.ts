@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -6,9 +6,14 @@ import { PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 import { SelectionSettingsModel, RowSelectEventArgs,  GridComponent } from '@syncfusion/ej2-angular-grids';
-import { ForumService, ChuDeForum, CauHoiForum } from '../services/forum.service';
+import { ForumService, TopicTableRow } from '../services/forum.service';
 import { DataService } from '../services/data.service';
 import { BaivietService} from '../services/baiviet.service';
+import { UserForumShareComponent} from '../user-forum-share/user-forum-share.component';
+
+
+
+
 
 
 
@@ -20,9 +25,9 @@ import { BaivietService} from '../services/baiviet.service';
   encapsulation: ViewEncapsulation.None
 
 })
-export class UserForumTopicListComponent implements OnInit {
+export class UserForumTopicListComponent implements OnInit, AfterViewInit {
   public topicList: Array<TopicTableRow> = [];
-  public data: Object[];
+  public data_topicsList: Object[];
 
   //grid service
   public pageSettings: PageSettingsModel;
@@ -31,50 +36,70 @@ export class UserForumTopicListComponent implements OnInit {
 
   @ViewChild('grid1')
   public grid: GridComponent;
+  @ViewChild(UserForumShareComponent) forumChild;
 
   constructor(
     private forumSrv: ForumService,
     private dataSrv: DataService,
     private baivietSrv: BaivietService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    // this.data = fakeDataArr;
+
     this.pageSettings = { pageSize: 4 };
     this.filterSettings = { type: 'CheckBox' };
     this.selectionOptions = { type: 'Single' };
+    
+    this.topicList = this.forumChild.topicList;
+    this.data_topicsList = this.topicList;
+   
 
-    this.initData();
+    // this.initData();
+  }
+  ngAfterViewInit() {
+    console.log ('ahsgdhsa  ', this.forumChild.topicList);
+    this.topicList = this.forumChild.topicList;
+    this.data_topicsList = this.topicList;
+    // this.initData();
+    // this.grid.refresh();
   }
 
-  async initData() {
-    await this.getTopic();
-    this.data = this.topicList;
+  add() {
+    this.grid.refresh();
+  }
+  
+  receiveMessage($event) {
+    this.topicList = $event;
   }
 
-  async getTopic() {
-    let topicPromise = await this.forumSrv.fetchChudeForum();
-    let postPromise = await this.forumSrv.fetchCauhoiForum();
-    console.log('postPromise',postPromise);
-    topicPromise.forEach(t => {      
-      let topicTr: TopicTableRow = new TopicTableRow();
-      topicTr.id = t.id;
-      topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
-      this.topicList.push(topicTr);
-    });
-    this.topicList.forEach(t => {
-       postPromise.forEach(postPage =>{
-         postPage.content.forEach(post =>{
-            if(post.chuDe.id === t.id){
-              t.numOfPost ++;
-            }
-         });
-       }); 
-    });
-    console.log('topicList',this.topicList);
-    this.baivietSrv.setPost(this.topicList,"locPostList"); 
-  } 
+  // async initData() {
+  //   await this.getTopic();
+  //   this.data_topicsList = this.topicList;
+  // }
+
+  // async getTopic() {
+  //   let topicPromise = await this.forumSrv.fetchChudeForum();
+  //   let postPromise = await this.forumSrv.fetchCauhoiForum();
+  //   console.log('postPromise',postPromise);
+  //   topicPromise.forEach(t => {      
+  //     let topicTr: TopicTableRow = new TopicTableRow();
+  //     topicTr.id = t.id;
+  //     topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
+  //     this.topicList.push(topicTr);
+  //   });
+  //   this.topicList.forEach(t => {
+  //      postPromise.forEach(postPage =>{
+  //        postPage.content.forEach(post =>{
+  //           if(post.chuDe.id === t.id){
+  //             t.numOfPost ++;
+  //           }
+  //        });
+  //      }); 
+  //   });
+  //   console.log('topicList',this.topicList);
+  //   this.baivietSrv.setPost(this.topicList,"locPostList"); 
+  // } 
 
   rowSelected(args: RowSelectEventArgs) {
     // Get the selected records (selected row object).
@@ -83,11 +108,5 @@ export class UserForumTopicListComponent implements OnInit {
     this.dataSrv.sendPostID(id);
     this.router.navigateByUrl('/user-forum-posts-of-topic');
   }
-}
-export class TopicTableRow{
-  constructor(
-    public id: number = 0,
-    public tenChuDeCauHoi: string = "",
-    public numOfPost: number = 0
-  ) { }
+  
 }

@@ -1,3 +1,4 @@
+<!-- LEFT CONTENT-->
 <div id="topic-list " class="col-sm-2" style="float:left">
   <div>
     <h2>Topic List</h2>
@@ -9,11 +10,28 @@
     <a href="#" class="list-group-item">Second item</a>
     <a href="#" class="list-group-item">Third item</a>
   </div>
-  <button id="add-topic" ejs-button [isPrimary]="true">ADD TOPIC</button>
+  <div class="control-section animation">
+    <div class="animate">
+      <button id="add-topic" class="e-control e-btn" style="position: absolute;" ejs-button [isPrimary]="true"
+        (click)="topicBtnClick($event)">ADD TOPIC
+      </button>
+    </div>
+
+  </div>
 </div>
 
+
+<!-- RIGHT CONTENT -->
 <div class="col-sm-3" style="float: right;">
-  <button id="add-question" ejs-button [isPrimary]="true">ADD QUESTION</button>
+  <div class="control-section animation">
+    <div class="animate">
+      <button id="add-question" class="e-control e-btn" ejs-button [isPrimary]="true"
+        (click)="questionBtnClick($event)">ADD QUESTION
+      </button>
+    </div>
+
+  </div>
+
   <hr>
   <div id="hot-post">
     <div>
@@ -25,4 +43,103 @@
       <a id="question-title" href="">Tiêu đề câu hỏi</a>
     </div>
   </div>
+</div>
+
+<!--ADD Topic-->
+<div class="control-section animation">
+  <div #container class='root-container'></div>
+  <ejs-dialog id='topic-dialog' #topicDialog isModal='true' header='THÊM CHỦ ĐỀ MỚI' [target]='targetElement'
+    showCloseIcon='true' width='400px' height='300px' [visible]='hidden'>
+    <ng-template #content>
+      <form #formtopic="ngForm">
+
+        <div class='form-group'>
+          <div class="e-float-input">
+            <label for='topic'>Chủ đề:</label>
+            <input required #nameTopic='ngModel' [(ngModel)]="inputtopic" name="nameTopic" type='text'
+              class='form-control' id='nameTopic'>
+            <span class="e-float-line"></span>
+          </div>
+          <div *ngIf="nameTopic.invalid && (nameTopic.dirty || nameTopic.touched)" class="alert alert-danger">
+            <div *ngIf="nameTopic.errors.required">
+              Topic is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+              <button ejs-button [disabled]="!formtopic.valid" type="button"
+                class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickTopicOK($event)">Submit</button>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+              <button ejs-button [disabled]="!(nameTopic.valid)" type="reset"
+                class="e-control e-btn e-lib e-flat" (click)="handleOnClickTopicCancel($event)">Cancel</button>
+            </div>
+          </div>
+      </form>
+    </ng-template>
+  </ejs-dialog>
+
+  <!--ADD QUESTION-->
+  <div #container class='root-container'></div>
+  <ejs-dialog id='ques-dialog' #questionDialog isModal='true' header='THÊM CÂU HỎI' [target]='targetElement'
+    showCloseIcon='true' width='400px' height='500px' [visible]='hidden'>
+    <ng-template #content>
+      <form #formquestion="ngForm">
+        <div class='form-group'>
+          <div>
+            <label for='topic'>Chủ đề:</label>
+            <ejs-dropdownlist required #topicselect='ngModel' [(ngModel)]='topic_autoselect' name="topicselect1"
+              id='topic' [dataSource]='data_topicsList' [fields]='fields' placeholder='Select a topic' [value]='value'
+              (change)='handleOnSelectedTopic($event)'>
+            </ejs-dropdownlist>
+          </div>
+          <div *ngIf="topicselect.invalid && (topicselect.touched)" class="alert alert-danger">
+            <div *ngIf="topicselect.errors.required">
+              Topic is required.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <div class="e-float-input">
+            <label for='title'>Tiêu đề:</label>
+            <input required #title='ngModel' [(ngModel)]="inputtitle" name="title" type='text' class='form-control'
+              id='title'>
+            <span class="e-float-line"></span>
+          </div>
+          <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
+            <div *ngIf="title.errors.required">
+              Title is required.
+            </div>
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <div>
+            <label for='content'>Nội dung:</label>
+            <textarea required #content='ngModel' [(ngModel)]="inputcontent" name="content" style='resize: none;'
+              class='form-control' rows='7' id='content'></textarea>
+          </div>
+          <div *ngIf="content.invalid && (content.dirty || content.touched)" class="alert alert-danger">
+            <div *ngIf="content.errors.required">
+              Content is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+            <button ejs-button [disabled]="!formquestion.valid" type="button"
+              class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickQuestionOk($event)">Submit</button>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+            <button ejs-button [disabled]="!(topicselect.valid || title.valid || content.valid)" type="reset"
+              class="e-control e-btn e-lib e-flat" (click)="handleOnClickQuestionCancel($event)">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </ejs-dialog>
 </div>
