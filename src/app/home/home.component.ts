@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BaivietService, Post } from '../services/baiviet.service';
 import { ChuyenmucService, ChuyenMuc } from '../services/chuyenmuc.service';
 import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum.service';
+import { DronedaotaoService, DroneDaoTao} from '../services/dronedaotao.service';
+import { DiadiembayService,DiaDiemBay} from '../services/diadiembay.service';
+import { LichtapbayService} from '../services/lichtapbay.service';
 
 @Component({
   selector: 'app-home',
@@ -16,15 +19,23 @@ export class HomeComponent implements OnInit {
   cauHoiForum: CauHoiForum;
   traLoiForum: TraLoiForum;
   traLoiForum1: TraLoiForum;
+  drone: DroneDaoTao;
+  place: DiaDiemBay;
   constructor(
     private postSrv: BaivietService,
     private chuyenMucSrv: ChuyenmucService,
     private forumSrv: ForumService,
+    private droneDaotaoSrv: DronedaotaoService,
+    private placeSrv: DiadiembayService,
+    private planSrv: LichtapbayService,
   ) { }
 
   ngOnInit() {
-    // let postPromise = this.postSrv.fetchPostByIdNguoiTao(2);
+    // let postPromise = this.postSrv.fetchPostByIdNguoiTao(1);
+    // console.log(postPromise);
+   
     // let postPromise1 = this.postSrv.fetchPostById(2);
+
     // let postPromise2 = this.postSrv.fetchPostByIdChuyenMuc(1);
     // let postPromise2 = this.postSrv.fetchPostByListId([3,4,5]);
     //fetch bài viết theo điều kiện
@@ -74,6 +85,28 @@ export class HomeComponent implements OnInit {
     //   (traLoiForum: TraLoiForum) => { console.log(traLoiForum) },
     //   (error: any) => { console.log(error) }
     // );
+
+    // let dronedaotaoPromise = this.droneDaotaoSrv.fetchDroneDaotaoById(3);
+    // let dronePromise = this.droneDaotaoSrv.fetchDroneDaotaoByNhacungcapId(1);
+    // console.log(dronedaotaoPromise); 
+    // console.log(dronePromise);
+
+    // this.drone = new DroneDaoTao('Drone tưới nước','dùng để tưới nước cho những cánh đồng lớn',3);
+    // this.droneDaotaoSrv.createPost(this.drone).subscribe(
+    //   (drone: DroneDaoTao) => {console.log(drone)},
+    //   (error: any) => {console.log(error)}
+    // );
+ 
+
+    // this.place = new DiaDiemBay('306-B9',4);
+    // this.placeSrv.createDiadiemBay(this.place).subscribe(
+    //   (place: DiaDiemBay) => {console.log('creat place:', place)},
+    //   (error: any) => {console.log(error)}
+    // );
+    //  let placePromise = this.placeSrv.fetchFlyPlaceByNhacungcapId(4);
+    //  console.log(placePromise);
+     let planPromise = this.planSrv.fetchFlyPlanByUserId_StartToFrom_NccId(5,new Date('2019-03-01 00:00'),new Date('2019-04-15 00:00'),3);
+     console.log(planPromise);
 
   }
 

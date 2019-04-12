@@ -30,7 +30,7 @@ export class UserCalendarComponent implements OnInit {
   // maps the appropriate column to fields property
   public fieldsDrone: any;
   public placeholderDrone: string = 'Drone 1';    
-  public default : string = 'Default';;
+  public default : string = 'Default';
 
   ngOnInit() {
     // init list events
@@ -190,10 +190,12 @@ export class UserCalendarComponent implements OnInit {
                 dropDownListObject.appendTo(statusElement);
                 statusElement.setAttribute('name', 'EventType');
             }
+
             let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
             if (!startElement.classList.contains('e-datetimepicker')) {
                 new DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
             }
+            
             let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
             if (!endElement.classList.contains('e-datetimepicker')) {
                 new DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
