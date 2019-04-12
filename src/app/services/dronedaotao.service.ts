@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -27,7 +28,7 @@ export class DronedaotaoService {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}drone-dao-tao/nha-cung-cap-id=${nhacungcapId}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          console.log('List Drone_dao_tao by Nha_cung_cap_Id page 1',data);
+          console.log('List Drone_dao_tao by Nha_cung_cap_Id page 1', data);
           resolve(data);
         });
       });
@@ -35,9 +36,9 @@ export class DronedaotaoService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}drone-dao-tao/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            console.log('List Drone_dao_tao by Nha_cung_cap_Id',data);
+            console.log('List Drone_dao_tao by Nha_cung_cap_Id', data);
             resolve(data);
           });
         });
@@ -48,21 +49,35 @@ export class DronedaotaoService {
     }
     return listPromise;
   }
-   //FETCH DRONE THEO ID
-   async fetchDroneDaotaoById(id){
+  //FETCH DRONE THEO ID
+  async fetchDroneDaotaoById(id) {
     let droneDaotaoPromise: any;
-    try{
-      droneDaotaoPromise = new Promise ((resolve, reject) =>{
+    try {
+      droneDaotaoPromise = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}drone-dao-tao/${id}`, httpOptions)
-        .subscribe(data => {
-          console.log('Drone_dao_tao by Id',data);
-          resolve(data);
-        });
+          .subscribe(data => {
+            console.log('Drone_dao_tao by Id', data);
+            resolve(data);
+          });
       });
-    }catch(error){
+    } catch (error) {
       throw error;
     }
     return droneDaotaoPromise;
   }
 
+  // create a POST
+  createPost(dronedaotao: DroneDaoTao): Observable<DroneDaoTao> {
+    return this.http.post<DroneDaoTao>(`${Config.api_endpoint}drone-dao-tao/save`, dronedaotao, httpOptions);
+    // .pipe(catchError(this.handleError);
+  }
+
+}
+export class DroneDaoTao {
+  constructor(
+    public tenDrone: string = "",
+    public moTa: string = "",
+    public nhaCungCapId: number = 0,
+    public id: number = 0,
+  ) {}
 }

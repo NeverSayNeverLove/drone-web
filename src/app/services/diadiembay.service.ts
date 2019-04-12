@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,7 +25,7 @@ export class DiadiembayService {
    async fetchFlyPlaceById(id){
     let flyPlacePromise: any;
     try{
-      flyPlacePromise = new Promise ((resolve, reject) =>{
+      flyPlacePromise = await new Promise ((resolve, reject) =>{
         this.http.get(`${Config.api_endpoint}dia-diem-bay/${id}`, httpOptions)
         .subscribe(data => {
           console.log('Dia_diem_bay by Id',data);
@@ -51,7 +53,7 @@ export class DiadiembayService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             console.log('List Dia_diem_bay by Nha_cung_cap_Id',data);
             resolve(data);
@@ -64,5 +66,16 @@ export class DiadiembayService {
     }
     return listPromise;
   }
+   // create a POST
+   createDiadiemBay(diadiembay: DiaDiemBay): Observable<DiaDiemBay> {
+    return this.http.post<DiaDiemBay>(`${Config.api_endpoint}dia-diem-bay/save`, diadiembay, httpOptions);
+  }
 
+}
+export class DiaDiemBay {
+  constructor(
+    public diaChi: string = "",
+    public nhaCungCapId: number = 0,
+    public id: number = 0,
+  ){};
 }
