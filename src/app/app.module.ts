@@ -37,6 +37,7 @@ import { GridModule} from '@syncfusion/ej2-angular-grids';
 import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-grids';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { UserProductListComponent } from './user-product-list/user-product-list.component';
 
 
 
@@ -59,6 +60,7 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
     UserForumDetailPostComponent,
     UserForumTopicListComponent,
     UserForumPostsOfTopicComponent,
+    UserProductListComponent,
   ],
   imports: [
     BrowserModule,
