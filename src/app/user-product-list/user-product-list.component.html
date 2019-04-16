@@ -1,0 +1,182 @@
+<head>
+  <title>Product List</title>
+</head>
+
+<body>
+  <div>
+    <user-header></user-header>
+  </div>
+
+  <div class="container-fluid">
+    <!-- filter -->
+    <div class="col-sm-2">
+      <div>
+        <span><img src="../../assets/images/icons8-conversion-48.png" style="width: 20px; height: 20px"></span>
+        <b>FILTER</b>
+      </div>
+      <ejs-accordion id='filter'>
+        <e-accordionitems class="scroll-menu-filter">
+          <e-accordionitem expanded='true'>
+            <ng-template #header>
+              <div>Nhà cung cấp</div>
+            </ng-template>
+            <ng-template #content>
+              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
+                [placeholder]='placeholderDrone'></ejs-multiselect>
+            </ng-template>
+          </e-accordionitem>
+
+          <e-accordionitem expanded='true'>
+            <ng-template #header>
+              <div>Giá</div>
+            </ng-template>
+            <ng-template #content>
+              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
+                [placeholder]='placeholderDrone'></ejs-multiselect>
+            </ng-template>
+          </e-accordionitem>
+
+          <e-accordionitem expanded='true'>
+            <ng-template #header>
+              <div>Khuyến mãi</div>
+            </ng-template>
+            <ng-template #content>
+              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
+                [placeholder]='placeholderDrone'></ejs-multiselect>
+            </ng-template>
+          </e-accordionitem>
+
+          <e-accordionitem expanded='true'>
+            <ng-template #header>
+              <div>Status</div>
+            </ng-template>
+            <ng-template #content>
+              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
+                [placeholder]='placeholderDrone'></ejs-multiselect>
+            </ng-template>
+          </e-accordionitem>
+
+        </e-accordionitems>
+      </ejs-accordion>
+    </div>
+
+    <!--Product List-->
+    <div class='col-sm-10'>
+      <div id='product-title'><b>SẢN PHẨM</b></div>
+      <div class="e-card-layout row">
+        <a href="http://localhost:4200/user-detail-product">
+          <div class="e-card">
+            <div class="e-card-actions">
+              <div class="e-card-image">
+                <img id='images' src='../../assets/images/drone_1.jpg'>
+                <div class="e-card-title">Node.js</div>
+              </div>
+              <div class="e-card-content">
+                <div>
+                  <b>Giá:</b>
+                  <br>
+                  <p>Đánh giá</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="http://localhost:4200/user-detail-product">
+          <div class="e-card">
+            <div class="e-card-actions">
+              <div class="e-card-image">
+                <img id='images' src='../../assets/images/drone_1.jpg'>
+                <div class="e-card-title">Node.js</div>
+              </div>
+              <div class="e-card-content">
+                <div>
+                  <b>Giá:</b>
+                  <br>
+                  <p>Đánh giá</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="http://localhost:4200/user-detail-product">
+          <div class="e-card">
+            <div class="e-card-actions">
+              <div class="e-card-image">
+                <img id='images' src='../../assets/images/drone_1.jpg'>
+                <div class="e-card-title">Node.js</div>
+              </div>
+              <div class="e-card-content">
+                <div>
+                  <b>Giá:</b>
+                  <br>
+                  <p>Đánh giá</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="http://localhost:4200/user-detail-product">
+          <div class="e-card">
+            <div class="e-card-actions">
+              <div class="e-card-image">
+                <img id='images' src='../../assets/images/drone_1.jpg'>
+                <div class="e-card-title">Node.js</div>
+              </div>
+              <div class="e-card-content">
+                <div>
+                  <b>Giá:</b>
+                  <br>
+                  <p>Đánh giá</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="http://localhost:4200/user-detail-product">
+          <div class="e-card">
+            <div class="e-card-actions">
+              <div class="e-card-image">
+                <img id='images' src='../../assets/images/drone_1.jpg'>
+                <div class="e-card-title">Node.js</div>
+              </div>
+              <div class="e-card-content">
+                <div>
+                  <b>Giá:</b>
+                  <br>
+                  <p>Đánh giá</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!--Pagination-->
+    <!-- <div>
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(1)">First</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a (click)="setPage(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="setPage(pager.totalPages)">Last</a>
+        </li>
+      </ul>
+    </div> -->
+
+  </div>
+
+  <div>
+    <user-footer></user-footer>
+  </div>
+
+</body>

@@ -1,0 +1,38 @@
+#container {
+    visibility: hidden;
+}
+
+
+.e-card-image  {
+
+    height: 264px;
+}
+#images {
+    height: 264px;
+    width: 100%;
+}
+
+
+.e-card {
+    width: 240px;
+    margin: 10px;
+    float: left;
+}
+#filter{
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+}
+#product-title{
+    // margin-top: 15px;
+    margin-bottom: 15px;
+
+}
+.e-card-layout {
+    background-color: #fafafa;
+}
+span {
+    margin-right: 5px;
+    color: rgb(128, 119, 119);
+}
+
