@@ -38,6 +38,7 @@ import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { UserProductListComponent } from './user-product-list/user-product-list.component';
+import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
 
 
 
@@ -61,6 +62,7 @@ import { UserProductListComponent } from './user-product-list/user-product-list.
     UserForumTopicListComponent,
     UserForumPostsOfTopicComponent,
     UserProductListComponent,
+    UserDetailProductComponent,
   ],
   imports: [
     BrowserModule,

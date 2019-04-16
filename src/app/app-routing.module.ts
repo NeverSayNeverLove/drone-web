@@ -14,6 +14,7 @@ import { UserForumDetailPostComponent } from './user-forum-detail-post/user-foru
 import { UserForumTopicListComponent } from './user-forum-topic-list/user-forum-topic-list.component';
 import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user-forum-posts-of-topic.component';
 import { UserProductListComponent } from './user-product-list/user-product-list.component';
+import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
 
 
 
@@ -34,7 +35,8 @@ const routes: Routes = [
   { path: 'signin', component: SigninComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'forgotpass', component: ForgotPassComponent},
-  { path: 'user-product-list', component: UserProductListComponent}
+  { path: 'user-product-list', component: UserProductListComponent},
+  { path: 'user-detail-product', component: UserDetailProductComponent}
 
 ];
 
