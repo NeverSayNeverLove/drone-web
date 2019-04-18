@@ -1,13 +1,24 @@
-
 <div class="menu-section fixed">
-    
+
     <div class="toolbar-menu-control">
-        <button id="nccbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin" routerLinkActive="active menu">Kênh NCC</button>
-        <div id="shoppingMenu"> 
+        <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
+            routerLinkActive="active menu">Kênh NCC
+        </button>
+
+        <div id="shoppingMenu">
             <ejs-menu [items]="data"></ejs-menu>
         </div>
-        <a type= button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"  ></a>
-        <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" /><span class="e-input-group-icon em-icons e-search"></span></div>
+
+        <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"></a>
+
+        <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
+            <span class="e-input-group-icon em-icons e-search"></span>
+        </div>
+        <div>
+            <i id="cart" class="em-icons e-shopping-cart"
+             data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">
+            </i>
+        </div>
 
         <ejs-toolbar #toolbar (created)="onCreated()">
             <e-items>
@@ -19,11 +30,18 @@
             </e-items>
         </ejs-toolbar>
     </div>
+
     <div class=" align-self-center ">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Trang chủ</a></li>
             <li class="breadcrumb-item active">Sản phẩm</li>
         </ol>
     </div>
-    
+
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();   
+    });
+</script>
