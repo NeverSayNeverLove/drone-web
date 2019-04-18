@@ -40,7 +40,7 @@ import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { CalendarAllModule } from '@syncfusion/ej2-angular-calendars';
 import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { GridModule} from '@syncfusion/ej2-angular-grids';
+import { GridModule, EditService, ToolbarService, CommandColumnService} from '@syncfusion/ej2-angular-grids';
 import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-grids';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
@@ -100,7 +100,7 @@ import { TabModule } from '@syncfusion/ej2-angular-navigations';
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService,
-    PageService, SortService, FilterService, DatePipe],
+    PageService, SortService, FilterService, DatePipe, EditService, ToolbarService, CommandColumnService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
