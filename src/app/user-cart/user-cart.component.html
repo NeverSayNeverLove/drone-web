@@ -1,0 +1,68 @@
+<head>
+  <title>User Cart</title>
+</head>
+
+<body>
+  <div>
+    <user-header></user-header>
+  </div>
+  <div class="container" id="bodyview">
+    <div>
+      <h3><span><i class="fas fa-shopping-cart"></i></span>  Chi Tiết Giỏ Hàng</h3>
+    </div>
+    <div style="margin-bottom: 10px;" >
+      <table class="table">
+        <tr>
+          <th>Sản Phẩm</th>
+          <th>Đơn Giá</th>
+          <th>Số Lượng</th>
+          <th>Thành Tiền</th>
+          <th>Xóa</th>
+        </tr>
+        <tr *ngFor="let cartrow of cartTable">
+          <td class="name-product">
+            <img class="product-img" src="../../assets/images/drone_1.jpg">  {{cartrow.name}}
+          </td>
+
+          <td>{{cartrow.price}}.000</td>
+
+          <td>
+            <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus(cartrow.id)">
+              <i class="fa fa-minus" aria-hidden="true"></i>
+            </button>
+
+            <input class="input-box" id="quantity" type="number" value={{cartrow.quantity}} disabled="true">
+
+            <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="add(cartrow.id)">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </td>
+
+          <td>
+            <input class="input-box" id="totalPrice" value={{cartrow.price*cartrow.quantity}} disabled="true">.000
+          </td>
+
+          <td>
+            <button ejs-button cssClass="e-flat" [isPrimary]="true" (click)="remove(cartrow.id)">
+              <i class="fa fa-trash" aria-hidden="true"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td><h4>Tổng tiền:</h4></td>
+          <td><h4>{{totalPriceBill}}.000</h4></td>
+          <td><button ejs-button [isPrimary]="true" class="button" id="buyNowBtn">Mua ngay</button></td>
+        </tr>
+      </table>
+    </div>
+    <div style="text-align: right">
+      <button routerLink='/user-product-list' routerLinkActive="active menu" ejs-button cssClass="e-outline" [isPrimary]="true" class="button" id="buyContinueBtn">Tiếp tục mua hàng</button>
+    </div>
+  </div>
+
+
+  <div>
+    <user-footer></user-footer>
+  </div>
+</body>

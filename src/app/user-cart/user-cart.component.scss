@@ -1,0 +1,39 @@
+#bodyview {
+    color: rgba(48, 44, 44, 0.87);
+    // font-family:  "Segoe UI";
+    font-size: 14px;
+}
+.product-img {
+    width: 100px;
+}
+.fa-cart-plus {
+    margin-right: 5px;
+}
+
+.input-box {
+    width: 30px;
+    border: none;
+    background-color: white;
+    margin-left: 20px;
+    
+}
+#totalPrice {
+    text-align: right;
+}
+td, th {
+    text-align: center;
+}
+td.name-product {
+    text-align: left;
+}
+.button {
+    margin-left: 15px; 
+    text-transform: capitalize; 
+}
+#buyNowBtn {
+    margin-top: 8px;
+}
+#buyContinueBtn {
+    margin-right: 30px;
+}
+
