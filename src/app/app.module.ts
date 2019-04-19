@@ -39,6 +39,7 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { UserProductListComponent } from './user-product-list/user-product-list.component';
 import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
+import { UserCartComponent } from './user-cart/user-cart.component';
 
 
 
@@ -63,6 +64,7 @@ import { UserDetailProductComponent } from './user-detail-product/user-detail-pr
     UserForumPostsOfTopicComponent,
     UserProductListComponent,
     UserDetailProductComponent,
+    UserCartComponent,
   ],
   imports: [
     BrowserModule,
