@@ -22,6 +22,10 @@ import { UserForumShareComponent } from './user-forum-share/user-forum-share.com
 import { UserForumDetailPostComponent } from './user-forum-detail-post/user-forum-detail-post.component';
 import { UserForumTopicListComponent } from './user-forum-topic-list/user-forum-topic-list.component';
 import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user-forum-posts-of-topic.component';
+import { UserProductListComponent } from './user-product-list/user-product-list.component';
+import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
+import { UserCartComponent } from './user-cart/user-cart.component';
+import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import {
@@ -37,9 +41,8 @@ import { GridModule} from '@syncfusion/ej2-angular-grids';
 import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-grids';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
-import { UserProductListComponent } from './user-product-list/user-product-list.component';
-import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
-import { UserCartComponent } from './user-cart/user-cart.component';
+import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
+
 
 
 
@@ -65,6 +68,7 @@ import { UserCartComponent } from './user-cart/user-cart.component';
     UserProductListComponent,
     UserDetailProductComponent,
     UserCartComponent,
+    UserDetailBillComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,7 @@ import { UserCartComponent } from './user-cart/user-cart.component';
     GridModule,
     DialogModule,
     DropDownListModule,
+    TreeViewModule,
 
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,

@@ -15,7 +15,10 @@ import { UserForumTopicListComponent } from './user-forum-topic-list/user-forum-
 import { UserForumPostsOfTopicComponent } from './user-forum-posts-of-topic/user-forum-posts-of-topic.component';
 import { UserProductListComponent } from './user-product-list/user-product-list.component';
 import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
-import { UserCartComponent } from './user-cart/user-cart.component'
+import { UserCartComponent } from './user-cart/user-cart.component';
+import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
+
+
 
 
 
@@ -39,6 +42,8 @@ const routes: Routes = [
   { path: 'user-product-list', component: UserProductListComponent},
   { path: 'user-detail-product', component: UserDetailProductComponent},
   { path: 'user-cart', component: UserCartComponent},
+  { path: 'user-detail-bill', component: UserDetailBillComponent},
+
 
 
 ];
