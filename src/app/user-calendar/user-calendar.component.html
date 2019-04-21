@@ -2,7 +2,7 @@
     <div class="header-wf-menu"><user-header></user-header></div>
     <div class="menu-wf-menu">
         <!-- minicalendar -->
-        <ejs-calendar></ejs-calendar>
+        <ejs-calendar (change)="gotoDate($event, scheduleObj)" ></ejs-calendar>
         <!-- filter -->
         <ejs-accordion>
             <e-accordionitems class="scroll-menu-filter">

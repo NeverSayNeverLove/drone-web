@@ -69,6 +69,34 @@ export class LichtapbayService {
     return listPromise;
   }
 
+  //FETCH ALL LICH TAP BAY THEO USER_ID
+  async fetchFlyPlanByUserID(user_id) {
+    let listPromise: any;
+    listPromise = [];
+    try {
+      let tmp;
+      tmp = await new Promise((resolve, reject) => {
+        this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${user_id}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
+          resolve(data);
+        });
+      });
+      listPromise.push(tmp);
+      let pages = tmp['totalPages'];
+      let pageSize = tmp['size'];
+      for (let page = 2; page <= pages; page++) {
+        tmp = await new Promise((resolve, reject) => {
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${user_id}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
+            resolve(data);
+          });
+        });
+        listPromise.push(tmp);
+      }
+    } catch (error) {
+      throw error;
+    }
+    return listPromise;
+  }
+
   //FOMAT DATE
   fomatDate(date: Date) {
     let fomated_Date = "";
@@ -174,4 +202,20 @@ export class LichtapbayService {
     }
     return listPromise;
   }
+}
+
+
+export class LichTapBay {
+  constructor(
+    public Id: number = 0,
+    public Subject: string = "",
+    public StartTime: Date = new Date(),
+    public EndTime: Date = new Date(),
+    public description: string = "",
+    public status: string = "1",
+    public CategoryColor: string = "#f57f17",
+    public IsReadonly: boolean = false,
+    public allDay: boolean = false,
+    public typeOfEvent: string = "LichTapBay",
+  ) {}
 }
