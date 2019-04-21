@@ -105,8 +105,8 @@ export class HomeComponent implements OnInit {
     // );
     //  let placePromise = this.placeSrv.fetchFlyPlaceByNhacungcapId(4);
     //  console.log(placePromise);
-     let planPromise = this.planSrv.fetchFlyPlanByUserId_StartToFrom_NccId(5,new Date('2019-03-01 00:00'),new Date('2019-04-15 00:00'),3);
-     console.log(planPromise);
+    //  let planPromise = this.planSrv.fetchFlyPlanByUserId_StartToFrom_NccId(5,new Date('2019-03-01 00:00'),new Date('2019-04-15 00:00'),3);
+    //  console.log(planPromise);
 
   }
 

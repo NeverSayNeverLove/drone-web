@@ -52,7 +52,9 @@
           <td></td>
           <td><h4>Tổng tiền:</h4></td>
           <td><h4>{{totalPriceBill}}.000</h4></td>
-          <td><button ejs-button [isPrimary]="true" class="button" id="buyNowBtn">Mua ngay</button></td>
+          <td><button ejs-button [isPrimary]="true" class="button" id="buyNowBtn" 
+            routerLink='/user-detail-bill' routerLinkActive="active menu">Mua ngay</button>
+          </td>
         </tr>
       </table>
     </div>
