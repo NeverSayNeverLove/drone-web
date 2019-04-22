@@ -4,6 +4,7 @@ import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { User } from './user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,6 +38,7 @@ export class DiadiembayService {
     }
     return flyPlacePromise;
   }
+
   //FETCH LIST ĐỊA ĐIỂM BAY THEO NHÀ CUNG CẤP ID
   async fetchFlyPlaceByNhacungcapId(nhacungcapId) {
     let listPromise: any;
@@ -66,6 +68,35 @@ export class DiadiembayService {
     }
     return listPromise;
   }
+  
+  //FETCH LIST ĐỊA ĐIỂM BAY THEO NHÀ CUNG CẤP ID
+  async fetchAllPlace() {
+    let listPromise: any;
+    listPromise = [];
+    try {
+      let tmp;
+      tmp = await new Promise((resolve, reject) => {
+        this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${1}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
+          resolve(data);
+        });
+      });
+      listPromise.push(tmp);
+      let pages = tmp['totalPages'];
+      let pageSize = tmp['size'];
+      for (let page = 2; page <= pages; page++) {
+        tmp = await new Promise((resolve, reject) => {
+          this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${1}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
+            resolve(data);
+          });
+        });
+        listPromise.push(tmp);
+      }
+    } catch (error) {
+      throw error;
+    }
+    return listPromise;
+  }
+  
    // create a POST
    createDiadiemBay(diadiembay: DiaDiemBay): Observable<DiaDiemBay> {
     return this.http.post<DiaDiemBay>(`${Config.api_endpoint}dia-diem-bay/save`, diadiembay, httpOptions);
@@ -75,7 +106,7 @@ export class DiadiembayService {
 export class DiaDiemBay {
   constructor(
     public diaChi: string = "",
-    public nhaCungCapId: number = 0,
     public id: number = 0,
+    public nhaCungCap: User
   ){};
 }
