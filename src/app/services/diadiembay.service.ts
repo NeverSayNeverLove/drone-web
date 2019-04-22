@@ -76,7 +76,7 @@ export class DiadiembayService {
     try {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${1}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
+        this.http.get(`${Config.api_endpoint}dia-diem-bay/all?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
           resolve(data);
         });
       });
@@ -85,7 +85,7 @@ export class DiadiembayService {
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${1}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
+          this.http.get(`${Config.api_endpoint}dia-diem-bay/all?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             resolve(data);
           });
         });

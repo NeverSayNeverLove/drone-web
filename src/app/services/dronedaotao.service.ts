@@ -31,7 +31,7 @@ export class DronedaotaoService {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
         // fake can bo nha cung cap de lay tat ca drone
-        this.http.get(`${Config.api_endpoint}drone-dao-tao/nha-cung-cap-id=${1}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
+        this.http.get(`${Config.api_endpoint}drone-dao-tao/all?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
           resolve(data);
         });
       });
@@ -41,7 +41,7 @@ export class DronedaotaoService {
       for (let page = 2; page <= pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           // fake can bo nha cung cap de lay tat ca drone
-          this.http.get(`${Config.api_endpoint}drone-dao-tao/nha-cung-cap-id=${1}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
+          this.http.get(`${Config.api_endpoint}drone-dao-tao/all?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             resolve(data);
           });
         });
