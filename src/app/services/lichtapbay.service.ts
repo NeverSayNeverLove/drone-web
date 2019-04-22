@@ -5,6 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
+import { User } from './user.service';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'accept': 'application/json',
@@ -22,6 +24,7 @@ export class LichtapbayService {
     private dataService: DataService,
     public datepipe: DatePipe
   ) { }
+  
   //FETCH LỊCH TẬP BAY THEO ID
   async fetchFlyPlanById(id) {
     let flyPlanPromise: any;
@@ -39,64 +42,6 @@ export class LichtapbayService {
     return flyPlanPromise;
   }
 
-  //FETCH LIST LỊCH TẬP BAY THEO NHÀ CUNG CẤP ID
-  async fetchFlyPlanByNhacungcapId(nhacungcapId) {
-    let listPromise: any;
-    listPromise = [];
-    try {
-      let tmp;
-      tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          console.log('Plan by ncc id', data);
-          resolve(data);
-        });
-      });
-      listPromise.push(tmp);
-      let pages = tmp['totalPages'];
-      let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
-        tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            console.log('Plan by ncc id', data);
-            resolve(data);
-          });
-        });
-        listPromise.push(tmp);
-      }
-    } catch (error) {
-      throw error;
-    }
-    return listPromise;
-  }
-
-  //FETCH ALL LICH TAP BAY THEO USER_ID
-  async fetchFlyPlanByUserID(user_id) {
-    let listPromise: any;
-    listPromise = [];
-    try {
-      let tmp;
-      tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${user_id}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          resolve(data);
-        });
-      });
-      listPromise.push(tmp);
-      let pages = tmp['totalPages'];
-      let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
-        tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${user_id}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            resolve(data);
-          });
-        });
-        listPromise.push(tmp);
-      }
-    } catch (error) {
-      throw error;
-    }
-    return listPromise;
-  }
-
   //FOMAT DATE
   fomatDate(date: Date) {
     let fomated_Date = "";
@@ -105,30 +50,64 @@ export class LichtapbayService {
     return fomated_Date;
   }
 
+  // Fetch tat ca lich tap bay cua nha cung cap
+  async fetchFlyPlanByNccId(nccID: number) {
+    return this.fetchFlyPlanBy_NccId_StartEnd_UserId(nccID, "", "", "", "", "", "", "", "");
+  }
+
+  // Fetch tat ca lich tap bay cua nha cung cap startDate-endDate
+  async fetchFlyPlanByNccIdFromTo(nccID: number, startTime: Date, endTime: Date) {
+    return this.fetchFlyPlanBy_NccId_StartEnd_UserId(nccID, startTime.toISOString(), "", "", endTime.toISOString(), "", "", "", "");
+  }
+
   //FETCH LIST LỊCH TẬP BAY => (NHÀ CUNG CẤP ID + Bắt đầu từ + Bắt đầu đến + NGƯỜI ĐĂNG KÍ ID)
-  async fetchFlyPlanBy_NccId_StartToFrom_UserId(
+  async fetchFlyPlanBy_NccId_StartEnd_UserId(
     nhacungcapId: number,
-    batDauTuparam,
-    batDauDenparam,
-    nguoiDangKyId: number) {
+    batDauTu: string,
+    batDauDen: string,
+    ketThucSau: string,
+    ketThucTruoc: string,
+    nguoiDangKyId: string,
+    droneId: string,
+    diaDiemId: string,
+    trangThai: string,
+    ) {
 
     let listPromise: any;
     listPromise = [];
     try {
-      let batDauDen = "";
-      let batDauTu = "";
+      let startBefore = "";
+      let startAfter = "";
+      let endAfter = "";
+      let endBefore = "";
 
-      batDauTu = this.fomatDate(batDauTuparam);
-      console.log(batDauTu);
-      batDauDen = this.fomatDate(batDauDenparam);
-      console.log(batDauDen);
+      if (batDauTu) {
+        startAfter = this.fomatDate(new Date(batDauTu));
+      }
+      if (batDauDen) {
+        startBefore = this.fomatDate(new Date(batDauDen));
+      }
+      if (ketThucSau) {
+        endAfter = this.fomatDate(new Date(ketThucSau));
+      }
+      if (ketThucTruoc) {
+        endBefore = this.fomatDate(new Date(ketThucTruoc));
+      }
+
 
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?page=1&limit=${Config.pageSizeMax}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nguoiDangKyId=${nguoiDangKyId}`, httpOptions)
-          //không được xuống dòng ở &afterDate
+        this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?`+
+          `page=1&limit=${Config.pageSizeMax}`+
+          `&droneId=` + droneId+
+          `&diaDiemId=` + diaDiemId+
+          `&trangThai=` + trangThai+
+          `&batDauTruoc=` + startBefore+
+          `&batDauSau=` + startAfter+
+          `&ketThucTruoc=` + endBefore+
+          `&ketThucSau=` + endAfter+
+          `&nguoiDangKyId=` + nguoiDangKyId, httpOptions)
           .subscribe(data => {
-            console.log('plan condition', data);
             resolve(data);
           });
       });
@@ -140,9 +119,17 @@ export class LichtapbayService {
       //Fetch từ trang thứ 2
       for (let page = 2; page <= pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nguoiDangKyId=${nguoiDangKyId}`, httpOptions)
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?`+
+          `page=${page}&limit=${pageSize}`+
+          `&droneId=` + droneId+
+          `&diaDiemId=` + diaDiemId+
+          `&trangThai=` + trangThai+
+          `&batDauTruoc=` + startBefore+
+          `&batDauSau=` + startAfter+
+          `&ketThucTruoc=` + endBefore+
+          `&ketThucSau=` + endAfter+
+          `&nguoiDangKyId=` + nguoiDangKyId, httpOptions)
             .subscribe(data => {
-              console.log('plan condition', data);
               resolve(data);
             });
         });
@@ -154,30 +141,63 @@ export class LichtapbayService {
     return listPromise;
   }
 
+  // Fetch tat ca lich tap bay cua nguoi dung
+  async fetchFlyPlanByUserID(userID: number) {
+    return this.fetchFlyPlanByUserId_StartEnd_NccId(userID, "", "", "", "", "", "", "", "");
+  }
+
+  // Fetch tat ca lich tap bay cua nguoi dung startDate-endDate
+  async fetchFlyPlanByUserIdFromTo(userID: number, startTime: Date, endTime: Date) {
+    return this.fetchFlyPlanByUserId_StartEnd_NccId(userID, startTime.toISOString(), "", "", endTime.toISOString(), "", "", "", "");
+  }
+
   //FETCH LIST LỊCH TẬP BAY => (NGƯỜI ĐĂNG KÍ ID + Bắt đầu từ + Bắt đầu đến)
-  async fetchFlyPlanByUserId_StartToFrom_NccId(
+  async fetchFlyPlanByUserId_StartEnd_NccId(
     nguoiDangKyId: number,
-    batDauTuparam,
-    batDauDenparam,
-    nhacungcapId: number) {
+    batDauTu: string,
+    batDauDen: string,
+    ketThucSau: string,
+    ketThucTruoc: string,
+    nhacungcapId: string,
+    droneId: string,
+    diaDiemId: string,
+    trangThai: string,) {
 
     let listPromise: any;
     listPromise = [];
     try {
-      let batDauDen = "";
-      let batDauTu = "";
+      let startBefore = "";
+      let startAfter = "";
+      let endAfter = "";
+      let endBefore = "";
 
-      batDauTu = this.fomatDate(batDauTuparam);
-      console.log(batDauTu);
-      batDauDen = this.fomatDate(batDauDenparam);
-      console.log(batDauDen);
+      if (batDauTu) {
+        startAfter = this.fomatDate(new Date(batDauTu));
+      }
+      if (batDauDen) {
+        startBefore = this.fomatDate(new Date(batDauDen));
+      }
+      if (ketThucSau) {
+        endAfter = this.fomatDate(new Date(ketThucSau));
+      }
+      if (ketThucTruoc) {
+        endBefore = this.fomatDate(new Date(ketThucTruoc));
+      }
 
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?page=1&limit=${Config.pageSizeMax}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
-          //không được xuống dòng ở &afterDate
+        // this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?page=1&limit=${Config.pageSizeMax}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
+        this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
+          `page=1&limit=${Config.pageSizeMax}`+
+          `&droneId=` + droneId+
+          `&diaDiemId=` + diaDiemId+
+          `&trangThai=` + trangThai+
+          `&batDauTruoc=` + startBefore+
+          `&batDauSau=` + startAfter+
+          `&ketThucTruoc=` + endBefore+
+          `&ketThucSau=` + endAfter+
+          `&nhaCungCapId=` + nhacungcapId, httpOptions)
           .subscribe(data => {
-            console.log('plan condition by user id', data);
             resolve(data);
           });
       });
@@ -189,9 +209,18 @@ export class LichtapbayService {
       //Fetch từ trang thứ 2
       for (let page = 2; page <= pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nhacungcapId}?page=${page}&limit=${pageSize}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
-            .subscribe(data => {
-              console.log('plan condition by user id', data);
+          // this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nhacungcapId}?page=${page}&limit=${pageSize}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
+          `page=${page}&limit=${pageSize}`+
+          `&droneId=` + droneId+
+          `&diaDiemId=` + diaDiemId+
+          `&trangThai=` + trangThai+
+          `&batDauTruoc=` + startBefore+
+          `&batDauSau=` + startAfter+
+          `&ketThucTruoc=` + endBefore+
+          `&ketThucSau=` + endAfter+
+          `&nhaCungCapId=` + nhacungcapId, httpOptions)
+          .subscribe(data => {
               resolve(data);
             });
         });
@@ -213,6 +242,8 @@ export class LichTapBay {
     public EndTime: Date = new Date(),
     public description: string = "",
     public status: string = "1",
+    public nguoiDangKy: User,
+    public nhaCungCap: User,
     public CategoryColor: string = "#f57f17",
     public IsReadonly: boolean = false,
     public allDay: boolean = false,

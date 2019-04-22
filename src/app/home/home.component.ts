@@ -108,6 +108,17 @@ export class HomeComponent implements OnInit {
     //  let planPromise = this.planSrv.fetchFlyPlanByUserId_StartToFrom_NccId(5,new Date('2019-03-01 00:00'),new Date('2019-04-15 00:00'),3);
     //  console.log(planPromise);
 
+    // let lichTapBay = this.planSrv.fetchFlyPlanBy_NccId_StartToFrom_UserId(1, "2019-04-08", "2019-04-15", "2019-04-08", "2019-04-25", "", "", "", "");
+    // lichTapBay.then(value => {
+    // console.log(value);
+    // });
+    
+
+    // let lichTapBay = this.planSrv.fetchFlyPlanByUserId_StartToFrom_NccId( 3, "2019-04-03", "", "2019-04-10", "", "", "", "", "");
+    // lichTapBay.then(value => {
+    // console.log(value);
+    // });
+
   }
 
 
