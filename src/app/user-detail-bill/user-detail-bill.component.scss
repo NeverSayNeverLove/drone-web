@@ -6,6 +6,7 @@
 }
 .tree-view {
     padding: 0px;
+    margin-top: 12px;
 }
 .fa-address-book, .fa-money-bill-alt {
     color: #f17298;
@@ -52,4 +53,14 @@ td.name-product {
 .billTable {
     font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
     font-weight: normal;
+}
+.state {
+    float:right; 
+    margin: 0 90px 10px;
+    // margin-bottom: 20px;
+
+}
+#state {
+    color: #e71b58;
+    text-decoration: underline;
 }

@@ -14,60 +14,41 @@
       </div>
       <div class="col-sm-2 tree-view">
         <ejs-treeview #tree id='treeElement' [fields]='field' (nodeSelected)="routing($event)"></ejs-treeview>
-        
+
       </div>
       <div class="col-sm-10">
-        <div style="margin-bottom: 10px;" >
+        <div>
+          <div class="state">Trạng thái: <span id="state"><b>trạng thái</b></span></div>
           <table class="table billTable">
             <tr>
               <th>Sản Phẩm</th>
               <th>Đơn Giá</th>
               <th>Số Lượng</th>
               <th>Thành Tiền</th>
-              <th>Xóa</th>
             </tr>
             <tr *ngFor="let cartrow of cartTable">
-              <td class="name-product">
-                <img class="product-img" src="../../assets/images/drone_1.jpg">  {{cartrow.name}}
+              <td class="name-product"><img class="product-img" src="../../assets/images/drone_1.jpg"> {{cartrow.name}}
               </td>
-    
               <td>{{cartrow.price}}.000</td>
-    
-              <td>
-                <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus(cartrow.id)">
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                </button>
-    
-                <input class="input-box" id="quantity" type="number" value={{cartrow.quantity}} disabled="true">
-    
-                <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="add(cartrow.id)">
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-              </td>
-    
-              <td>
-                <input class="input-box" id="totalPrice" value={{cartrow.price*cartrow.quantity}} disabled="true">.000
-              </td>
-    
-              <td>
-                <button ejs-button cssClass="e-flat" [isPrimary]="true" (click)="remove(cartrow.id)">
-                  <i class="fa fa-trash" aria-hidden="true"></i></button>
-              </td>
+              <td>{{cartrow.quantity}}</td>
+              <td> {{cartrow.price*cartrow.quantity}}.000</td>
             </tr>
             <tr>
               <td></td>
               <td></td>
-              <td><h4>Tổng tiền:</h4></td>
-              <td><h4>{{totalPriceBill}}.000</h4></td>
-              <td><button ejs-button [isPrimary]="true" class="button" id="buyNowBtn" 
-                routerLink='/user-detail-bill' routerLinkActive="active menu">Mua ngay</button>
+              <td>
+                <h4>Tổng tiền:</h4>
+              </td>
+              <td>
+                <h4>{{totalPriceBill}}.000</h4>
               </td>
             </tr>
           </table>
         </div>
-        <div style="text-align: right">
-          <!-- <button routerLink='/user-product-list' routerLinkActive="active menu" ejs-button cssClass="e-outline" [isPrimary]="true" class="button" id="buyContinueBtn">Tiếp tục mua hàng</button> -->
-        </div>
+        <div><button ejs-button [isPrimary]="true" class="button" id="cancelBillBtn">Hủy đơn hàng</button></div>
+        <div><button ejs-button [isPrimary]="true" class="button" id="cancelBillBtn">Đánh giá</button></div>
+
+
 
       </div>
     </div>

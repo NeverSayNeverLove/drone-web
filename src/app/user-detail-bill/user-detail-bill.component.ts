@@ -14,28 +14,6 @@ import { CartRow } from '../services/cart.service';
 export class UserDetailBillComponent implements OnInit {
   @ViewChild("tree") public treeview: TreeViewComponent;
 
-  public cartTable: Array<CartRow> = [
-    {
-      id: 1,
-      name: "product 1",
-      price: 10,
-      quantity: 1
-      
-    },
-    {
-      id: 2,
-      name: "product 2",
-      price: 10,
-      quantity: 2
-      
-    }
-  ]
- 
-  constructor(){}
-
-  ngOnInit() {
-  }
-  
   public treeViewData: Object[] = [
     {
       "id": '01', 
@@ -52,6 +30,36 @@ export class UserDetailBillComponent implements OnInit {
     },
     
   ];
+
+  public cartTable: Array<CartRow> = [
+    {
+      id: 1,
+      name: "product 1",
+      price: 10,
+      quantity: 1   
+    },
+    {
+      id: 2,
+      name: "product 2",
+      price: 10,
+      quantity: 2    
+    }
+  ]
+ 
+  constructor(){}
+
+  ngOnInit() {
+    this.calculatePriceBill();
+  }
+  
+  public totalPriceBill: number = 0;
+  public calculatePriceBill() {
+    this.cartTable.forEach(row =>{
+      this.totalPriceBill += row.price*row.quantity;
+    })
+  } 
+
+  // Treeview
   public field: Object = { dataSource: this.treeViewData, id: 'id', text: 'name', iconCss: 'icon' };
   public routing(args){
     let data: any = this.treeview.getTreeData(args.node);
