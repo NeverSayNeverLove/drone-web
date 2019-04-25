@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild, Inject, ViewEncapsulation } from '@angula
 import { Config } from '../services/config';
 import {TreeViewComponent} from "@syncfusion/ej2-angular-navigations";
 import { CartRow } from '../services/cart.service';
-
-
+import * as $ from 'jquery';
 
 @Component({
   selector: 'user-detail-bill',
@@ -24,7 +23,7 @@ export class UserDetailBillComponent implements OnInit {
     {
       "id": '02', 
       "name": ' Lịch sử đơn hàng',
-      "icon": "far fa-money-bill-alt",
+      "icon": "fas fa-file-invoice-dollar",
       "navigateUrl": Config.front_endpoint + 'user-cart', 
     
     },
@@ -45,6 +44,11 @@ export class UserDetailBillComponent implements OnInit {
       quantity: 2    
     }
   ]
+  enableChange = true;
+  enableSave = false;
+  enableInput = false;
+  enableValue = true;
+  addressValue: string = "địa chỉ mặc định";
  
   constructor(){}
 
@@ -58,6 +62,23 @@ export class UserDetailBillComponent implements OnInit {
       this.totalPriceBill += row.price*row.quantity;
     })
   } 
+
+  public changeAddress() {
+    // $("input").prop('disabled', false);
+    this.enableChange = false;
+    this.enableSave = true;
+    this.enableInput = true;
+    this.enableValue = false;
+  }
+
+  public saveAddress() {
+    // $("input").prop('disabled', true);
+    this.enableChange = true;
+    this.enableSave = false;
+    this.enableInput = false;
+    this.enableValue = true;
+    console.log(this.addressValue);
+  }
 
   // Treeview
   public field: Object = { dataSource: this.treeViewData, id: 'id', text: 'name', iconCss: 'icon' };
