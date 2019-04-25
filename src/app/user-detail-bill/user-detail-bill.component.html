@@ -6,70 +6,76 @@
   <div>
     <user-header></user-header>
   </div>
-  <div class="container-fluid">
-    <div class="row">
-      <div>
+  <div class="container-fluid mybox">
+    <div class="row ">
+      <!-- <div>
         <span id="avatar" class="e-avatar e-avatar-circle">DN</span>
         <span id="name" style="font-size: 25px">Tên Người Dùng</span>
       </div>
       <div class="col-sm-2 tree-view">
         <ejs-treeview #tree id='treeElement' [fields]='field' (nodeSelected)="routing($event)"></ejs-treeview>
-        
-      </div>
-      <div class="col-sm-10">
-        <div style="margin-bottom: 10px;" >
-          <table class="table billTable">
-            <tr>
-              <th>Sản Phẩm</th>
-              <th>Đơn Giá</th>
-              <th>Số Lượng</th>
-              <th>Thành Tiền</th>
-              <th>Xóa</th>
-            </tr>
-            <tr *ngFor="let cartrow of cartTable">
-              <td class="name-product">
-                <img class="product-img" src="../../assets/images/drone_1.jpg">  {{cartrow.name}}
-              </td>
-    
-              <td>{{cartrow.price}}.000</td>
-    
-              <td>
-                <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus(cartrow.id)">
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                </button>
-    
-                <input class="input-box" id="quantity" type="number" value={{cartrow.quantity}} disabled="true">
-    
-                <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="add(cartrow.id)">
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-              </td>
-    
-              <td>
-                <input class="input-box" id="totalPrice" value={{cartrow.price*cartrow.quantity}} disabled="true">.000
-              </td>
-    
-              <td>
-                <button ejs-button cssClass="e-flat" [isPrimary]="true" (click)="remove(cartrow.id)">
-                  <i class="fa fa-trash" aria-hidden="true"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td><h4>Tổng tiền:</h4></td>
-              <td><h4>{{totalPriceBill}}.000</h4></td>
-              <td><button ejs-button [isPrimary]="true" class="button" id="buyNowBtn" 
-                routerLink='/user-detail-bill' routerLinkActive="active menu">Mua ngay</button>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div style="text-align: right">
-          <!-- <button routerLink='/user-product-list' routerLinkActive="active menu" ejs-button cssClass="e-outline" [isPrimary]="true" class="button" id="buyContinueBtn">Tiếp tục mua hàng</button> -->
-        </div>
+      </div> -->
 
+
+      <div class="bill-box">
+        <h3><i class="fas fa-file-invoice-dollar"></i> Chi Tiết Đơn Hàng</h3>
+        <table class="table billTable">
+          <tr>
+            <th>Sản Phẩm</th>
+            <th>Đơn Giá</th>
+            <th>Số Lượng</th>
+            <th>Thành Tiền</th>
+          </tr>
+          <tr *ngFor="let cartrow of cartTable">
+            <td class="name-product"><img class="product-img" src="../../assets/images/drone_1.jpg"> {{cartrow.name}}
+            </td>
+            <td>{{cartrow.price}}.000</td>
+            <td>{{cartrow.quantity}}</td>
+            <td> {{cartrow.price*cartrow.quantity}}.000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              <h4>Tổng tiền:</h4>
+            </td>
+            <td>
+              <h4>{{totalPriceBill}}.000</h4>
+            </td>
+          </tr>
+        </table>
       </div>
+
+      <div class="info-customer-box">
+       <h3><i class="fas fa-map-marker-alt"></i> Thông Tin Khách Hàng</h3>
+       <div class="info-customer-box-content">
+          <div id="hoten">Họ Tên: <span><b>Tên khách hàng</b></span></div> 
+          <div>SĐT: <span><b>0978916398</b></span></div>
+          <div>Địa chỉ: 
+            <span>
+              <input *ngIf="enableInput" id="receive-address" [(ngModel)]="addressValue" >
+              <span *ngIf="enableValue"><b>{{addressValue}}</b></span>
+            </span>
+            <span>
+                <button *ngIf="enableChange" id="changeBtn" ejs-button cssClass="e-flat" [isPrimary]="true" (click)="changeAddress()">Change
+                </button>
+                <button *ngIf="enableSave" ejs-button cssClass="e-flat" [isPrimary]="true" (click)="saveAddress()">Save
+                </button>
+            </span>
+          </div>
+       </div>
+      </div>
+
+      <div id="wrapper">
+          <button  ejs-button [isPrimary]="true">Đặt hàng</button>
+      </div>
+      
+
+
+
+
+
+
     </div>
 
   </div>
