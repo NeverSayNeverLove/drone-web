@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Config } from '../services/config';
 import {TreeViewComponent} from "@syncfusion/ej2-angular-navigations";
 import { CartRow } from '../services/cart.service';
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 
 @Component({
   selector: 'user-detail-bill',
@@ -13,22 +13,7 @@ import * as $ from 'jquery';
 export class UserDetailBillComponent implements OnInit {
   @ViewChild("tree") public treeview: TreeViewComponent;
 
-  public treeViewData: Object[] = [
-    {
-      "id": '01', 
-      "name": 'Thông tin tài khoản', 
-      "icon": "fas fa-address-book",
-      "navigateUrl": Config.front_endpoint,
-    },
-    {
-      "id": '02', 
-      "name": ' Lịch sử đơn hàng',
-      "icon": "fas fa-file-invoice-dollar",
-      "navigateUrl": Config.front_endpoint + 'user-cart', 
-    
-    },
-    
-  ];
+  
 
   public cartTable: Array<CartRow> = [
     {
@@ -80,11 +65,7 @@ export class UserDetailBillComponent implements OnInit {
     console.log(this.addressValue);
   }
 
-  // Treeview
-  public field: Object = { dataSource: this.treeViewData, id: 'id', text: 'name', iconCss: 'icon' };
-  public routing(args){
-    let data: any = this.treeview.getTreeData(args.node);
-     window.location.href = <string>data[0].navigateUrl;
-}
+  
+
 
 }

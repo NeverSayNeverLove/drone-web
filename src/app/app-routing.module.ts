@@ -17,6 +17,9 @@ import { UserProductListComponent } from './user-product-list/user-product-list.
 import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
 import { UserCartComponent } from './user-cart/user-cart.component';
 import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
+import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
+
+
 
 
 
@@ -43,6 +46,8 @@ const routes: Routes = [
   { path: 'user-detail-product', component: UserDetailProductComponent},
   { path: 'user-cart', component: UserCartComponent},
   { path: 'user-detail-bill', component: UserDetailBillComponent},
+  { path: 'user-order-history', component: UserOrderHistoryComponent},
+
 
 
 

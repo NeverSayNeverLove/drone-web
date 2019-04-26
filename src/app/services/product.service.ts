@@ -29,7 +29,7 @@ export class ProductService {
     try {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        this.http.get(`http://127.0.0.1:8000/api/catagory/page=2&limit=3`)// this.http.get()
+        this.http.get(`http://127.0.0.1:8000/api/catagory/page=2&limit=3`,httpOptions)// this.http.get()
           .subscribe(data => {                                                                              //.subscribe: khi đã fetch đc dữ liệu
             console.log('1111', data);
             resolve(data);
