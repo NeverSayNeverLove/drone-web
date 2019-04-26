@@ -45,6 +45,7 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
+import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
 
 
 
@@ -73,6 +74,7 @@ import { TabModule } from '@syncfusion/ej2-angular-navigations';
     UserCartComponent,
     UserDetailBillComponent,
     UserOrderHistoryComponent,
+    SupAddProductComponent,
   ],
   imports: [
     BrowserModule,
