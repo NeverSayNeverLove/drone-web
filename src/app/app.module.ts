@@ -26,6 +26,8 @@ import { UserProductListComponent } from './user-product-list/user-product-list.
 import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
 import { UserCartComponent } from './user-cart/user-cart.component';
 import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
+import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
+
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import {
@@ -42,6 +44,7 @@ import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
+import { TabModule } from '@syncfusion/ej2-angular-navigations';
 
 
 
@@ -69,6 +72,7 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
     UserDetailProductComponent,
     UserCartComponent,
     UserDetailBillComponent,
+    UserOrderHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +91,7 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
     DialogModule,
     DropDownListModule,
     TreeViewModule,
+    TabModule,
 
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,

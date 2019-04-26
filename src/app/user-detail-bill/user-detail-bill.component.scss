@@ -4,7 +4,10 @@
     font-size: 14px;
 }
 .billTable {
-    margin-top: 30px;
+    margin-top: 20px;
+}
+#order-date {
+    margin: 0px 0px 0px 45px;
 }
 .product-img {
     width: 100px;
@@ -26,27 +29,16 @@ td.name-product {
 }
 
 
-.detail-bill-groupbtn {
-    float: right;
-    text-transform: capitalize;
-}
-#cancelBtn {
-    color: rgb(230, 167, 33);
-}
-#receivedBtn {
-    color: rgb(223, 53, 53);
-}
-#ratingBtn {
-    color: rgb(223, 53, 109);
-}
+
 
 .bill-box, .info-customer-box {
     margin: 20px;
     border-radius: 8px;
     border-top: 1px solid rgb(206, 178, 180);
     border-left: 1px solid rgb(206, 178, 180); 
-    border-right: 5px solid rgb(206, 178, 180);
-    border-bottom: 4px solid rgb(206, 178, 180); 
+    border-right: 3px solid rgb(206, 178, 180);
+    border-bottom: 2px solid rgb(206, 178, 180); 
+    box-shadow: 0px 1px 3px 0px rgba(65, 11, 38, 0.36);
 
 }
 
@@ -69,7 +61,4 @@ b {
 }
 #wrapper {
     text-align: center;
-}
-.button {
-    position: absoluted;
 }
