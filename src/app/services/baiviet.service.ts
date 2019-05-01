@@ -30,7 +30,7 @@ export class BaivietService {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}bai-viet/nguoi-tao/${idNguoiTao}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          console.log(data);
+          // console.log(data);
           resolve(data);
         });
       });
@@ -38,9 +38,9 @@ export class BaivietService {
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
       for (let page = 2; page <= pages; page++) {
-        tmp = new Promise((resolve, reject) => {
+        tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}bai-viet/nguoi-tao/${idNguoiTao}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            console.log(data);
+            // console.log(data);
             resolve(data);
           });
         });
