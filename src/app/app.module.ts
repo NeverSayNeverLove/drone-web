@@ -27,6 +27,7 @@ import { UserDetailProductComponent } from './user-detail-product/user-detail-pr
 import { UserCartComponent } from './user-cart/user-cart.component';
 import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
+import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
 
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
@@ -45,7 +46,8 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
-import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
+
+
 
 
 
