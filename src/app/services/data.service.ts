@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Post } from './baiviet.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +7,8 @@ import { Post } from './baiviet.service';
 export class DataService {
   //To send PostID
   private idSource = new BehaviorSubject<number>(0); 
-  currID = this.idSource.asObservable();// người đưa thư        
+  currID = this.idSource.asObservable();// người đưa thư 
+
   constructor() { }
   
   public storage: Map<string, any> = new Map();
@@ -19,14 +19,34 @@ export class DataService {
 
   public getItem(key: string): any {
     return this.storage.get(key);
+    //trả về string
   }
 
+  public getItem1(key: string) {
+    let listPost = [];
+    let myItem: any;
+    myItem = this.storage.get(key);
+    if (myItem) {
+      listPost = JSON.parse(myItem);
+      //trả về JSON
+    }
+    return listPost;
+  }
+
+
+  //local cache
   public setItemLocal(key: string, data: any) {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
   public getItemLocal(key: string): any {
-    return localStorage.getItem(key);
+    let itemList = [];
+    let myItem: any;
+    myItem = localStorage.getItem(key); // trả về string
+    if (myItem){
+      itemList = JSON.parse(myItem); //convert sang JSON
+    }
+    return itemList;
   }
 
   //To send ID

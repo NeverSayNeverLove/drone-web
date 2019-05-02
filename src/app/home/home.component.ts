@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let postPromise = this.postSrv.fetchPostByIdNguoiTao(1);
-    console.log(postPromise);
+    // let postPromise = this.postSrv.fetchPostByIdNguoiTao(1);
+    // console.log(postPromise);
    
     // let postPromise1 = this.postSrv.fetchPostById(2);
 
@@ -123,8 +123,8 @@ export class HomeComponent implements OnInit {
     // });
  
     //fetch Product
-    let promise = this.productSrv.fetchProduct();
-    console.log (promise);
+    // let promise = this.productSrv.fetchProduct();
+    // console.log (promise);
   }
 
 

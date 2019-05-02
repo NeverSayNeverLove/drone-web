@@ -6,7 +6,6 @@
   <div>
     <user-header></user-header>
   </div>
-<<<<<<< HEAD
   <div class="container" id="bodyview">
     <div>
       <h3><span><i class="fas fa-shopping-cart"></i></span>  Chi Tiết Giỏ Hàng</h3>
@@ -63,27 +62,6 @@
       <button routerLink='/user-product-list' routerLinkActive="active menu" ejs-button cssClass="e-outline" [isPrimary]="true" class="button" id="buyContinueBtn">Tiếp tục mua hàng</button>
     </div>
   </div>
-=======
-  <div class="container-fuild">
-    
-    <ejs-grid #cartGrid [dataSource]='data_cartList' [editSettings]='editSettings' [toolbar]='toolbar'
-    [selectionSettings]='selectionOptions' (rowSelected)='rowSelected($event)'
-    (toolbarClick)='clickToolBarTableHandler($event)'>
-        <e-columns>
-            <e-column field='productId' headerText='Mã sản phẩm' isPrimaryKey='true' [allowEditing]='false' textAlign='Left' width=10%></e-column>
-            <e-column field='productName' headerText='Sản phẩm' [allowEditing]="false" textAlign='Left' width=50%></e-column>
-            <e-column field='price' headerText='Đơn giá' [allowEditing]='false' textAlign='Left' format='C2' width=15%></e-column>
-            <e-column field='quantity' headerText='Số lượng' textAlign='Left'  width=10%></e-column>
-            <e-column field='totalPrice' headerText='Thành tiền' [allowEditing]='false' textAlign='Left' format='C2' width=15%></e-column>
-            <e-column headerText='Commands' width=120 [commands]='commands'></e-column>
-            
-          </e-columns>   
-    </ejs-grid>
-
-  </div>
-
-
->>>>>>> user-cart test 1
 
 
   <div>

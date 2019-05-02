@@ -56,3 +56,28 @@ export class ProductService {
     return listPromise;
   }
 }
+
+export class Product {
+  public categoryID: number;
+  public supID: number;
+  public name: string;
+  public des: string;
+  public unitPrice: number;
+  public sale: number;
+  public sold: number;
+  public rest: number;
+  public rating: number;
+  public id: number;
+  constructor(
+    categoryID = 1,
+    supID = 1,
+    name = "",
+    des = "",
+    unitPrice = 0,
+    sale = 1,
+    sold = 0,
+    rest = 0,
+    rating = 5,
+    id = 1
+  ) { }
+}
