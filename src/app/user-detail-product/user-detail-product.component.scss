@@ -94,11 +94,14 @@ h6 {
     background-color: white;
     border: none;
 }
-.detail-info-box {
+.detail-info-box, .review-box {
     margin: 15px 0px;
     border: 1px solid rgb(180, 180, 180);
 }
 #detail-title {
     background-color: #fafafa;
     padding-left: 15px;
+}
+.review-title {
+    background-color: #fafafa;
 }
