@@ -26,40 +26,12 @@ export class UserProductListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getProduct();
-  }
-
-  async getProduct() {
-    //kiểm tra dữ liệu trên local cache
-    this.productList = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
-    //Nếu k có thì fetch dữ liệu từ Server
-    if (!this.productList.length) {
-      let productPromises: Array<Object> = [];
-      productPromises = await this.productSrv.fetchProduct();
-      productPromises.forEach(element => {
-        element['data']['data'].forEach(p => {
-          let product = new Product();
-          product.id = p.id;
-          product.supID = p.nha_cung_cap_id;
-          product.categoryID = p.danh_muc_id;
-          product.name = p.ten_san_pham;
-          product.des = p.mo_ta_chung;
-          product.rating = p.diem_danh_gia_tb;
-          product.rest = p.don_vi_ton_kho;
-          product.sale = p.sale;
-          product.sold = p.don_vi_ban;
-          product.unitPrice = p.don_gia;
-          this.productList.push(product);
-        });
-      });
-      //lưu lại vào local cache sau khi fetch
-      this.dataSrv.setItemLocal("locProductList", this.productList);
-    }
-    // initialize to page 1
+    this.productList = this.productSrv.findAll();
+    console.log(this.productList);
+    //initialize to page 1
     this.setPage(1);
-
   }
-  
+
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
       return;

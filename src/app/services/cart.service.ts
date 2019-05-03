@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Product } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,4 +17,10 @@ export class CartRow {
     public price: number = 10
 
   ){}
+}
+
+//alt class
+export class Item {
+  product: Product;
+  quantity: number;
 }

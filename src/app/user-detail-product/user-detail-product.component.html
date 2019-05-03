@@ -4,7 +4,7 @@
 
 <body>
   <div>
-    <user-header></user-header>
+    <user-header [count]= "currProduct.quantityAddToCart"></user-header>
   </div>
   <div class="container">
     <div class="col-sm-5">
@@ -68,10 +68,10 @@
           </span>
         </div>
         <div>
-          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button">
-            <i class="fa fa-cart-plus" aria-hidden="true"></i>Thêm vào giỏ
+          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button" (click)="addToCart(quantity)">
+            <i class="fa fa-cart-plus" aria-hidden="true" ></i>Thêm vào giỏ
           </button>
-          <button ejs-button [isPrimary]="true" class="button" routerLink="/user-detail-bill" routerLinkActive="active menu ">Mua ngay</button>
+          <button ejs-button [isPrimary]="true" class="button" [routerLink]="['/user-detail-bill', currProduct.id]" routerLinkActive="active menu ">Mua ngay</button>
         </div>
       </div>
     </div>
