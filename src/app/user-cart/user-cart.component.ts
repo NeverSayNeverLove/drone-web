@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CartRow } from '../services/cart.service';
+import { CartRow, Item } from '../services/cart.service';
+import { ActivatedRoute } from '@angular/router';
+import { Product, ProductService } from '../services/product.service';
+
 
 @Component({
   selector: 'user-cart',
@@ -7,6 +10,8 @@ import { CartRow } from '../services/cart.service';
   styleUrls: ['./user-cart.component.scss']
 })
 export class UserCartComponent implements OnInit {
+
+
   public cartTable: Array<CartRow> = [
     {
       id: 1,
@@ -22,14 +27,18 @@ export class UserCartComponent implements OnInit {
       quantity: 2
       
     }
-
   ]
+  
  
   totalPriceBill: number = 0;
-  constructor() { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private productSrv: ProductService 
+  ) { }
 
   ngOnInit() {
     this.calculateBill();
+  
   }
 
   calculateBill() {

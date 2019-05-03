@@ -51,6 +51,7 @@ export class DataService {
 
   //To send ID
   public sendPostID(id: number) {
+    console.log('in send post id method',id)
     this.idSource.next(id);  //send: next(): đưa cho currId để mang đi
   }
 }

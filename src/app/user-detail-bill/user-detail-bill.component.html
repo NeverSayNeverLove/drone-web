@@ -28,12 +28,12 @@
             <th>Thành Tiền</th>
           </tr>
 
-          <tr *ngFor="let cartrow of cartTable">
-            <td class="name-product"><img class="product-img" src="../../assets/images/drone_1.jpg"> {{cartrow.name}}
+          <tr *ngFor="let item of items">
+            <td class="name-product"><img class="product-img" src="../../assets/images/drone_1.jpg"> {{item.product.name}}
             </td>
-            <td>{{cartrow.price}}.000</td>
-            <td>{{cartrow.quantity}}</td>
-            <td> {{cartrow.price*cartrow.quantity}}.000</td>
+            <td>{{item.product.unitPrice}}</td>
+            <td>{{item.quantity}}</td>
+            <td> {{item.product.unitPrice*item.quantity}}</td>
           </tr>
 
           <tr>
@@ -43,7 +43,7 @@
               <h4>Tổng tiền:</h4>
             </td>
             <td>
-              <h4>{{totalPriceBill}}.000</h4>
+              <h4>{{total}}</h4>
             </td>
           </tr>
         </table>

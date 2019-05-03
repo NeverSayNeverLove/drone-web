@@ -11,8 +11,6 @@ import {Router} from '@angular/router';
 export class UserDetailNewComponent implements OnInit, OnDestroy {
 
   postList: Array<Post> = [];
-  // detailPostList: Array<Post> = [];
-
   currPost: Post;
   postID: number;
 

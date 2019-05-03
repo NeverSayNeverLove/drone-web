@@ -2,15 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Observable } from 'rxjs';
 
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     'accept': 'application/json',
-//     'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
-//     'x-requested-with': 'XMLHttpRequest'
-//   })
-// };
 
 
 @Injectable({
@@ -18,11 +10,63 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ProductService {
 
+  private products: Product[];
+
   constructor(
     private http: HttpClient,
-    private dataService: DataService) { }
+    private dataSrv: DataService,
+  ) {
+    //Lấy dữ liệu - Khởi tạo mảng
+    this.getProduct();
+  }
 
-  // Get All Product
+  findAll(): Product[] {
+    return this.products;
+  }
+
+  find(id: number): Product {
+    return this.products[this.getSelectedIndex(id)];
+  }
+
+  private getSelectedIndex(id: number) {
+    for (var i = 0; i < this.products.length; i++) {
+      if (this.products[i].id === id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  //Return Array
+  async getProduct() {
+    //kiểm tra dữ liệu trên local cache
+    this.products = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
+    //Nếu k có thì fetch dữ liệu từ Server
+    if (!this.products.length) {
+      let productPromises: Array<Object> = [];
+      productPromises = await this.fetchProduct();
+      productPromises.forEach(element => {
+        element['data']['data'].forEach(p => {
+          let product = new Product();
+          product.id = p.id;
+          product.supID = p.nha_cung_cap_id;
+          product.categoryID = p.danh_muc_id;
+          product.name = p.ten_san_pham;
+          product.des = p.mo_ta_chung;
+          product.rating = p.diem_danh_gia_tb;
+          product.rest = p.don_vi_ton_kho;
+          product.sale = p.sale;
+          product.sold = p.don_vi_ban;
+          product.unitPrice = p.don_gia;
+          this.products.push(product);
+        });
+      });
+      //lưu lại vào local cache sau khi fetch
+      this.dataSrv.setItemLocal("locProductList", this.products);
+    }
+  }
+
+  // Get From DB - Return Promise
   async fetchProduct() {
     let listPromise: any;
     listPromise = [];
@@ -68,16 +112,5 @@ export class Product {
   public rest: number;
   public rating: number;
   public id: number;
-  constructor(
-    categoryID = 1,
-    supID = 1,
-    name = "",
-    des = "",
-    unitPrice = 0,
-    sale = 1,
-    sold = 0,
-    rest = 0,
-    rating = 5,
-    id = 1
-  ) { }
+  constructor( ) { }
 }

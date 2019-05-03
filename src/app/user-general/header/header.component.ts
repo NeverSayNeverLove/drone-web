@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { Config } from '../../services/config';
 import { ToolbarComponent, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { TooltipModule, Position, TooltipComponent } from '@syncfusion/ej2-angular-popups';
@@ -12,7 +12,7 @@ import { removeClass } from '@syncfusion/ej2-base';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
-
+    @Input() count: number = 1;
     constructor() { }
 
     ngOnInit() {
@@ -130,9 +130,10 @@ export class HeaderComponent implements OnInit {
     public ddbTemplate: any = '#userDBtn';
     public searchTemplate: any = '#searchArea';
     public nccbtn: any = '#nccbtn';
+    public cartbtn: any = '#cartbtn';
 
-    public onCreated(): void {
-        this.tbObj.refreshOverflow();
-        removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
-    }
+    // public onCreated(): void {
+    //     this.tbObj.refreshOverflow();
+    //     removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
+    // }
 }
