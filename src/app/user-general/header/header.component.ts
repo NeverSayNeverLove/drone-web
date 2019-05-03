@@ -130,9 +130,10 @@ export class HeaderComponent implements OnInit {
     public ddbTemplate: any = '#userDBtn';
     public searchTemplate: any = '#searchArea';
     public nccbtn: any = '#nccbtn';
+    public cartbtn: any = '#cartbtn';
 
-    public onCreated(): void {
-        this.tbObj.refreshOverflow();
-        removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
-    }
+    // public onCreated(): void {
+    //     this.tbObj.refreshOverflow();
+    //     removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
+    // }
 }

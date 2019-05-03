@@ -45,7 +45,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent},
   { path: 'forgotpass', component: ForgotPassComponent},
   { path: 'user-product-list', component: UserProductListComponent},
-  { path: 'user-detail-product', component: UserDetailProductComponent},
+  { path: 'user-detail-product/:productID', component: UserDetailProductComponent},
   { path: 'user-cart', component: UserCartComponent},
   { path: 'user-detail-bill', component: UserDetailBillComponent},
   { path: 'user-order-history', component: UserOrderHistoryComponent},

@@ -15,12 +15,21 @@
             <span class="e-input-group-icon em-icons e-search"></span>
         </div>
 
-        <ejs-toolbar #toolbar (created)="onCreated()">
+
+        <button id="cartbtn" style="position:relative" class="badge-block" routerLink='/user-cart'
+            routerLinkActive="active menu" ejs-button cssClass="e-flat" [isPrimary]="true">
+            <div class="em-icons e-shopping-cart my-icon"></div>
+            <span
+                class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">85</span>
+        </button>
+
+
+        <ejs-toolbar #toolbar>
             <e-items>
                 <e-item [template]='menuTemplate'></e-item>
                 <e-item [template]='searchTemplate' align='Right'></e-item>
                 <e-item [template]='ddbTemplate' align='Right'></e-item>
-                <e-item prefixIcon='em-icons e-shopping-cart' align='Right' routerLink='/user-cart' routerLinkActive="active menu" ></e-item>
+                <e-item [template]='cartbtn' align='Right'></e-item>
                 <e-item [template]='nccbtn' align='Right'></e-item>
             </e-items>
         </ejs-toolbar>
@@ -36,7 +45,7 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('[data-toggle="popover"]').popover();   
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
     });
 </script>

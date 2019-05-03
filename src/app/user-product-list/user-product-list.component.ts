@@ -55,24 +55,20 @@ export class UserProductListComponent implements OnInit {
       //lưu lại vào local cache sau khi fetch
       this.dataSrv.setItemLocal("locProductList", this.productList);
     }
-
-    console.log("productList: ",this.productList);
     // initialize to page 1
     this.setPage(1);
-    console.log(this.pager);
-  }
 
+  }
+  
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
-
     // get pager object from service
     this.pager = this.pagerService.getPager(this.productList.length, page);
 
     // get current page of items
     this.pagedProductList = this.productList.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
-
 
 }

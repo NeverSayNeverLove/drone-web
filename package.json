@@ -26,6 +26,7 @@
     "@syncfusion/ej2-angular-inputs": "^17.1.42",
     "@syncfusion/ej2-angular-lists": "^17.1.40",
     "@syncfusion/ej2-angular-navigations": "^16.4.54",
+    "@syncfusion/ej2-angular-notifications": "^17.1.42",
     "@syncfusion/ej2-angular-popups": "^17.1.40",
     "@syncfusion/ej2-angular-schedule": "^16.4.55",
     "@syncfusion/ej2-angular-splitbuttons": "^16.4.53",
