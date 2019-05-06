@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataService } from '../services/data.service';
+import { tap } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -21,26 +22,42 @@ export class AuthService {
     private http: HttpClient,
     private dataSrv: DataService,) { }
 
-  getUserDetails(email, password) {
-    return this.http.post(`${Config.api_endpoint_khai}login`, {
+  login(email, password) {
+    return this.http.post<{access_token:  string}>(`${Config.api_endpoint_khai}login`, {
       email,
       password
-    });
+    }).pipe(tap(res => {
+      // Luu token nhan dc tu server vao localStorage
+      this.dataSrv.setItemLocal('access_token', res.access_token)
+    }));
   }
 
-  // setToken(key: string, data: any) {
-  //   this.dataSrv.setItem(key, data);
-  // }
+  register(email:string, password:string) {
+    return this.http.post<{access_token: string}>(`${Config.api_endpoint_khai}signup`, {email, password}).pipe(tap(res => {
+      this.login(email, password)
+    }))
+  }
 
-  // getToken(key: string) {
-  //   return this.dataSrv.getItem(key);
-  // }
+  logout() {
+    // Xoa toan bo localStorage
+    // localStorage.clear();
+    this.dataSrv.removeItemLocal('access_token')
+    this.dataSrv.removeItemLocal('token_type')
+    this.dataSrv.removeItemLocal('CurrentUser')
+  }
 
-  // setTypeToken(key: string, data: any) {
-  //   this.dataSrv.setItem(key, data);
-  // }
+  // Bien kiem tra xem da login chua, neu login roi se co access_token
+  get loggedIn(): boolean{
+    return this.dataSrv.getItemLocal('access_token') !==  null;
+  }
 
-  // getTypeToken(key: string) {
-  //   return this.dataSrv.getItem(key);
-  // }
+  getPriorUrl(key) {
+    let url;
+    let myItem: any;
+    myItem = this.dataSrv.getItem(key);
+    if (myItem) {
+      url = JSON.parse(myItem);
+    }
+    return url;
+  }
 }

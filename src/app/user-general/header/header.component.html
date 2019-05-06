@@ -3,6 +3,8 @@
     
     <div class="toolbar-menu-control">
         <button id="nccbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin" routerLinkActive="active menu">Kênh NCC</button>
+        <button *ngIf="loggedIn" id="logoutbtn"type=button ejs-button cssClass='e-small' (click)="logout()">Logout</button>
+        <button *ngIf="!loggedIn" id="loginbtn"type=button ejs-button cssClass='e-flat' [isPrimary]="true" (click)="login()">Login</button>
         <div id="shoppingMenu"> 
             <ejs-menu [items]="data"></ejs-menu>
         </div>
@@ -16,6 +18,8 @@
                 <e-item [template]='ddbTemplate' align='Right'></e-item>
                 <e-item prefixIcon='em-icons e-shopping-cart' align='Right' routerLink='/user-cart' routerLinkActive="active menu" ></e-item>
                 <e-item [template]='nccbtn' align='Right'></e-item>
+                <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
+                <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
             </e-items>
         </ejs-toolbar>
     </div>

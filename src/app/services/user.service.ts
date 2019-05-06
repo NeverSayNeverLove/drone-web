@@ -69,19 +69,16 @@ export class UserService {
   
   getCurrentUser(key) {
     let user: User;
-    let tmp: any;
     let myItem: any;
-    myItem = this.dataService.getItem(key);
+    myItem = this.dataService.getItemLocal(key);
     if (myItem) {
       user = JSON.parse(myItem);
-      // user = new User() {
-      // }
     }
     return user;
   }
 
   setCurrentUser(key, user) {
-    this.dataService.setItem(key, (user));
+    this.dataService.setItemLocal(key, (user));
   }
 }
 

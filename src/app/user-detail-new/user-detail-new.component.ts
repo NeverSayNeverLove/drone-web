@@ -29,7 +29,7 @@ export class UserDetailNewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dataSrv.setItemLocal('detailPostID', this.postID);
+    this.dataSrv.setItem('detailPostID', this.postID);
   }
 
   //To get data lên view
@@ -39,7 +39,7 @@ export class UserDetailNewComponent implements OnInit, OnDestroy {
 
   async getPost() {
     // Lay postID tu Ram hoac localCache
-    this.postID = this.postID ? this.postID : this.dataSrv.getItemLocal('detailPostID');
+    this.postID = this.postID ? this.postID : this.dataSrv.getItem('detailPostID');
     if (this.postID) { // Neu co postID
       this.postList = JSON.parse(JSON.stringify(this.postSrv.getPost("locPostList"))); // deep copy postList from loc
       if (this.postList.length){  // new trong Ram da co, thi tim currPost
@@ -62,7 +62,7 @@ export class UserDetailNewComponent implements OnInit, OnDestroy {
         this.postSrv.setPost(this.postList,"locPostList"); // save postList to loc (Ram)
         this.currPost = this.postList.find(p => p.id == this.postID); // find currPost
       }
-      this.dataSrv.setItemLocal('detailPostID', this.postID); // save currID to localStorage
+      this.dataSrv.setItem('detailPostID', this.postID); // save currID to localStorage
     } else {  // Neu khong co postID se chuyen ve user-news
       this.router.navigateByUrl('/user-news');
     }

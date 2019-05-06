@@ -12,12 +12,6 @@ import { BaivietService} from '../services/baiviet.service';
 import { UserForumShareComponent} from '../user-forum-share/user-forum-share.component';
 
 
-
-
-
-
-
-
 @Component({
   selector: 'user-forum-topic-list',
   templateUrl: './user-forum-topic-list.component.html',
@@ -33,6 +27,7 @@ export class UserForumTopicListComponent implements OnInit, AfterViewInit {
   public pageSettings: PageSettingsModel;
   public filterSettings: FilterSettingsModel;
   public selectionOptions: SelectionSettingsModel;
+
 
   @ViewChild('grid1')
   public grid: GridComponent;
@@ -53,12 +48,11 @@ export class UserForumTopicListComponent implements OnInit, AfterViewInit {
     
     this.topicList = this.forumChild.topicList;
     this.data_topicsList = this.topicList;
-   
 
     // this.initData();
   }
   ngAfterViewInit() {
-    console.log ('ahsgdhsa  ', this.forumChild.topicList);
+    console.log ('forumChild topicList:', this.forumChild.topicList);
     this.topicList = this.forumChild.topicList;
     this.data_topicsList = this.topicList;
     // this.initData();

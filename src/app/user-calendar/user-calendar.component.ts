@@ -9,6 +9,9 @@ import { LichtapbayService, LichTapBay } from '../services/lichtapbay.service';
 import { DronedaotaoService, DroneDaoTao } from '../services/dronedaotao.service';
 import { DiadiembayService, DiaDiemBay } from '../services/diadiembay.service';
 import { UserService, User } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { DataService } from '../services/data.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-calendar',
@@ -55,11 +58,22 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     constructor(private lichbaySrv: LichtapbayService,
         private droneSrv: DronedaotaoService,
         private placeSrv: DiadiembayService,
-        private userSrv: UserService) {}
+        private userSrv: UserService,
+        private authSrv: AuthService,
+        private dataSrv: DataService,
+        private router: Router) {}
 
     ngOnInit() {
-    // init list events
-    this.initItems();
+        // kiem tra xem da login chua
+        if (!this.authSrv.loggedIn) { // neu chua login
+            let key = 'PriorUrl'
+            this.dataSrv.setItem(key, '/user-calendar') // Luu url lai de sau khi login se nhay vao trang nay
+            this.router.navigateByUrl('/signin'); // chuyen sang trang login
+        }
+        let key = 'CurrentUser'
+        let currentUser = this.userSrv.getCurrentUser(key);
+        // init list events
+        this.initItems();
     }
 
     ngOnChanges() {

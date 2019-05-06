@@ -29,6 +29,10 @@ export class DataService {
     return localStorage.getItem(key);
   }
 
+  public removeItemLocal(key: string) {
+    localStorage.removeItem(key);
+  }
+
   //To send ID
   public sendPostID(id: number) {
     this.idSource.next(id);  //send: next(): đưa cho currId để mang đi

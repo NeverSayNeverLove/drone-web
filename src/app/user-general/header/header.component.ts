@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Config } from '../../services/config';
 import { ToolbarComponent, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { removeClass } from '@syncfusion/ej2-base';
+import { AuthService } from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'user-header',
@@ -11,9 +13,14 @@ import { removeClass } from '@syncfusion/ej2-base';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  loggedIn: boolean; 
+
+  constructor(
+    private authSrv: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
+    this.loggedIn = this.authSrv.loggedIn;
   }
   
   @ViewChild('toolbar')
@@ -86,7 +93,7 @@ export class HeaderComponent implements OnInit {
           items: [
               {
                   text: 'Tin tức', 
-                  url: Config.front_endpoint + 'diendan'+'/tintuc',                
+                  url: Config.front_endpoint + 'user-news',                
               },
               {
                   text: 'Thảo luận', 
@@ -108,7 +115,7 @@ export class HeaderComponent implements OnInit {
             },
             {
                 text: 'Lịch tập bay',
-                url: Config.front_endpoint + 'daotao'+'/user-calendar',                
+                url: Config.front_endpoint +'user-calendar',                
             },
         ]
       },
@@ -124,21 +131,29 @@ export class HeaderComponent implements OnInit {
     },
       { text: 'Thông tin tài khoản',
       url: Config.front_endpoint + 'user'+'/thongtin-taikhoan'               
-    },
-      { text: 'Logout',
-      url: Config.front_endpoint + 'logout'        
     }
   ];
 
   
-  public urlNccBtn: any = Config.front_endpoint + 'ncc'; 
+//   public urlNccBtn: any = Config.front_endpoint + 'ncc'; 
   public menuTemplate: any = '#shoppingMenu';
   public ddbTemplate: any = '#userDBtn';
   public searchTemplate: any = '#searchArea';
+  public logoutbtn: any = '#logoutbtn';
+  public loginbtn: any = '#loginbtn';
   public nccbtn: any = '#nccbtn';
 
   public onCreated(): void {
       this.tbObj.refreshOverflow();
       removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
+  }
+
+  public logout() {
+      window.location.reload();
+      this.authSrv.logout();
+  }
+
+  public login() {
+      this.router.navigateByUrl('/signin'); // chuyen sang trang login
   }
 }

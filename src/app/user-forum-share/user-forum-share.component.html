@@ -12,7 +12,7 @@
   </div>
   <div class="control-section animation">
     <div class="animate">
-      <button id="add-topic" class="e-control e-btn" style="position: absolute;" ejs-button [isPrimary]="true"
+      <button *ngIf="loggedIn" id="add-topic" class="e-control e-btn" style="position: absolute;" ejs-button [isPrimary]="true"
         (click)="topicBtnClick($event)">ADD TOPIC
       </button>
     </div>
@@ -25,7 +25,7 @@
 <div class="col-sm-3" style="float: right;">
   <div class="control-section animation">
     <div class="animate">
-      <button id="add-question" class="e-control e-btn" ejs-button [isPrimary]="true"
+      <button *ngIf="loggedIn" id="add-question" class="e-control e-btn" ejs-button [isPrimary]="true"
         (click)="questionBtnClick($event)">ADD QUESTION
       </button>
     </div>

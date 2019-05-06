@@ -4,6 +4,7 @@ import { Config } from '../services/config';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 import { UserService } from '../services/user.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -18,9 +19,14 @@ export class SigninComponent implements OnInit {
   constructor(
     private authSrv: AuthService,
     private dataSrv: DataService,
-    private userSrv: UserService) { }
+    private userSrv: UserService,
+    private router: Router) { }
 
   ngOnInit() {
+    // kiem tra xem da login chua
+    if (this.authSrv.loggedIn) {
+      this.router.navigateByUrl(''); // neu da login thi chuyen sang Home
+    }
   }
 
   loginUser(event) {
@@ -28,19 +34,20 @@ export class SigninComponent implements OnInit {
     const target = event.target;
     const email = target.querySelector('#email').value;
     const password = target.querySelector('#password').value;
-
-    this.authSrv.getUserDetails(email, password).subscribe(
+    this.authSrv.login(email, password).subscribe(
     data => {
-      let key = 'UserToken'
-      this.dataSrv.setItem(key, data['access_token']);
-      key = 'TypeToken'
-      this.dataSrv.setItem(key, data['token_type']);
+      // Luu token_type vao localStorage
+      let key = 'token_type'
+      this.dataSrv.setItemLocal(key, data['token_type']);
       let currUser = this.userSrv.whoIAm(data['token_type'] + ' ' + data['access_token']);
       currUser.then(user => {
+        // Luu thong tin cua current user
         key = 'CurrentUser'
-        this.userSrv.setCurrentUser(key, user);
-        console.log('current user1:', user);
-        console.log('current user2:', this.userSrv.getCurrentUser(key));
+        this.userSrv.setCurrentUser(key, user)
+        key = 'PriorUrl'
+        let priorUrl = this.authSrv.getPriorUrl(key); // lay Url da nhap truoc do
+        priorUrl = priorUrl ? priorUrl : '' // Neu ko co Url thi se chuyen ve trang home
+        this.router.navigateByUrl(priorUrl);
       })
     },
     (error: any) => {
