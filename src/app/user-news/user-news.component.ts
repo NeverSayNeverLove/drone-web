@@ -3,6 +3,7 @@ import { ViewEncapsulation } from '@angular/core';
 
 import { BaivietService, Post } from '../services/baiviet.service';
 import { DataService } from '../services/data.service';
+import { AuthService } from '../services/auth.service';
 // Pagination
 import { PagerService } from '../services/pager.service';
 import * as _ from 'underscore';
@@ -28,7 +29,8 @@ export class UserNewsComponent implements OnInit, OnDestroy {
   constructor(
     private postSrv: BaivietService,
     private dataSrv: DataService,
-    private pagerService: PagerService) { }
+    private pagerService: PagerService,
+    private authSrv: AuthService,) { }
 
   //ngOnInit: sau khi dữ html load xong
   public ngOnInit(): void {
@@ -37,7 +39,6 @@ export class UserNewsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    // this.dataSrv.setItemLocal('detailPostID', );
 
   }
 

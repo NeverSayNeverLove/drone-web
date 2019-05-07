@@ -7,6 +7,11 @@ import { Product } from './product.service';
 export class CartService {
 
   constructor() { }
+  countTotalQuantity(items: Item[]) {
+    let totalQuantity = 0;
+    items.forEach(i => totalQuantity += i.quantity);
+    return totalQuantity;
+  }
 }
 
 export class CartRow {

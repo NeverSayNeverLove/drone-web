@@ -78,7 +78,7 @@ export class UserForumPostsOfTopicComponent implements OnInit {
   rowSelected(args: RowSelectEventArgs) {
     // Get the selected records (selected row object).
     let selectedrow = this.grid.getSelectedRecords();
-    this.dataSrv.setItemLocal('currPost', selectedrow); // save currID to localStorage
+    this.dataSrv.setItem('currPost', selectedrow); // save currID to localStorage
     let id = selectedrow[0]['id'];
     this.dataSrv.sendPostID(id);
     this.router.navigateByUrl('/user-forum-detail-post');

@@ -3,6 +3,10 @@ import { Config } from '../../services/config';
 import { ToolbarComponent, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { TooltipModule, Position, TooltipComponent } from '@syncfusion/ej2-angular-popups';
 import { removeClass } from '@syncfusion/ej2-base';
+import { AuthService } from '../../services/auth.service';
+import {Router} from '@angular/router';
+import { Item } from 'src/app/services/cart.service';
+import { DataService } from 'src/app/services/data.service';
 
 
 @Component({
@@ -12,10 +16,22 @@ import { removeClass } from '@syncfusion/ej2-base';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
-    @Input() count: number = 1;
-    constructor() { }
+    @Input() count: number = 0;
+    @Input() items: Item[] = [];
+    loggedIn: boolean; 
+
+    constructor(
+      private authSrv: AuthService,
+      private dataSrv: DataService,
+      private router: Router) { }
 
     ngOnInit() {
+        this.loggedIn = this.authSrv.loggedIn;
+        this.dataSrv.currCart.subscribe(items => this.items = items);
+        if (this.count == 0) {
+            this.items = this.dataSrv.getItemLocal("cartThuy");
+            this.items.forEach(i => this.count += i.quantity);
+        }
     }
 
     @ViewChild('toolbar')
@@ -119,21 +135,74 @@ export class HeaderComponent implements OnInit {
             url: Config.front_endpoint + 'user' + '/thongtin-taikhoan'
         },
         {
-            text: 'Logout',
-            url: Config.front_endpoint + 'logout'
-        }
+            text: 'Sản phẩm mới',
+            url: Config.front_endpoint + 'sanpham'                
+        },
+        {
+            text: 'Diễn đàn',
+            url: Config.front_endpoint + 'diendan'+'/tintuc',                
+
+            items: [
+                {
+                    text: 'Tin tức', 
+                    url: Config.front_endpoint + 'user-news',                
+                },
+                {
+                    text: 'Thảo luận', 
+                    url: Config.front_endpoint + 'diendan'+'/thaoluan',                
+                }
+            ]
+        },
+        {
+            text: 'Đào tạo',
+            url: Config.front_endpoint + 'daotao'+'/baigiang',                
+            items: [
+                {
+                    text: 'Bài giảng', 
+                    url: Config.front_endpoint + 'daotao'+'/baigiang',                
+                },
+                {
+                    text: 'Bài test', 
+                    url: Config.front_endpoint + 'daotao'+'/baitest',                
+                },
+                {
+                    text: 'Lịch tập bay',
+                    url: Config.front_endpoint +'user-calendar',                
+                },
+            ]
+        },
+        {
+            text: 'Liên hệ',
+            url: Config.front_endpoint + 'lienhe'
+        },
     ];
 
-
-    public urlNccBtn: any = Config.front_endpoint + 'ncc';
+  
+    //   public urlNccBtn: any = Config.front_endpoint + 'ncc'; 
     public menuTemplate: any = '#shoppingMenu';
     public ddbTemplate: any = '#userDBtn';
     public searchTemplate: any = '#searchArea';
+    public logoutbtn: any = '#logoutbtn';
+    public loginbtn: any = '#loginbtn';
+    public signupbtn: any = '#signupbtn';
     public nccbtn: any = '#nccbtn';
     public cartbtn: any = '#cartbtn';
 
-    // public onCreated(): void {
-    //     this.tbObj.refreshOverflow();
-    //     removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
-    // }
+    public onCreated(): void {
+        this.tbObj.refreshOverflow();
+        removeClass([this.tbObj.element.querySelector('.e-shopping-cart')], 'e-icons');
+    }
+
+    public logout() {
+        window.location.reload();
+        this.authSrv.logout();
+    }
+
+    public login() {
+        this.router.navigateByUrl('/signin'); // chuyen sang trang login
+    }
+
+    public register() {
+        this.router.navigateByUrl('/signup'); // chuyen sang trang signup
+    }
 }

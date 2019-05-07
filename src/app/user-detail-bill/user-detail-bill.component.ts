@@ -25,22 +25,7 @@ export class UserDetailBillComponent implements OnInit {
   enableValue = true;
   addressValue: string = "địa chỉ mặc định";
 
-  // public cartTable: Array<CartRow> = [
-  //   {
-  //     id: 1,
-  //     name: "product 1",
-  //     price: 10,
-  //     quantity: 1   
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "product 2",
-  //     price: 10,
-  //     quantity: 2    
-  //   }
-  // ]
- 
- 
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private productService: ProductService,
@@ -51,7 +36,7 @@ export class UserDetailBillComponent implements OnInit {
     // this.calculatePriceBill();
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
-      id = +id;
+      id = Number(id);
 			if (id) {
 				let item: Item = {
 					product: this.productService.find(id),
@@ -115,16 +100,8 @@ export class UserDetailBillComponent implements OnInit {
 		this.dataSrv.setItem("cart", JSON.stringify(cart));
 		this.loadCart();
 	}
-  
-  // public totalPriceBill: number = 0;
-  // public calculatePriceBill() {
-  //   this.cartTable.forEach(row =>{
-  //     this.totalPriceBill += row.price*row.quantity;
-  //   })
-  // } 
-
+ 
   public changeAddress() {
-    // $("input").prop('disabled', false);
     this.enableChange = false;
     this.enableSave = true;
     this.enableInput = true;
@@ -132,7 +109,6 @@ export class UserDetailBillComponent implements OnInit {
   }
 
   public saveAddress() {
-    // $("input").prop('disabled', true);
     this.enableChange = true;
     this.enableSave = false;
     this.enableInput = false;

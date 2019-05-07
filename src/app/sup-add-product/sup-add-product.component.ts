@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, AbstractControl } from '@angular/forms';
-import { FormValidators } from '@syncfusion/ej2-angular-inputs';
+// import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 @Component({
   selector: 'sup-add-product',

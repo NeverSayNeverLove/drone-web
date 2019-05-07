@@ -4,6 +4,7 @@ import { EmitType } from '@syncfusion/ej2-base';
 import { ForumService, TopicTableRow, ChuDeForum, CauHoiForum } from '../services/forum.service';
 import { DataService } from '../services/data.service';
 import { BaivietService} from '../services/baiviet.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'user-forum-share',
@@ -30,8 +31,8 @@ export class UserForumShareComponent implements OnInit, OnChanges {
   public inputtitle: string = "";
   public inputcontent: string = "";
   public topic_autoselect: string = ""; 
-
-
+  
+  loggedIn: boolean;
 
   @Output() messageEvent = new EventEmitter<Array<TopicTableRow>>();
 
@@ -39,10 +40,12 @@ export class UserForumShareComponent implements OnInit, OnChanges {
     private forumSrv: ForumService,
     private dataSrv: DataService,
     private baivietSrv: BaivietService,
+    private authSrv: AuthService,
 
   ) { }
 
   ngOnInit() {
+    this.loggedIn = this.authSrv.loggedIn;
     this.initData();
     this.sendMessage();
     this.initilaizeTarget();

@@ -12,38 +12,38 @@
                 </ng-template>
                 <ng-template #content>
                     <ejs-multiselect id='drone-list' [dataSource]='droneList'
-                        [mode]='default' [fields]='fieldsDrone'
-                        [placeholder]='placeholderDrone'></ejs-multiselect>
+                        [mode]='default' [fields]='fieldsDrone' [(ngModel)]="selectedDrone"
+                        [placeholder]='placeholderDrone' (ngModelChange)="filterAll($event)"></ejs-multiselect>
                 </ng-template>
                 </e-accordionitem>
                 <e-accordionitem  expanded='true'>
                 <ng-template #header>
-                    <div>Place</div>
+                    <div>Địa điểm</div>
                 </ng-template>
                 <ng-template #content>
                     <ejs-multiselect id='place-list' [dataSource]='placeList'
-                        [mode]='default' [fields]='fieldsPlace'
-                        [placeholder]='placeholderPlace'></ejs-multiselect>
+                        [mode]='default' [fields]='fieldsPlace' [(ngModel)]="selectedPlace"
+                        [placeholder]='placeholderPlace' (ngModelChange)="filterAll($event)"></ejs-multiselect>
                 </ng-template>
                 </e-accordionitem>
-                <e-accordionitem  expanded='true'>
+                <!-- <e-accordionitem  expanded='true'>
                 <ng-template #header>
-                    <div>Teacher</div>
+                    <div>Giáo viên</div>
                 </ng-template>
                 <ng-template #content>
                     <ejs-multiselect id='teacher-list' [dataSource]='teacherList'
                         [mode]='default' [fields]='fieldsTeacher'
                         [placeholder]='placeholderTeacher'></ejs-multiselect>
                 </ng-template>
-                </e-accordionitem>
+                </e-accordionitem> -->
                 <e-accordionitem  expanded='true'>
                 <ng-template #header>
-                    <div>Status</div>
+                    <div>Trạng thái</div>
                 </ng-template>
                 <ng-template #content>
                     <ejs-multiselect id='status-list' [dataSource]='statusList'
-                        [mode]='default' [fields]='fieldsStatus'
-                        [placeholder]='placeholderStatus'></ejs-multiselect>
+                        [mode]='default' [fields]='fieldsStatus' [(ngModel)]="selectedStatus"
+                        [placeholder]='placeholderStatus' (ngModelChange)="filterAll($event)"></ejs-multiselect>
                 </ng-template>
                 </e-accordionitem>
             </e-accordionitems>
@@ -69,33 +69,33 @@
                 <table class="custom-event-editor" width="100%" cellpadding="5">
                     <tbody>
                         <tr>
-                            <td class="e-textlabel">Summary</td>
+                            <td class="e-textlabel">Tiêu đề</td>
                             <td colspan="4">
-                                <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                                <input id="EventTitle" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="e-textlabel">Status</td>
+                            <td class="e-textlabel">Trạng thái</td>
                             <td colspan="4">
-                                <input type="text" id="EventType" name="EventType" class="e-field" style="width: 100%" />
+                                <input type="text" id="EventStatus" name="status" class="e-field e-input" style="width: 100%" readonly/>
                             </td>
                         </tr>
                         <tr>
-                            <td class="e-textlabel">From</td>
+                            <td class="e-textlabel">Bắt đầu</td>
                             <td colspan="4">
                                 <input id="StartTime" class="e-field" type="text" name="StartTime" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="e-textlabel">To</td>
+                            <td class="e-textlabel">Kết thúc</td>
                             <td colspan="4">
                                 <input id="EndTime" class="e-field" type="text" name="EndTime" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="e-textlabel">Reason</td>
+                            <td class="e-textlabel">Mô tả</td>
                             <td colspan="4">
-                                <textarea id="Description" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                                <textarea id="EventDescription" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
                             </td>
                         </tr>
                     </tbody>
