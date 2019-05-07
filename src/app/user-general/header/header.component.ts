@@ -141,6 +141,7 @@ export class HeaderComponent implements OnInit {
   public searchTemplate: any = '#searchArea';
   public logoutbtn: any = '#logoutbtn';
   public loginbtn: any = '#loginbtn';
+  public signupbtn: any = '#signupbtn';
   public nccbtn: any = '#nccbtn';
 
   public onCreated(): void {
@@ -155,5 +156,9 @@ export class HeaderComponent implements OnInit {
 
   public login() {
       this.router.navigateByUrl('/signin'); // chuyen sang trang login
+  }
+
+  public register() {
+      this.router.navigateByUrl('/signup'); // chuyen sang trang signup
   }
 }

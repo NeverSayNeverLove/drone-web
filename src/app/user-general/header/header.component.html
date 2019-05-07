@@ -3,8 +3,9 @@
     
     <div class="toolbar-menu-control">
         <button id="nccbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin" routerLinkActive="active menu">Kênh NCC</button>
-        <button *ngIf="loggedIn" id="logoutbtn"type=button ejs-button cssClass='e-small' (click)="logout()">Logout</button>
-        <button *ngIf="!loggedIn" id="loginbtn"type=button ejs-button cssClass='e-flat' [isPrimary]="true" (click)="login()">Login</button>
+        <button *ngIf="loggedIn" id="logoutbtn"type=button ejs-button cssClass='e-small' (click)="logout()">Đăng xuất</button>
+        <button *ngIf="!loggedIn" id="loginbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" (click)="login()">Đăng nhập</button>
+        <button *ngIf="!loggedIn" id="signupbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" (click)="register()">Đăng kí</button>
         <div id="shoppingMenu"> 
             <ejs-menu [items]="data"></ejs-menu>
         </div>
@@ -20,14 +21,15 @@
                 <e-item [template]='nccbtn' align='Right'></e-item>
                 <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
                 <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
+                <e-item *ngIf="!loggedIn" [template]='signupbtn' align='Right'></e-item>
             </e-items>
         </ejs-toolbar>
     </div>
-    <div class=" align-self-center ">
+    <!-- <div class=" align-self-center ">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Trang chủ</a></li>
             <li class="breadcrumb-item active">Sản phẩm</li>
         </ol>
-    </div>
+    </div> -->
     
 </div>

@@ -19,20 +19,20 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-calendar.component.scss']
 })
 export class UserCalendarComponent implements OnInit, OnChanges {
-  @ViewChild('scheduleObj')
-  public scheduleObj: ScheduleComponent;
-  public selectedDate: Date = new Date();
-  public scheduleView: View = 'Month';
-  public events: any[] = [];
-  public workHours: WorkHoursModel = { highlight: false };
-  public startHour: string = '06:00';
-  public endHour: string = '17:00';
-  public allowMultiple: Boolean = true;
-  public temp: string = '<div class="tooltip-wrap">' +
-  '<div class="content-area"><div class="name">${Subject}</></div>' +
-  '<div class="time">From&nbsp;:&nbsp;${StartTime.toLocaleString()} </div>' +
-  '<div class="time">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;${EndTime.toLocaleString()} </div></div></div>';
-  eventSettings: EventSettingsModel;
+    @ViewChild('scheduleObj')
+    public scheduleObj: ScheduleComponent;
+    public selectedDate: Date = new Date();
+    public scheduleView: View = 'Month';
+    public events: any[] = [];
+    public workHours: WorkHoursModel = { highlight: false };
+    public startHour: string = '06:00';
+    public endHour: string = '17:00';
+    public allowMultiple: Boolean = true;
+    public temp: string = '<div class="tooltip-wrap">' +
+    '<div class="content-area"><div class="name">${Subject}</></div>' +
+    '<div class="time">From&nbsp;:&nbsp;${StartTime.toLocaleString()} </div>' +
+    '<div class="time">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;${EndTime.toLocaleString()} </div></div></div>';
+    eventSettings: EventSettingsModel;
 
     // filter
     public droneList: any[] = [];
@@ -52,6 +52,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     ];
     public fieldsStatus: any;
     public placeholderStatus: string = "Lựa chọn trạng thái";
+
+    public selectedDrone: any;
+    public selectedStatus: any;
+    public selectedPlace: any;
     // maps the appropriate column to fields property
     public default : string = 'Default';
 
@@ -259,5 +263,21 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             }
 
         }
+    }
+
+    filterAll($event) {
+        this.filterDrone();
+        this.filterPlace();
+        this.filterStatus();
+        console.log($event);
+    }
+    filterDrone() {
+        console.log('drone', this.selectedDrone);
+    }
+    filterPlace() {
+        console.log('place', this.selectedPlace);
+    }
+    filterStatus() {
+        console.log('status', this.selectedStatus);
     }
 }
