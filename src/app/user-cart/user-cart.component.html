@@ -4,7 +4,7 @@
 
 <body>
   <div>
-    <user-header></user-header>
+    <user-header [count]="totalQuantity" [items]="items"></user-header>
   </div>
   <div class="container" id="bodyview">
     <div>
@@ -13,37 +13,38 @@
     <div style="margin-bottom: 10px;" >
       <table class="table">
         <tr>
-          <th>Sản Phẩm</th>
-          <th>Đơn Giá</th>
-          <th>Số Lượng</th>
-          <th>Thành Tiền</th>
-          <th>Xóa</th>
+          <th >Sản Phẩm</th>
+          <th >Đơn Giá</th>
+          <th >Số Lượng</th>
+          <th >Thành Tiền</th>
+          <th >Xóa</th>
         </tr>
-        <tr *ngFor="let cartrow of cartTable">
-          <td class="name-product">
-            <img class="product-img" src="../../assets/images/drone_1.jpg">  {{cartrow.name}}
+        <tr *ngFor="let item of items">
+          <td class="name-product" style="width:10%">
+            <img class="product-img" src="../../assets/images/drone_1.jpg">  {{item.product.name}}
           </td>
 
-          <td>{{cartrow.price}}.000</td>
+          <td style="width:20%">{{item.product.unitPrice}}</td>
 
-          <td>
-            <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus(cartrow.id)">
+          <td style="width:20%">
+            <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus(item.product.id)">
               <i class="fa fa-minus" aria-hidden="true"></i>
             </button>
 
-            <input class="input-box" id="quantity" type="number" value={{cartrow.quantity}} disabled="true">
+            <input class="input-box" id="quantity" type="number" value={{item.quantity}} disabled="true">
 
-            <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="add(cartrow.id)">
+            <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="add(item.product.id)">
               <i class="fa fa-plus" aria-hidden="true"></i>
             </button>
           </td>
 
-          <td>
-            <input class="input-box" id="totalPrice" value={{cartrow.price*cartrow.quantity}} disabled="true">.000
+          <td style="width:40%">
+            <input *ngIf="false" class="input-box" id="totalPrice" [(ngModel)]="item.product.unitPrice*item.quantity" disabled="true"  >
+            {{item.product.unitPrice*item.quantity}}
           </td>
 
-          <td>
-            <button ejs-button cssClass="e-flat" [isPrimary]="true" (click)="remove(cartrow.id)">
+          <td style="width:10%">
+            <button ejs-button cssClass="e-flat" [isPrimary]="true" (click)="remove(item.product.id)">
               <i class="fa fa-trash" aria-hidden="true"></i></button>
           </td>
         </tr>
@@ -51,7 +52,7 @@
           <td></td>
           <td></td>
           <td><h4>Tổng tiền:</h4></td>
-          <td><h4>{{totalPriceBill}}.000</h4></td>
+          <td><h4>{{totalPriceBill}}</h4></td>
           <td><button ejs-button [isPrimary]="true" class="button" id="buyNowBtn" 
             routerLink='/user-detail-bill' routerLinkActive="active menu">Mua ngay</button>
           </td>

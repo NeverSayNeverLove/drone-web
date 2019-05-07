@@ -3,6 +3,8 @@ import { Config } from '../../services/config';
 import { ToolbarComponent, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { TooltipModule, Position, TooltipComponent } from '@syncfusion/ej2-angular-popups';
 import { removeClass } from '@syncfusion/ej2-base';
+import { Item } from 'src/app/services/cart.service';
+import { DataService } from 'src/app/services/data.service';
 
 
 @Component({
@@ -12,10 +14,20 @@ import { removeClass } from '@syncfusion/ej2-base';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
-    @Input() count: number = 1;
-    constructor() { }
+    @Input() count: number = 0;
+    @Input() items: Item[] = [];
+    // count: number = 0;
+    // items: Item[] = []
+    constructor(
+        private dataSrv: DataService
+    ) { }
 
     ngOnInit() {
+        this.dataSrv.currCart.subscribe(items => this.items = items);
+        if (this.count == 0) {
+            this.items = this.dataSrv.getItemLocal("cartThuy");
+            this.items.forEach(i => this.count += i.quantity);
+        }
     }
 
     @ViewChild('toolbar')

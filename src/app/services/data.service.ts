@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Item } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,9 @@ export class DataService {
   //To send PostID
   private idSource = new BehaviorSubject<number>(0); 
   currID = this.idSource.asObservable();// người đưa thư 
+
+  private cartSource = new BehaviorSubject<Item[]>(null);
+  currCart = this.cartSource.asObservable();
 
   constructor() { }
   
@@ -50,8 +54,12 @@ export class DataService {
   }
 
   //To send ID
-  public sendPostID(id: number) {
+  public sendPostID (id: number) {
     console.log('in send post id method',id)
     this.idSource.next(id);  //send: next(): đưa cho currId để mang đi
+  }
+  //To send cart
+  public sendCart (items: Item[]) {
+    this.cartSource.next(items);
   }
 }
