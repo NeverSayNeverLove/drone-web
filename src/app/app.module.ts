@@ -26,6 +26,9 @@ import { UserProductListComponent } from './user-product-list/user-product-list.
 import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
 import { UserCartComponent } from './user-cart/user-cart.component';
 import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
+import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
+import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
+
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import {
@@ -37,11 +40,14 @@ import { DropDownButtonModule } from '@syncfusion/ej2-angular-splitbuttons';
 import { CalendarAllModule } from '@syncfusion/ej2-angular-calendars';
 import { MenuModule, ToolbarModule, AccordionModule } from '@syncfusion/ej2-angular-navigations';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { GridModule} from '@syncfusion/ej2-angular-grids';
+import { GridModule, EditService, ToolbarService, CommandColumnService} from '@syncfusion/ej2-angular-grids';
 import { PageService, SortService, FilterService} from '@syncfusion/ej2-angular-grids';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
+import { TabModule } from '@syncfusion/ej2-angular-navigations';
+
+
 
 
 
@@ -69,6 +75,8 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
     UserDetailProductComponent,
     UserCartComponent,
     UserDetailBillComponent,
+    UserOrderHistoryComponent,
+    SupAddProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,11 +95,12 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
     DialogModule,
     DropDownListModule,
     TreeViewModule,
+    TabModule,
 
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService,
-    PageService, SortService, FilterService, DatePipe],
+    PageService, SortService, FilterService, DatePipe, EditService, ToolbarService, CommandColumnService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Product } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,11 @@ import { Injectable } from '@angular/core';
 export class CartService {
 
   constructor() { }
+  countTotalQuantity(items: Item[]) {
+    let totalQuantity = 0;
+    items.forEach(i => totalQuantity += i.quantity);
+    return totalQuantity;
+  }
 }
 
 export class CartRow {
@@ -16,4 +22,10 @@ export class CartRow {
     public price: number = 10
 
   ){}
+}
+
+//alt class
+export class Item {
+  product: Product;
+  quantity: number;
 }

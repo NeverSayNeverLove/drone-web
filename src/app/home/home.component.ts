@@ -5,6 +5,8 @@ import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/
 import { DronedaotaoService, DroneDaoTao} from '../services/dronedaotao.service';
 import { DiadiembayService,DiaDiemBay} from '../services/diadiembay.service';
 import { LichtapbayService} from '../services/lichtapbay.service';
+import { ProductService} from '../services/product.service';
+
 
 @Component({
   selector: 'app-home',
@@ -28,6 +30,7 @@ export class HomeComponent implements OnInit {
     private droneDaotaoSrv: DronedaotaoService,
     private placeSrv: DiadiembayService,
     private planSrv: LichtapbayService,
+    private productSrv: ProductService,
   ) { }
 
   ngOnInit() {
@@ -118,7 +121,10 @@ export class HomeComponent implements OnInit {
     // lichTapBay.then(value => {
     // console.log(value);
     // });
-
+ 
+    //fetch Product
+    // let promise = this.productSrv.fetchProduct();
+    // console.log (promise);
   }
 
 

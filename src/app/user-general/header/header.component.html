@@ -1,6 +1,5 @@
-
 <div class="menu-section fixed">
-    
+
     <div class="toolbar-menu-control">
         <button id="nccbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin" routerLinkActive="active menu">Kênh NCC</button>
         <button *ngIf="loggedIn" id="logoutbtn"type=button ejs-button cssClass='e-small' (click)="logout()">Đăng xuất</button>
@@ -9,15 +8,29 @@
         <div id="shoppingMenu"> 
             <ejs-menu [items]="data"></ejs-menu>
         </div>
-        <a type= button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"  ></a>
-        <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" /><span class="e-input-group-icon em-icons e-search"></span></div>
 
-        <ejs-toolbar #toolbar (created)="onCreated()">
+        <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"></a>
+
+        <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
+            <span class="e-input-group-icon em-icons e-search"></span>
+        </div>
+
+
+        <button id="cartbtn" style="position:relative" class="badge-block" routerLink='/user-cart'
+            routerLinkActive="active menu" ejs-button cssClass="e-flat" [isPrimary]="true">
+            <div class="em-icons e-shopping-cart my-icon"></div>
+            <span class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">
+            {{count}}
+            </span>
+        </button>
+
+
+        <ejs-toolbar #toolbar>
             <e-items>
                 <e-item [template]='menuTemplate'></e-item>
                 <e-item [template]='searchTemplate' align='Right'></e-item>
                 <e-item [template]='ddbTemplate' align='Right'></e-item>
-                <e-item prefixIcon='em-icons e-shopping-cart' align='Right' routerLink='/user-cart' routerLinkActive="active menu" ></e-item>
+                <e-item [template]='cartbtn' align='Right'></e-item>
                 <e-item [template]='nccbtn' align='Right'></e-item>
                 <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
                 <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
@@ -33,3 +46,9 @@
     </div> -->
     
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>

@@ -17,6 +17,11 @@ import { UserProductListComponent } from './user-product-list/user-product-list.
 import { UserDetailProductComponent } from './user-detail-product/user-detail-product.component';
 import { UserCartComponent } from './user-cart/user-cart.component';
 import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
+import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
+import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
+
+
+
 
 
 
@@ -40,9 +45,15 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent},
   { path: 'forgotpass', component: ForgotPassComponent},
   { path: 'user-product-list', component: UserProductListComponent},
-  { path: 'user-detail-product', component: UserDetailProductComponent},
+  { path: 'user-detail-product/:productID', component: UserDetailProductComponent},
   { path: 'user-cart', component: UserCartComponent},
+  { path: 'user-detail-bill/:id', component: UserDetailBillComponent},
   { path: 'user-detail-bill', component: UserDetailBillComponent},
+  { path: 'user-order-history', component: UserOrderHistoryComponent},
+  { path: 'sup-add-product', component: SupAddProductComponent},
+
+
+
 
 
 
