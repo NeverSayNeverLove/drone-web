@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CartRow, Item } from '../services/cart.service';
+import { Item, CartService } from '../services/cart.service';
 import { ActivatedRoute } from '@angular/router';
 import { Product, ProductService } from '../services/product.service';
+import { DataService } from '../services/data.service';
 
 
 @Component({
@@ -10,62 +11,56 @@ import { Product, ProductService } from '../services/product.service';
   styleUrls: ['./user-cart.component.scss']
 })
 export class UserCartComponent implements OnInit {
-
-
-  public cartTable: Array<CartRow> = [
-    {
-      id: 1,
-      name: "product 1",
-      price: 10,
-      quantity: 1
-      
-    },
-    {
-      id: 2,
-      name: "product 2",
-      price: 10,
-      quantity: 2
-      
-    }
-  ]
-  
- 
+  items: Item[] = [];
   totalPriceBill: number = 0;
+  totalQuantity: number = 0;
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private productSrv: ProductService 
+    private productSrv: ProductService,
+    private dataSrv: DataService,
+    private cartSrv: CartService 
   ) { }
 
   ngOnInit() {
+    this.items = this.dataSrv.getItemLocal("cartThuy");
+    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   
   }
 
   calculateBill() {
     this.totalPriceBill = 0;
-    this.cartTable.forEach(item => {
-      this.totalPriceBill += item.price*item.quantity; 
+    this.items.forEach(item => {
+      this.totalPriceBill += item.product.unitPrice*item.quantity; 
     })
   }
 
-  minus(id) {
-    this.cartTable.forEach(cartrow =>{
-      if(cartrow.id === id && cartrow.quantity >= 2){
-        cartrow.quantity--;
+  minus(id: number) {
+    this.items.forEach(item =>{
+      if(item.product.id === id && item.quantity >= 2){
+        item.quantity--;
       }
     });
+    this.dataSrv.setItemLocal("cartThuy",this.items);
+    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   }
-  add(id) {
-    this.cartTable.forEach(cartrow =>{
-      if(cartrow.id === id && cartrow.quantity < 10){
-        cartrow.quantity++;
+
+  add(id: number) {
+    this.items.forEach(item =>{
+      if(item.product.id === id && item.quantity < 10){
+        item.quantity++;
       }
     });
+    this.dataSrv.setItemLocal("cartThuy",this.items);
+    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   }
-  remove(id) {    
-    this.cartTable = this.cartTable.filter(e => e.id != id);
+  
+  remove(id: number) {    
+    this.items = this.items.filter(e => e.product.id != id);
+    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   }
 }

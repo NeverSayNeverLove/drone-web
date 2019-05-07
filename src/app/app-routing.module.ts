@@ -48,6 +48,7 @@ const routes: Routes = [
   { path: 'user-detail-product/:productID', component: UserDetailProductComponent},
   { path: 'user-cart', component: UserCartComponent},
   { path: 'user-detail-bill/:id', component: UserDetailBillComponent},
+  { path: 'user-detail-bill', component: UserDetailBillComponent},
   { path: 'user-order-history', component: UserOrderHistoryComponent},
   { path: 'sup-add-product', component: SupAddProductComponent},
 
