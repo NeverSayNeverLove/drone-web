@@ -1,54 +1,61 @@
-<div class="menu-section fixed">
-
-    <div class="toolbar-menu-control">
-        <button id="nccbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin" routerLinkActive="active menu">Kênh NCC</button>
-        <button *ngIf="loggedIn" id="logoutbtn"type=button ejs-button cssClass='e-small' (click)="logout()">Đăng xuất</button>
-        <button *ngIf="!loggedIn" id="loginbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" (click)="login()">Đăng nhập</button>
-        <button *ngIf="!loggedIn" id="signupbtn"type=button ejs-button cssClass='e-outline' [isPrimary]="true" (click)="register()">Đăng kí</button>
-        <div id="shoppingMenu"> 
-            <ejs-menu [items]="data"></ejs-menu>
-        </div>
-
-        <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"></a>
-
-        <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
-            <span class="e-input-group-icon em-icons e-search"></span>
-        </div>
-
-
-        <button id="cartbtn" style="position:relative" class="badge-block" routerLink='/user-cart'
-            routerLinkActive="active menu" ejs-button cssClass="e-flat" [isPrimary]="true">
-            <div class="em-icons e-shopping-cart my-icon"></div>
-            <span class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">
-            {{count}}
-            </span>
-        </button>
-
-
-        <ejs-toolbar #toolbar>
-            <e-items>
-                <e-item [template]='menuTemplate'></e-item>
-                <e-item [template]='searchTemplate' align='Right'></e-item>
-                <e-item [template]='ddbTemplate' align='Right'></e-item>
-                <e-item [template]='cartbtn' align='Right'></e-item>
-                <e-item [template]='nccbtn' align='Right'></e-item>
-                <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
-                <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
-                <e-item *ngIf="!loggedIn" [template]='signupbtn' align='Right'></e-item>
-            </e-items>
-        </ejs-toolbar>
+<div class="my-header">
+    <div class="my-brand">
+        <span id="brand">Drone</span>
     </div>
-    <!-- <div class=" align-self-center ">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Trang chủ</a></li>
-            <li class="breadcrumb-item active">Sản phẩm</li>
-        </ol>
-    </div> -->
-    
+    <div class="menu-section fixed my-nav">
+        <div class="toolbar-menu-control">
+            <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
+                routerLinkActive="active menu">Kênh NCC</button>
+            <button *ngIf="loggedIn" id="logoutbtn" type=button ejs-button cssClass='e-small' (click)="logout()">Đăng
+                xuất</button>
+            <button *ngIf="!loggedIn" id="loginbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true"
+                (click)="login()">Đăng nhập</button>
+            <button *ngIf="!loggedIn" id="signupbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true"
+                (click)="register()">Đăng kí</button>
+            <div id="shoppingMenu">
+                <ejs-menu [items]="data"></ejs-menu>
+            </div>
+
+            <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"></a>
+
+            <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
+                <span class="e-input-group-icon em-icons e-search"></span>
+            </div>
+
+            <button id="cartbtn" style="position:relative" class="badge-block" routerLink='/user-cart'
+                routerLinkActive="active menu" ejs-button cssClass="e-flat" [isPrimary]="true">
+                <div class="em-icons e-shopping-cart my-icon"></div>
+                <span class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">
+                    {{count}}
+                </span>
+            </button>
+
+            <ejs-toolbar #toolbar>
+                <e-items>
+                    <e-item [template]='menuTemplate'></e-item>
+                    <e-item [template]='searchTemplate' align='Right'></e-item>
+                    <e-item [template]='ddbTemplate' align='Right'></e-item>
+                    <e-item [template]='cartbtn' align='Right'></e-item>
+                    <e-item [template]='nccbtn' align='Right'></e-item>
+                    <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
+                    <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
+                    <e-item *ngIf="!loggedIn" [template]='signupbtn' align='Right'></e-item>
+                </e-items>
+            </ejs-toolbar>
+        </div>
+        <!-- <div class=" align-self-center ">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Trang chủ</a></li>
+                <li class="breadcrumb-item active">Sản phẩm</li>
+            </ol>
+        </div> -->
+    </div>
 </div>
 
-<script>
+
+
+<!-- <script>
     $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
     });
-</script>
+</script> -->

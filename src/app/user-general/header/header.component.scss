@@ -128,6 +128,53 @@ font-size: 16px;
         width: auto;
     }
 }
+//my header
+.my-header {
+
+    font-family: 'Chivo', sans-serif;
+    
+}
+.e-toolbar .e-toolbar-items.e-tbar-pos {
+    background-color: rgb(36,39,46);
+    color: white;
+}
+.e-menu-wrapper ul .e-menu-item .e-menu-url {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 100;
+    
+}
+
+.e-input-group .e-input-group-icon {
+    border-color: white;
+    color: white;
+}
+.e-menu-wrapper {
+    background-color: rgb(36,39,46);
+    color: white;
+}
+
+.my-header h1{
+    margin: 0px;
+}
+
+.my-brand {
+    display: inline-block;
+    width: 100%;
+    height: 100px;
+    background-color: rgb(36,39,46);
+}
+#brand{
+    text-align: center;
+    font-size: 80px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-style: italic;
+    color: white;
+    margin-left: 20px;
+}
 
 
 
