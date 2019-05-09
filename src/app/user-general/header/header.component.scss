@@ -34,9 +34,9 @@
 
 /* Shopping cart icon size */
 .my-icon {
-    font-size: 30px;
+    font-size: 17px;
     margin: 0px;
-    color: rgb(48, 42, 42);
+    color: white;
 }
 .my-badge {
     background-color: rgb(51, 153, 119);
@@ -45,6 +45,11 @@
 .control-section {
     overflow: auto;
   }
+#cartbtn {
+    margin-right: 0px 20px 0px 0px;
+}   
+
+
   
 /* Layout Design */
 
@@ -85,9 +90,7 @@ display: inline-block;
 font-size: 16px;
 }
 
-#cartbtn {
-    margin-right: 10px;
-}  
+ 
   
 
 /* Overall UI customization */
@@ -102,9 +105,9 @@ font-size: 16px;
 }
 
 
-.material .toolbar-menu-control .e-toolbar .e-input-group .e-input {
-    padding-bottom: 4px;
-}
+// .material .toolbar-menu-control .e-toolbar .e-input-group .e-input {
+//     padding-bottom: 4px;
+// }
 
 .material .toolbar-menu-control .e-toolbar .e-input-group .e-search {
     margin-bottom: 0;
@@ -116,6 +119,7 @@ font-size: 16px;
 
 .toolbar-menu-control .e-toolbar .e-toolbar-items .e-toolbar-item #userDBtn {
     text-overflow: initial;
+    margin-left: 21px;
 }
 
 .fabric .toolbar-menu-control .e-toolbar-items .e-toolbar-left .e-menu-wrapper,
@@ -130,42 +134,48 @@ font-size: 16px;
 }
 //my header
 .my-header {
-
+    margin-bottom: 20px;
     font-family: 'Chivo', sans-serif;
+
     
 }
-.e-toolbar .e-toolbar-items.e-tbar-pos {
-    background-color: rgb(36,39,46);
+.my-brand {
+    display: inline-block;
+     width: 100%;
+     height: 141px;
+    background-image: url(../../../assets/images/banner.jpg);
+}
+.e-toolbar .e-toolbar-items {
+    background-color: darkslategray;
+    color: white;
+    opacity: 0.8;
+}
+.e-menu-wrapper {
+    background-color: darkslategray;
     color: white;
 }
+
+//NAV RIGHT
 .e-menu-wrapper ul .e-menu-item .e-menu-url {
     color: white;
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
-    font-size: 10px;
-    font-weight: 100;
-    
+    font-size: 11px;
+    font-weight: 100;    
+}
+.e-menu-wrapper ul .e-menu-item:hover{
+    background-color: rgb(61, 110, 110) !important;
+}
+.e-menu-wrapper ul .e-menu-item.e-selected{
+    background-color: rgb(61, 110, 110) !important;
 }
 
-.e-input-group .e-input-group-icon {
-    border-color: white;
-    color: white;
-}
-.e-menu-wrapper {
-    background-color: rgb(36,39,46);
-    color: white;
-}
 
 .my-header h1{
     margin: 0px;
 }
 
-.my-brand {
-    display: inline-block;
-    width: 100%;
-    height: 100px;
-    background-color: rgb(36,39,46);
-}
+
 #brand{
     text-align: center;
     font-size: 80px;
@@ -173,8 +183,49 @@ font-size: 16px;
     font-weight: 700;
     font-style: italic;
     color: white;
-    margin-left: 20px;
+    margin-left: 43px;
 }
+
+//KÊNH NCC Button
+#nccbtn.e-btn.e-outline.e-primary  {
+ 
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: white !important;
+    border-color: white;
+    // background-color: rgb(61, 110, 110) !important;
+}
+#nccbtn.e-btn.e-outline.e-primary:focus  {
+    color: rgb(31, 53, 53) !important;
+    background-color: white !important;
+}
+#nccbtn.e-btn.e-outline.e-primary:hover  {
+    background-color: white !important;
+    color: rgb(31, 53, 53) !important;
+
+}
+#nccbtn {
+    float: right;
+    margin: 10px;
+}
+#searchArea {
+    // display: inline-block;
+    float: right;
+    width: 120px;
+    margin-top: 3px;
+    color: white;
+    
+}
+.fas.fa-search {
+    margin-top: 7px;
+    margin-right: 3px;
+    
+}
+#shoppingMenu {
+    margin-left: 49%;
+
+}
+
 
 
 

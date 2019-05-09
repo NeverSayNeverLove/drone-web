@@ -1,13 +1,23 @@
 <div class="my-header">
     <div class="my-brand">
         <span id="brand">Drone</span>
+        <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
+                routerLinkActive="active menu">Kênh NCC
+        </button>
+        
+        <div id="searchArea" class="e-input-group">
+                <input class="e-input" type="text" placeholder="Search" />
+                <i class="fas fa-search"></i>
+        </div>
     </div>
+    
     <div class="menu-section fixed my-nav">
         <div class="toolbar-menu-control">
-            <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
-                routerLinkActive="active menu">Kênh NCC</button>
-            <button *ngIf="loggedIn" id="logoutbtn" type=button ejs-button cssClass='e-small' (click)="logout()">Đăng
-                xuất</button>
+            <!-- <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
+                routerLinkActive="active menu">Kênh NCC</button> -->
+            <button *ngIf="loggedIn" id="logoutbtn" type=button ejs-button cssClass='e-flat' (click)="logout()">
+                <i class="fas fa-sign-out-alt my-icon"></i>
+            </button>
             <button *ngIf="!loggedIn" id="loginbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true"
                 (click)="login()">Đăng nhập</button>
             <button *ngIf="!loggedIn" id="signupbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true"
@@ -16,15 +26,15 @@
                 <ejs-menu [items]="data"></ejs-menu>
             </div>
 
-            <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData' content="Tài khoản"></a>
+            <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData'class='e-flat'><i class="fas fa-user my-icon"></i></a>
 
-            <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
-                <span class="e-input-group-icon em-icons e-search"></span>
-            </div>
+            <!-- <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
+                <span class="e-input-group-icon em-icons e-search my-icon "></span>
+            </div> -->
 
             <button id="cartbtn" style="position:relative" class="badge-block" routerLink='/user-cart'
                 routerLinkActive="active menu" ejs-button cssClass="e-flat" [isPrimary]="true">
-                <div class="em-icons e-shopping-cart my-icon"></div>
+                <div class="em-icons e-shopping-cart my-icon" style="font-size: 25px"></div>
                 <span class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">
                     {{count}}
                 </span>
@@ -33,10 +43,10 @@
             <ejs-toolbar #toolbar>
                 <e-items>
                     <e-item [template]='menuTemplate'></e-item>
-                    <e-item [template]='searchTemplate' align='Right'></e-item>
-                    <e-item [template]='ddbTemplate' align='Right'></e-item>
+                    <!-- <e-item [template]='searchTemplate' align='Right'></e-item>                     -->
                     <e-item [template]='cartbtn' align='Right'></e-item>
-                    <e-item [template]='nccbtn' align='Right'></e-item>
+                    <e-item [template]='ddbTemplate' align='Right'></e-item>
+                    <!-- <e-item [template]='nccbtn' align='Right'></e-item> -->
                     <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
                     <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
                     <e-item *ngIf="!loggedIn" [template]='signupbtn' align='Right'></e-item>
