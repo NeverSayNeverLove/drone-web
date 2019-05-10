@@ -38,12 +38,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public droneList: any[] = [];
     public fieldsDrone: any;
     public placeholderDrone: string = "Lựa chọn drone";
+
     public placeList: any[] = [];
     public fieldsPlace: any;
     public placeholderPlace: string = "Lựa chọn địa điểm";
+
     public teacherList: any[] = [];
     public fieldsTeacher: any;
     public placeholderTeacher: string = "Lựa chọn giáo viên";
+    
     public statusList: any[] = [
       {id: 1, name: "Đang chờ", eName: "waiting"},
       {id: 2, name: "Đã chấp nhận", eName: "accepted"},
