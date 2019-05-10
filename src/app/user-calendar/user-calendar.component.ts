@@ -420,6 +420,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
                 this.dropDownListObject.dataSource = [args.data.diaDiemBay.diaChi];
             } else {
+                console.log('heeereeerere', placeNameList)
                 this.dropDownListObject.dataSource = placeNameList;
             }
             this.dropDownListObject.value = args.data.diaDiemBay.diaChi;
