@@ -58,7 +58,8 @@
             (eventRendered)="oneventRendered($event)"
             [workHours]="workHours"
             [startHour]="startHour" [endHour]="endHour"
-            (popupOpen)="onPopupOpen($event)">
+            (popupOpen)="onPopupOpen($event)"
+            (actionComplete)="onActionComplete($event)">
             <e-views>
                 <e-view option="Day"></e-view>
                 <e-view option="Week"></e-view>
