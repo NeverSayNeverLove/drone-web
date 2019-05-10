@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'drone-web';
+  ngOnInit(): void {
+    // localStorage.clear();
+  }
 }

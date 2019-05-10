@@ -8,9 +8,9 @@ import { User } from './user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'accept': 'application/json',
-    'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
-    'x-requested-with': 'XMLHttpRequest'
+    // 'accept': 'application/json',
+    // 'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
+    // 'x-requested-with': 'XMLHttpRequest'
   })
 };
 @Injectable({

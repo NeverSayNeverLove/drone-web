@@ -6,6 +6,7 @@ import { DronedaotaoService, DroneDaoTao} from '../services/dronedaotao.service'
 import { DiadiembayService,DiaDiemBay} from '../services/diadiembay.service';
 import { LichtapbayService} from '../services/lichtapbay.service';
 import { ProductService} from '../services/product.service';
+import { DataService } from '../services/data.service';
 
 
 @Component({
@@ -31,9 +32,13 @@ export class HomeComponent implements OnInit {
     private placeSrv: DiadiembayService,
     private planSrv: LichtapbayService,
     private productSrv: ProductService,
+    private dataSrv: DataService,
   ) { }
 
   ngOnInit() {
+    // console.log(this.dataSrv.getItem('placeTraning'));
+    // console.log(this.dataSrv.getItem('droneTraing'));
+    // console.log(this.dataSrv.getItem('eventsList'));
     // let postPromise = this.postSrv.fetchPostByIdNguoiTao(1);
     // console.log(postPromise);
    

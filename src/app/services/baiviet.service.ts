@@ -186,19 +186,11 @@ export class BaivietService {
   
   // 
   getPost(key: string) {
-    let listPost = [];
-    let myItem: any;
-
-    // key = 'locPostList';
-    myItem = this.dataService.getItem(key);
-    if (myItem) {
-      listPost = JSON.parse(myItem);
-    }
-    return listPost;
+    let listPost = this.dataService.getItem(key);
+    return listPost ? listPost : [];
   }
   
   setPost(listPost, key: string) {
-    // let key ='locPostList';
     this.dataService.setItem(key, listPost);
   }
   
