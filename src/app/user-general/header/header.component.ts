@@ -46,74 +46,74 @@ export class HeaderComponent implements OnInit {
         },
         {
             text: 'Giới thiệu',
-            url: Config.front_endpoint + 'gioithieu',
+            url: Config.front_endpoint +'#',
             items: [
                 {
                     text: 'Nông nghiệp 4.0 & Máy bay nông nghiệp',
-                    url: Config.front_endpoint + 'gioithieu'
+                    url: Config.front_endpoint +'#'
                 },
                 {
                     text: 'Sử dụng máy bay nông nghiệp',
-                    url: Config.front_endpoint + 'gioithieu' + '/sudung'
+                    url: Config.front_endpoint +'#'
                 },
                 {
                     text: 'Ứng dụng máy bay nông nghiệp tại Việt Nam',
-                    url: Config.front_endpoint + 'gioithieu' + '/ungdung'
+                    url: Config.front_endpoint +'#'
 
                 },
                 {
                     text: 'Trailer Video',
-                    url: Config.front_endpoint + 'gioithieu' + '/trailer-video'
+                    url: Config.front_endpoint +'#'
 
                 },
             ]
         },
         {
             text: 'Sản phẩm',
-            url: Config.front_endpoint + 'sanpham',
+            url: Config.front_endpoint + 'user-product-list',
 
             items: [
                 {
                     text: 'Máy bay nông nghiệp',
-                    url: Config.front_endpoint + 'sanpham' + '/drone'
+                    url: Config.front_endpoint + '#'
                 },
                 {
                     text: 'Phụ kiện',
-                    url: Config.front_endpoint + 'sanpham' + '/phukien'
+                    url: Config.front_endpoint + '#'
                 },
                 {
                     text: 'Hóa chất',
-                    url: Config.front_endpoint + 'sanpham' + '/hoachat'
+                    url: Config.front_endpoint + '#'
                 },
             ]
         },
 
         {
             text: 'Diễn đàn',
-            url: Config.front_endpoint + 'diendan' + '/tintuc',
+            url: Config.front_endpoint + 'user-news',
 
             items: [
                 {
                     text: 'Tin tức',
-                    url: Config.front_endpoint + 'diendan' + '/tintuc',
+                    url: Config.front_endpoint + 'user-news',
                 },
                 {
                     text: 'Thảo luận',
-                    url: Config.front_endpoint + 'diendan' + '/thaoluan',
+                    url: Config.front_endpoint + 'user-forum-topic-list',
                 }
             ]
         },
         {
             text: 'Đào tạo',
-            url: Config.front_endpoint + 'daotao' + '/baigiang',
+            url: Config.front_endpoint + '#',
             items: [
                 {
                     text: 'Bài giảng',
-                    url: Config.front_endpoint + 'daotao' + '/baigiang',
+                    url: Config.front_endpoint + '#',
                 },
                 {
                     text: 'Bài test',
-                    url: Config.front_endpoint + 'daotao' + '/baitest',
+                    url: Config.front_endpoint + '#',
                 },
                 {
                     text: 'Lịch tập bay',
@@ -123,26 +123,26 @@ export class HeaderComponent implements OnInit {
         },
         {
             text: 'Liên hệ',
-            url: Config.front_endpoint + 'lienhe'
+            url: Config.front_endpoint + '#'
         },
     ];
 
     public userData: object[] = [
         {
             text: 'Lịch sử mua hàng',
-            url: Config.front_endpoint + 'user' + '/lichsu-muahang'
+            url: Config.front_endpoint + '/user-order-history'
         },
         {
             text: 'Thông tin tài khoản',
-            url: Config.front_endpoint + 'user' + '/thongtin-taikhoan'
+            url: Config.front_endpoint + '#'
         },
         {
             text: 'Sản phẩm mới',
-            url: Config.front_endpoint + 'sanpham'                
+            url: Config.front_endpoint + '#'               
         },
         {
             text: 'Diễn đàn',
-            url: Config.front_endpoint + 'diendan'+'/tintuc',                
+            url: Config.front_endpoint + 'user-news',                
 
             items: [
                 {
@@ -151,21 +151,21 @@ export class HeaderComponent implements OnInit {
                 },
                 {
                     text: 'Thảo luận', 
-                    url: Config.front_endpoint + 'diendan'+'/thaoluan',                
+                    url: Config.front_endpoint + 'user-forum-posts-of-topic',                
                 }
             ]
         },
         {
             text: 'Đào tạo',
-            url: Config.front_endpoint + 'daotao'+'/baigiang',                
+            url: Config.front_endpoint + '#',                
             items: [
                 {
                     text: 'Bài giảng', 
-                    url: Config.front_endpoint + 'daotao'+'/baigiang',                
+                    url: Config.front_endpoint + '#',                
                 },
                 {
                     text: 'Bài test', 
-                    url: Config.front_endpoint + 'daotao'+'/baitest',                
+                    url: Config.front_endpoint + '#',                
                 },
                 {
                     text: 'Lịch tập bay',
@@ -175,7 +175,7 @@ export class HeaderComponent implements OnInit {
         },
         {
             text: 'Liên hệ',
-            url: Config.front_endpoint + 'lienhe'
+            url: Config.front_endpoint + '#'
         },
     ];
 
