@@ -402,7 +402,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     private renderPlaceElement(args, statusElement) {
         let placeElement: HTMLInputElement = args.element.querySelector('#EventPlace') as HTMLInputElement;
         let placeNameList = this.placeSrv.getPlaceNameList();
-        console.log('adhfaksdjfhasjf', args.data.diaDiemBay.diaChi);
+        console.log('dia diem bay. dia chi', args.data.diaDiemBay.diaChi);
         // let placeName = placeNameList[];
         // Cần lấy được placeName của chính event dc click.
         
@@ -420,7 +420,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
                 this.dropDownListObject.dataSource = [args.data.diaDiemBay.diaChi];
             } else {
-                console.log('heeereeerere', placeNameList)
                 this.dropDownListObject.dataSource = placeNameList;
             }
             this.dropDownListObject.value = args.data.diaDiemBay.diaChi;
