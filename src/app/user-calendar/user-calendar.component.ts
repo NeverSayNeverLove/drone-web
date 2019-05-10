@@ -12,6 +12,7 @@ import { UserService, User } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 import {Router} from '@angular/router';
+import { Issue } from '../services/issue.service.service';
 
 @Component({
   selector: 'app-user-calendar',
@@ -177,7 +178,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             default:
                 break;
         }
-  
+       
         this.eventSettings = {
         dataSource: <Object[]>extend([], this.events, null, true),
         enableTooltip: true,
