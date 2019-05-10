@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { DiaDiemBay } from '../services/diadiembay.service';
 
 import { User } from './user.service';
+import { DroneDaoTao } from './dronedaotao.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -232,6 +233,14 @@ export class LichtapbayService {
     }
     return listPromise;
   }
+
+  createLichTapBay(lichtapbay) {
+    return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
+  }
+
+  updateLichTapBay(lichtapbay) {
+    return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
+  }
 }
 
 
@@ -259,6 +268,7 @@ export class LichTapBay {
     public nguoiDangKy: User,
     public nhaCungCap: User,
     public diaDiemBay: DiaDiemBay,
+    public droneDaoTao: any,
     public CategoryColor: string = "#f57f17",
     public IsReadonly: boolean = false,
     public allDay: boolean = false,

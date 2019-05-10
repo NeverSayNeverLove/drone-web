@@ -4,6 +4,7 @@ import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs, WorkHoursModel, PopupOpenEventArgs } from '@syncfusion/ej2-angular-schedule';
 import { extend } from '@syncfusion/ej2-base';
 import $ from "jquery";
+import { L10n } from '@syncfusion/ej2-base';
 
 import { LichtapbayService, LichTapBay } from '../services/lichtapbay.service';
 import { DronedaotaoService, DroneDaoTao } from '../services/dronedaotao.service';
@@ -12,6 +13,24 @@ import { UserService, User } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 import {Router} from '@angular/router';
+
+L10n.load({
+    'en-US': {
+        'schedule': {
+            'saveButton': 'Lưu',
+            'cancelButton': 'Đóng',
+            'deleteButton': 'Xóa',
+            'newEvent': 'Đăng kí lịch',
+            'day': 'Ngày',
+            'week': 'Tuần',
+            'month': 'Tháng',
+            'today': 'Hôm nay',
+            'edit': 'Sửa',
+            "editEvent": "Sửa lịch",
+            "monthAgenda": "Danh sách theo tháng",
+        },
+    }
+});
 
 @Component({
   selector: 'app-user-calendar',
@@ -130,10 +149,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         // console.log('event', eventsPromise);
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
-                console.log('lich:', e);
                 let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
-                                            e.ghiChu, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay);
+                                            e.ghiChu, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay, e.droneDaoTao);
                 this.setStatusEvent(event);
+                console.log('event :', event);
                 this.events.push(event);
             });
         });
@@ -173,11 +192,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         this.dataSrv.setItem('placeTraning', this.placeList);
         // this.fieldsPlace = { text: 'diaChi', value: 'id' };
     }
-
-    // async fetchTeacher() {
-    //     let usersPromise = await this.userSrv.fetchAllUser();
-    //     console.log('users:', usersPromise);
-    // }
 
     setStatusEvent(event: LichTapBay) {
         switch (event.status) {
@@ -246,7 +260,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     public onPopupOpen(args: PopupOpenEventArgs): void {
         console.log(args);
-        if (args.type === 'Editor' && args.data['Id']) { // truong hop la edit event
+        if (args.type === 'Editor') {
             let statusElement: HTMLInputElement = args.element.querySelector('#EventStatus') as HTMLInputElement;
             statusElement.readOnly = true;
             let titleElement: HTMLInputElement = args.element.querySelector('#EventTitle') as HTMLInputElement;
@@ -258,19 +272,11 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 titleElement.readOnly = false;
                 descriptionElement.readOnly = false;
             }
-            // if (!statusElement.classList.contains('e-dropdownlist')) {
-            //     let dropDownListObject: DropDownList = new DropDownList({
-            //         placeholder: 'Choose status', value: statusElement.value,
-            //         dataSource: [this.statusList[0].name, this.statusList[1].name, 
-            //                     this.statusList[2].name, this.statusList[3].name]
-            //     });
-            //     dropDownListObject.appendTo(statusElement);
-            //     statusElement.setAttribute('name', 'status');
-            // }
-
             this.renderStartTimeElement(args, statusElement)
             this.renderEndTimeElement(args, statusElement)
-            this.renderPlaceElement(args)
+            if (args.data['Id']) {
+                this.renderPlaceElement(args, statusElement)
+            }
 
         }
     }
@@ -313,23 +319,118 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         }
     }
 
-    private renderPlaceElement(args) {
+    private renderPlaceElement(args, statusElement) {
         let placeElement: HTMLInputElement = args.element.querySelector('#EventPlace') as HTMLInputElement;
         let placeNameList = this.placeSrv.getPlaceNameList();
-        console.log('adhfaksdjfhasjf', args.data['diaDiemBay']['diaChi']);
+        console.log('adhfaksdjfhasjf', args.data.diaDiemBay.diaChi);
         // let placeName = placeNameList[];
         // Cần lấy được placeName của chính event dc click.
         
         if (!placeElement.classList.contains('e-dropdownlist')) {
             this.dropDownListObject = new DropDownList({
-                placeholder: 'Choose place', value: args.data['diaDiemBay']['diaChi'],
+                placeholder: 'Choose place', value: args.data.diaDiemBay.diaChi,
                 dataSource: placeNameList
             });
             this.dropDownListObject.appendTo(placeElement);
             placeElement.setAttribute('name', 'EventPlace');
+            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+                this.dropDownListObject.dataSource = [args.data.diaDiemBay.diaChi];
+            }
         } else {
+            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+                this.dropDownListObject.dataSource = [args.data.diaDiemBay.diaChi];
+            } else {
+                this.dropDownListObject.dataSource = placeNameList;
+            }
             this.dropDownListObject.value = args.data.diaDiemBay.diaChi;
         }
+    }
+
+    public onActionComplete(args) {
+        console.log(args);
+        switch (args.requestType) {
+            case "eventChanged":
+                this.saveFlyPlan(args.data);
+                break;
+            case "eventCreated":
+                this.createFlyPlan(args.data);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private saveFlyPlan(event) {
+        let statusEvent
+        switch (event.status) {
+            case this.statusList[0].name:
+                statusEvent = this.statusList[0].eName
+                break;
+            case this.statusList[1].name:
+                statusEvent = this.statusList[1].eName
+                break;
+            case this.statusList[2].name:
+                statusEvent = this.statusList[2].eName
+                break;
+            case this.statusList[3].name:
+                statusEvent = this.statusList[3].eName
+                break;
+            default:
+                break;
+        }
+        let lichtapbay = {
+            "id": event.Id,
+            "nhaCungCapId": event.nhaCungCap.id,
+            "nguoiDangKyId": event.nguoiDangKy.id,
+            "droneDaoTaoId": event.droneDaoTao.id,
+            "diaDiemBayId": event.diaDiemBay.id,
+            "thoiGianBatDau": event.StartTime,
+            "thoiGianKetThuc": event.EndTime,
+            "trangThai": statusEvent,
+            "ghiChu": event.Subject,
+            "noiDung": event.Description
+        }
+
+        // this.lichbaySrv.createLichTapBay(lichtapbay).subscribe(
+        //     (lichtapbay: LichTapBay) => {console.log(lichtapbay)},
+        //     (error: any) => {console.log(error)}
+        // );
+    }
+
+    private createFlyPlan(event) {
+        let statusEvent
+        switch (event.status) {
+            case this.statusList[0].name:
+                statusEvent = this.statusList[0].eName
+                break;
+            case this.statusList[1].name:
+                statusEvent = this.statusList[1].eName
+                break;
+            case this.statusList[2].name:
+                statusEvent = this.statusList[2].eName
+                break;
+            case this.statusList[3].name:
+                statusEvent = this.statusList[3].eName
+                break;
+            default:
+                break;
+        }
+        let lichtapbay = {
+            "nhaCungCapId": event.nhaCungCap.id,
+            "nguoiDangKyId": event.nguoiDangKy.id,
+            "droneDaoTaoId": event.droneDaoTao.id,
+            "diaDiemBayId": event.diaDiemBay.id,
+            "thoiGianBatDau": event.StartTime,
+            "thoiGianKetThuc": event.EndTime,
+            "trangThai": statusEvent,
+            "ghiChu": event.Subject,
+            "noiDung": event.Description
+        }
+
+        // this.lichbaySrv.createLichTapBay(lichtapbay).subscribe(
+        //     (lichtapbay: LichTapBay) => {console.log(lichtapbay)},
+        //     (error: any) => {console.log(error)}
+        // );
     }
 
     filterAll($event) {
