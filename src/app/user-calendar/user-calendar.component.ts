@@ -120,8 +120,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     initItems(currentUser) {
-
-        console.log('current User calendar', currentUser);
+        console.log('current User calendar', currentUser, this.userSrv.isSup);
      
         this.getItem(currentUser);
     
@@ -131,19 +130,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     getItem(currentUser) {
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                this.placeList = this.dataSrv.getItem('placeTraning_Cus');
-                this.droneList = this.dataSrv.getItem('droneTraing_Cus');
-                this.events = this.dataSrv.getItem('eventsList_Cus');
-                break;
-            case 1:
-                this.placeList = this.dataSrv.getItem('placeTraning_Sup');
-                this.droneList = this.dataSrv.getItem('droneTraing_Sup');
-                this.events = this.dataSrv.getItem('eventsList_Sup');
-                break;
-            default:
-                break;
+        if (this.userSrv.isSup) {
+            this.placeList = this.dataSrv.getItem('placeTraning_Sup');
+            this.droneList = this.dataSrv.getItem('droneTraing_Sup');
+            this.events = this.dataSrv.getItem('eventsList_Sup');
+        }
+        if (this.userSrv.isUser) {
+            this.placeList = this.dataSrv.getItem('placeTraning');
+            this.droneList = this.dataSrv.getItem('droneTraing');
+            this.events = this.dataSrv.getItem('eventsList');
         }
       
         if (!this.events || !this.placeList || !this.droneList) {
@@ -166,16 +161,11 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     async fetchEvent(currentUser) {
         let eventsPromise;
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(currentUser['id']);
-                break;
-            case 1:
-                eventsPromise = await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);
-                break;
-            default:
-                break;
-        }
+        
+        // User or Sup
+        eventsPromise = this.userSrv.isUser ? await this.lichbaySrv.fetchFlyPlanByUserID(currentUser['id']) :
+            await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);
+        
         // console.log('event', eventsPromise);
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
@@ -187,16 +177,9 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             });
         });
         
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                this.dataSrv.setItem('eventsList_User', this.events);
-                break;
-            case 1:
-                this.dataSrv.setItem('eventsList_Sup', this.events);
-                break;
-            default:
-                break;
-        }
+        // User or Sup
+        this.userSrv.isUser ? this.dataSrv.setItem('eventsList', this.events) :
+            this.dataSrv.setItem('eventsList_Sup', this.events);
        
         this.eventSettings = {
         dataSource: <Object[]>extend([], this.events, null, true),
@@ -207,17 +190,11 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     async fetchDrone(currentUser) {
         let dronesPromise: any;
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                dronesPromise = await this.droneSrv.fetchAllDrone();
-                break;
-            case 1:
-                dronesPromise = await this.droneSrv.fetchDroneByNccId(currentUser['id']);
-                break;
-            default:
-                break;
-        }
 
+        // User or Sup
+        dronesPromise = this.userSrv.isUser? await this.droneSrv.fetchAllDrone():
+        await this.droneSrv.fetchDroneByNccId(currentUser['id']);
+        
         dronesPromise.forEach(droneList => {
             droneList['content'].forEach(dr => {
                 console.log(dr);
@@ -226,31 +203,19 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             });
         });
 
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                this.dataSrv.setItem('droneTraning_User', this.droneList);                
-                break;
-            case 1:
-                this.dataSrv.setItem('droneTraning_Sup', this.droneList);                
-                break
-            default:
-                break;
-        }
+        // User or Sup
+        this.userSrv.isUser? this.dataSrv.setItem('droneTraning', this.droneList):
+        this.dataSrv.setItem('droneTraning_Sup', this.droneList);                
+
+        
     }
 
     async fetchPlace(currentUser) {
         let placesPromise;
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                placesPromise = await this.placeSrv.fetchAllPlace();
-                break;
-            case 1:
-                placesPromise = await this.placeSrv.fetchFlyPlaceByNccId(currentUser['id']);
-                break;
-        
-            default:
-                break;
-        }
+
+        //User or Sup
+        placesPromise = this.userSrv.isUser? await this.placeSrv.fetchAllPlace():
+                        await this.placeSrv.fetchFlyPlaceByNccId(currentUser['id']);
 
         placesPromise.forEach(droneList => {
             droneList['content'].forEach(pl => {
@@ -259,17 +224,9 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             });
         });
 
-        switch (currentUser['vai_tro_id']) {
-            case 3:
-                this.dataSrv.setItem('placeTraning_Cus', this.placeList);
-                break;
-            case 1:
-                this.dataSrv.setItem('placeTraning_Sup', this.placeList);
-                break;
-            default:
-                break;
-        }
-        
+        //User or Sup
+        this.userSrv.isUser? this.dataSrv.setItem('placeTraning', this.placeList):
+                             this.dataSrv.setItem('placeTraning_Sup', this.placeList);
        
     }
 
