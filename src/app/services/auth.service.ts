@@ -48,16 +48,11 @@ export class AuthService {
 
   // Bien kiem tra xem da login chua, neu login roi se co access_token
   get loggedIn(): boolean{
-    return this.dataSrv.getItemLocal('access_token') !==  null;
+    return this.dataSrv.getItemLocal('access_token') !=  null;
   }
 
   getPriorUrl(key) {
-    let url;
-    let myItem: any;
-    myItem = this.dataSrv.getItem(key);
-    if (myItem) {
-      url = JSON.parse(myItem);
-    }
-    return url;
+    let url = this.dataSrv.getItem(key);
+    return url ? url : '';
   }
 }

@@ -30,7 +30,9 @@ export class HeaderComponent implements OnInit {
         this.dataSrv.currCart.subscribe(items => this.items = items);
         if (this.count == 0) {
             this.items = this.dataSrv.getItemLocal("cartThuy");
-            this.items.forEach(i => this.count += i.quantity);
+            if (this.items) {
+                this.items.forEach(i => this.count += i.quantity);
+            }
         }
     }
 
@@ -115,7 +117,7 @@ export class HeaderComponent implements OnInit {
                 },
                 {
                     text: 'Lịch tập bay',
-                    url: Config.front_endpoint + '#',
+                    url: Config.front_endpoint + '/user-calendar',
                 },
             ]
         },

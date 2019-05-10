@@ -42,7 +42,8 @@ export class ProductService {
     //kiểm tra dữ liệu trên local cache
     this.products = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
     //Nếu k có thì fetch dữ liệu từ Server
-    if (!this.products.length) {
+    if (!this.products || !this.products.length) {
+      this.products = [];
       let productPromises: Array<Object> = [];
       productPromises = await this.fetchProduct();
       productPromises.forEach(element => {

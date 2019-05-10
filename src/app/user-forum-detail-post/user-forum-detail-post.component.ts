@@ -34,7 +34,7 @@ export class UserForumDetailPostComponent implements OnInit {
   }
   async getPost() {
     //Lấy currPost từ localStorage
-    this.currPost = JSON.parse(this.dataSrv.getItem('currPost'))[0];
+    this.currPost = this.dataSrv.getItem('currPost')[0];
     let answerPromise = await this.forumSrv.fetchTraloiByCauhoiId(this.currPost.id);
     console.log('1', answerPromise);
     answerPromise.forEach(ansPage => {

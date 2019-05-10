@@ -20,7 +20,7 @@ export class DiadiembayService {
 
   constructor(
     private http: HttpClient,
-    private dataService: DataService
+    private dataSrv: DataService
   ) { }
    //FETCH ĐỊA ĐIỂM BAY THEO ID
    async fetchFlyPlaceById(id){
@@ -95,6 +95,16 @@ export class DiadiembayService {
       throw error;
     }
     return listPromise;
+  }
+
+  getPlaceNameList() {
+    let listName = this.dataSrv.getItem('placeTraning');
+    if (listName) {
+      listName = listName.map(p => p.diaChi)
+    } else {
+      listName = []
+    }
+    return listName;
   }
   
    // create a POST

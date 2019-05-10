@@ -21,20 +21,15 @@ export class DataService {
     this.storage.set(key, JSON.stringify(data));
   }
 
-  public getItem(key: string): any {
-    return this.storage.get(key);
-    //trả về string
-  }
-
-  public getItem1(key: string) {
-    let listPost = [];
+  public getItem(key: string) {
+    let Item: any = null;
     let myItem: any;
     myItem = this.storage.get(key);
     if (myItem) {
-      listPost = JSON.parse(myItem);
+      Item = JSON.parse(myItem);
       //trả về JSON
     }
-    return listPost;
+    return Item;
   }
 
 
@@ -44,7 +39,7 @@ export class DataService {
   }
 
   public getItemLocal(key: string): any {
-    let itemList = [];
+    let itemList: any = null;
     let myItem: any;
     myItem = localStorage.getItem(key); // trả về string
     if (myItem){

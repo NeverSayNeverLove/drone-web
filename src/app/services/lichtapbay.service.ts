@@ -4,14 +4,15 @@ import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { DiaDiemBay } from '../services/diadiembay.service';
 
 import { User } from './user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'accept': 'application/json',
-    'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
-    'x-requested-with': 'XMLHttpRequest'
+    // 'accept': 'application/json',
+    // 'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
+    // 'x-requested-with': 'XMLHttpRequest'
   })
 };
 @Injectable({
@@ -235,6 +236,19 @@ export class LichtapbayService {
 
 
 export class LichTapBay {
+
+  private _DroneName: string;
+  public get DroneName(): string {
+    return this._DroneName;
+  }
+  public set DroneName(value: string) {
+    this._DroneName = value;
+  }
+
+  public get PlaceName(): string {
+    return this.diaDiemBay.diaChi;
+  }
+
   constructor(
     public Id: number = 0,
     public Subject: string = "",
@@ -244,6 +258,7 @@ export class LichTapBay {
     public status: string = "1",
     public nguoiDangKy: User,
     public nhaCungCap: User,
+    public diaDiemBay: DiaDiemBay,
     public CategoryColor: string = "#f57f17",
     public IsReadonly: boolean = false,
     public allDay: boolean = false,

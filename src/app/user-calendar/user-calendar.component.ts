@@ -45,10 +45,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public fieldsTeacher: any;
     public placeholderTeacher: string = "Lựa chọn giáo viên";
     public statusList: any[] = [
-      {id: 1, name: "Đang chờ"},
-      {id: 2, name: "Đã chấp nhận"},
-      {id: 3, name: "Đang diễn ra"},
-      {id: 4, name: "Đã hủy"}
+      {id: 1, name: "Đang chờ", eName: "waiting"},
+      {id: 2, name: "Đã chấp nhận", eName: "accepted"},
+      {id: 3, name: "Đang diễn ra", eName: "started"},
+      {id: 4, name: "Đã hủy", eName: "cancelled"}
     ];
     public fieldsStatus: any;
     public placeholderStatus: string = "Lựa chọn trạng thái";
@@ -58,6 +58,9 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public selectedPlace: any;
     // maps the appropriate column to fields property
     public default : string = 'Default';
+
+    // Cac thanh phan cua edit template
+    dropDownListObject: DropDownList;
 
     constructor(private lichbaySrv: LichtapbayService,
         private droneSrv: DronedaotaoService,
@@ -73,37 +76,68 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             let key = 'PriorUrl'
             this.dataSrv.setItem(key, '/user-calendar') // Luu url lai de sau khi login se nhay vao trang nay
             this.router.navigateByUrl('/signin'); // chuyen sang trang login
+            return;
         }
         let key = 'CurrentUser'
         let currentUser = this.userSrv.getCurrentUser(key);
         // init list events
-        this.initItems();
+        this.initItems(currentUser);
     }
 
     ngOnChanges() {
         console.log('ok')
     }
 
-    initItems() {
-        // lay thong tin nguoi dung hien tai
-        this.fetchEvent()
-        this.fetchDrone();
-        this.fetchPlace();
-        // this.fetchTeacher();
-        this.fieldsStatus = { text: 'name', value: 'id' };
+    ngOnDestroy(): void {
+        console.log(this.dataSrv.getItem('placeTraning'));
+        console.log(this.dataSrv.getItem('droneTraing'));
+        console.log(this.dataSrv.getItem('eventsList'));
     }
 
-    async fetchEvent() {
-        let user_id = 3; // fake data
-        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(3);
+    initItems(currentUser) {
+        console.log('current User calendar', currentUser);
+        this.placeList = this.dataSrv.getItem('placeTraning');
+        this.droneList = this.dataSrv.getItem('droneTraing');
+        this.events = this.dataSrv.getItem('eventsList');
+        if (!this.events || !this.placeList || !this.droneList) {
+            this.events = [];
+            this.placeList = [];
+            this.droneList = [];
+            this.fetchEvent(currentUser.id)
+            this.fetchDrone();
+            this.fetchPlace();
+        } else {
+            this.eventSettings = {
+            dataSource: <Object[]>extend([], this.events, null, true),
+            enableTooltip: true,
+            tooltipTemplate: this.temp
+            };
+        }
+        // lay thong tin nguoi dung hien tai
+        // this.fetchTeacher();
+        // this.eventSettings = {
+        //     dataSource: <Object[]>extend([], this.events, null, true),
+        //     enableTooltip: true,
+        //     tooltipTemplate: this.temp
+        // };
+        this.fieldsDrone = { text: 'tenDrone', value: 'id' };
+        this.fieldsStatus = { text: 'name', value: 'id' };
+        this.fieldsPlace = { text: 'diaChi', value: 'id' };
+    }
+
+    async fetchEvent(user_id) {
+        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(user_id);
         // console.log('event', eventsPromise);
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
-                let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc), e.ghiChu, e.trangThai, e.nguoiDangKy, e.nhaCungCap);
+                console.log('lich:', e);
+                let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
+                                            e.ghiChu, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay);
                 this.setStatusEvent(event);
                 this.events.push(event);
             });
         });
+        this.dataSrv.setItem('eventsList', this.events);
 
         this.eventSettings = {
         dataSource: <Object[]>extend([], this.events, null, true),
@@ -117,11 +151,13 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         // console.log('drone', dronesPromise);
         dronesPromise.forEach(droneList => {
             droneList['content'].forEach(dr => {
+                console.log(dr);
                 let drone = new DroneDaoTao(dr.tenDrone, dr.moTa, dr.id, dr.maDrone, dr.nhaCungCap);
                 this.droneList.push(drone);
             });
         });
-        this.fieldsDrone = { text: 'tenDrone', value: 'id' };
+        this.dataSrv.setItem('droneTraning', this.droneList);
+        // this.fieldsDrone = { text: 'tenDrone', value: 'id' };
     }
 
     async fetchPlace() {
@@ -133,27 +169,33 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 this.placeList.push(place);
             });
         });
-        this.fieldsPlace = { text: 'diaChi', value: 'id' };
+        console.log('listplace', this.placeList);
+        this.dataSrv.setItem('placeTraning', this.placeList);
+        // this.fieldsPlace = { text: 'diaChi', value: 'id' };
     }
 
-    async fetchTeacher() {
-        let usersPromise = await this.userSrv.fetchAllUser();
-        console.log('users:', usersPromise);
-    }
+    // async fetchTeacher() {
+    //     let usersPromise = await this.userSrv.fetchAllUser();
+    //     console.log('users:', usersPromise);
+    // }
 
     setStatusEvent(event: LichTapBay) {
         switch (event.status) {
-            case this.statusList[0].name:
+            case this.statusList[0].eName:
+                event.status = this.statusList[0].name
                 this.setStatusPlanned(event);
                 break;
-            case this.statusList[1].name:
-            this.setStatusAccepted(event);
+            case this.statusList[1].eName:
+                event.status = this.statusList[1].name
+                this.setStatusAccepted(event);
                 break;
-            case this.statusList[2].name:
-            this.setStatusStarted(event);
+            case this.statusList[2].eName:
+                event.status = this.statusList[2].name
+                this.setStatusStarted(event);
                 break;
-            case this.statusList[3].name:
-            this.setStatusRejected(event);
+            case this.statusList[3].eName:
+                event.status = this.statusList[3].name
+                this.setStatusRejected(event);
                 break;
             default:
                 break;
@@ -203,8 +245,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onPopupOpen(args: PopupOpenEventArgs): void {
-        if (args.type === 'Editor') {
+        console.log(args);
+        if (args.type === 'Editor' && args.data['Id']) { // truong hop la edit event
             let statusElement: HTMLInputElement = args.element.querySelector('#EventStatus') as HTMLInputElement;
+            statusElement.readOnly = true;
             let titleElement: HTMLInputElement = args.element.querySelector('#EventTitle') as HTMLInputElement;
             let descriptionElement: HTMLInputElement = args.element.querySelector('#EventDescription') as HTMLInputElement;
             if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
@@ -224,44 +268,67 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             //     statusElement.setAttribute('name', 'status');
             // }
 
-            let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
-            if (!startElement.classList.contains('e-datetimepicker')) {
-                if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                    new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:true}, startElement);
-                } else {
-                    new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:false }, startElement);
-                }
-            } else {
-                if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                    // startElement.readOnly = true;
-                    // startElement.remove('e-datetimepicker');
-                    // $("#StartTime").remove();
-                    // console.log(startElement.classList)
-                    new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:true });
-                } else {
-                    // startElement.readOnly = false;
-                    // startElement.classList.remove('e-datetimepicker');
-                    // $("#StartTime").remove();
-                    // console.log(startElement)
-                    new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:false });
-                }
-            }
-            
-            let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
-            if (!endElement.classList.contains('e-datetimepicker')) {
-                if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                    new DateTimePicker({ value: new Date(endElement.value) || new Date(), readonly:true }, endElement);
-                } else {
-                    new DateTimePicker({ value: new Date(endElement.value) || new Date(), readonly:false }, endElement);
-                }
-            } else {
-                if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                    endElement.readOnly = true;
-                } else {
-                    endElement.readOnly = false;
-                }
-            }
+            this.renderStartTimeElement(args, statusElement)
+            this.renderEndTimeElement(args, statusElement)
+            this.renderPlaceElement(args)
 
+        }
+    }
+
+    private renderStartTimeElement(args, statusElement) {
+        let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
+        if (!startElement.classList.contains('e-datetimepicker')) {
+            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+                new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:true}, startElement);
+            } else {
+                new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:false }, startElement);
+            }
+        } else {
+            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+                // new DateTimePicker({ value: new Date(startElement.value) || new Date()});
+                // $("#StartTime").prop("readonly", true);
+                startElement.readOnly = true;
+            } else {
+                // new DateTimePicker({ value: new Date(startElement.value) || new Date()});
+                // $("#StartTime").prop("readonly", false);
+                startElement.readOnly = false;
+            }
+        }
+    }
+
+    private renderEndTimeElement(args, statusElement) {
+        let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
+        if (!endElement.classList.contains('e-datetimepicker')) {
+            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+                new DateTimePicker({ value: new Date(endElement.value) || new Date(), readonly:true }, endElement);
+            } else {
+                new DateTimePicker({ value: new Date(endElement.value) || new Date(), readonly:false }, endElement);
+            }
+        } else {
+            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+                endElement.readOnly = true;
+            } else {
+                endElement.readOnly = false;
+            }
+        }
+    }
+
+    private renderPlaceElement(args) {
+        let placeElement: HTMLInputElement = args.element.querySelector('#EventPlace') as HTMLInputElement;
+        let placeNameList = this.placeSrv.getPlaceNameList();
+        console.log('adhfaksdjfhasjf', args.data['diaDiemBay']['diaChi']);
+        // let placeName = placeNameList[];
+        // Cần lấy được placeName của chính event dc click.
+        
+        if (!placeElement.classList.contains('e-dropdownlist')) {
+            this.dropDownListObject = new DropDownList({
+                placeholder: 'Choose place', value: args.data['diaDiemBay']['diaChi'],
+                dataSource: placeNameList
+            });
+            this.dropDownListObject.appendTo(placeElement);
+            placeElement.setAttribute('name', 'EventPlace');
+        } else {
+            this.dropDownListObject.value = args.data.diaDiemBay.diaChi;
         }
     }
 

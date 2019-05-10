@@ -47,7 +47,7 @@ export class UserDetailBillComponent implements OnInit {
           cart.push(item);
 					this.dataSrv.setItem('cart', JSON.stringify(cart));
 				} else {
-					let cart: any = JSON.parse(this.dataSrv.getItem('cart'));
+					let cart: any = this.dataSrv.getItem('cart');
 					let index: number = -1;
 					for (let i = 0; i < cart.length; i++) {
 						let item: Item = JSON.parse(cart[i]);
@@ -76,7 +76,7 @@ export class UserDetailBillComponent implements OnInit {
   loadCart(): void {
 		this.total = 0;
 		this.items = [];
-    let cart = JSON.parse(this.dataSrv.getItem('cart'));
+    let cart = this.dataSrv.getItem('cart');
     let itemList = JSON.parse(cart);
     itemList.forEach(item => {
       	this.items.push({
@@ -88,7 +88,7 @@ export class UserDetailBillComponent implements OnInit {
   }
   
   remove(id: number): void {
-		let cart: any = JSON.parse(this.dataSrv.getItem('cart'));
+		let cart: any = this.dataSrv.getItem('cart');
 		let index: number = -1;
 		for (let i = 0; i < cart.length; i++) {
 			let item: Item = JSON.parse(cart[i]);

@@ -68,12 +68,7 @@ export class UserService {
   
   
   getCurrentUser(key) {
-    let user: User;
-    let myItem: any;
-    myItem = this.dataService.getItemLocal(key);
-    if (myItem) {
-      user = JSON.parse(myItem);
-    }
+    let user: User = this.dataService.getItemLocal(key);
     return user;
   }
 
