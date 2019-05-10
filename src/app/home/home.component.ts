@@ -7,6 +7,7 @@ import { DiadiembayService,DiaDiemBay} from '../services/diadiembay.service';
 import { LichtapbayService} from '../services/lichtapbay.service';
 import { ProductService} from '../services/product.service';
 import { DataService } from '../services/data.service';
+import { IssueService } from '../services/issue.service.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     private planSrv: LichtapbayService,
     private productSrv: ProductService,
     private dataSrv: DataService,
+    private issueSrv: IssueService
   ) { }
 
   ngOnInit() {
@@ -130,6 +132,9 @@ export class HomeComponent implements OnInit {
     //fetch Product
     // let promise = this.productSrv.fetchProduct();
     // console.log (promise);
+
+    let issuePromise = this.issueSrv.fetchIssue(4);
+    console.log(issuePromise);
   }
 
 

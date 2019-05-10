@@ -13,6 +13,7 @@ import { UserService, User } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 import {Router} from '@angular/router';
+import { Issue } from '../services/issue.service.service';
 
 L10n.load({
     'en-US': {
@@ -57,12 +58,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public droneList: any[] = [];
     public fieldsDrone: any;
     public placeholderDrone: string = "Lựa chọn drone";
+
     public placeList: any[] = [];
     public fieldsPlace: any;
     public placeholderPlace: string = "Lựa chọn địa điểm";
+
     public teacherList: any[] = [];
     public fieldsTeacher: any;
     public placeholderTeacher: string = "Lựa chọn giáo viên";
+    
     public statusList: any[] = [
       {id: 1, name: "Đang chờ", eName: "waiting"},
       {id: 2, name: "Đã chấp nhận", eName: "accepted"},
@@ -99,8 +103,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         }
         let key = 'CurrentUser'
         let currentUser = this.userSrv.getCurrentUser(key);
+        
         // init list events
         this.initItems(currentUser);
+
     }
 
     ngOnChanges() {
@@ -114,17 +120,39 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     initItems(currentUser) {
+
         console.log('current User calendar', currentUser);
-        this.placeList = this.dataSrv.getItem('placeTraning');
-        this.droneList = this.dataSrv.getItem('droneTraing');
-        this.events = this.dataSrv.getItem('eventsList');
+     
+        this.getItem(currentUser);
+    
+        this.fieldsDrone = { text: 'tenDrone', value: 'id' };
+        this.fieldsStatus = { text: 'name', value: 'id' };
+        this.fieldsPlace = { text: 'diaChi', value: 'id' };
+    }
+
+    getItem(currentUser) {
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                this.placeList = this.dataSrv.getItem('placeTraning_Cus');
+                this.droneList = this.dataSrv.getItem('droneTraing_Cus');
+                this.events = this.dataSrv.getItem('eventsList_Cus');
+                break;
+            case 1:
+                this.placeList = this.dataSrv.getItem('placeTraning_Sup');
+                this.droneList = this.dataSrv.getItem('droneTraing_Sup');
+                this.events = this.dataSrv.getItem('eventsList_Sup');
+                break;
+            default:
+                break;
+        }
+      
         if (!this.events || !this.placeList || !this.droneList) {
             this.events = [];
             this.placeList = [];
             this.droneList = [];
-            this.fetchEvent(currentUser.id)
-            this.fetchDrone();
-            this.fetchPlace();
+            this.fetchEvent(currentUser)
+            this.fetchDrone(currentUser);
+            this.fetchPlace(currentUser);
         } else {
             this.eventSettings = {
             dataSource: <Object[]>extend([], this.events, null, true),
@@ -132,20 +160,22 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             tooltipTemplate: this.temp
             };
         }
-        // lay thong tin nguoi dung hien tai
-        // this.fetchTeacher();
-        // this.eventSettings = {
-        //     dataSource: <Object[]>extend([], this.events, null, true),
-        //     enableTooltip: true,
-        //     tooltipTemplate: this.temp
-        // };
-        this.fieldsDrone = { text: 'tenDrone', value: 'id' };
-        this.fieldsStatus = { text: 'name', value: 'id' };
-        this.fieldsPlace = { text: 'diaChi', value: 'id' };
     }
 
-    async fetchEvent(user_id) {
-        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(user_id);
+
+
+    async fetchEvent(currentUser) {
+        let eventsPromise;
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(currentUser['id']);
+                break;
+            case 1:
+                eventsPromise = await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);
+                break;
+            default:
+                break;
+        }
         // console.log('event', eventsPromise);
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
@@ -156,8 +186,18 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 this.events.push(event);
             });
         });
-        this.dataSrv.setItem('eventsList', this.events);
-
+        
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                this.dataSrv.setItem('eventsList_User', this.events);
+                break;
+            case 1:
+                this.dataSrv.setItem('eventsList_Sup', this.events);
+                break;
+            default:
+                break;
+        }
+       
         this.eventSettings = {
         dataSource: <Object[]>extend([], this.events, null, true),
         enableTooltip: true,
@@ -165,9 +205,19 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         };
     }
 
-    async fetchDrone() {
-        let dronesPromise = await this.droneSrv.fetchAllDrone();
-        // console.log('drone', dronesPromise);
+    async fetchDrone(currentUser) {
+        let dronesPromise: any;
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                dronesPromise = await this.droneSrv.fetchAllDrone();
+                break;
+            case 1:
+                dronesPromise = await this.droneSrv.fetchDroneByNccId(currentUser['id']);
+                break;
+            default:
+                break;
+        }
+
         dronesPromise.forEach(droneList => {
             droneList['content'].forEach(dr => {
                 console.log(dr);
@@ -175,22 +225,52 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 this.droneList.push(drone);
             });
         });
-        this.dataSrv.setItem('droneTraning', this.droneList);
-        // this.fieldsDrone = { text: 'tenDrone', value: 'id' };
+
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                this.dataSrv.setItem('droneTraning_User', this.droneList);                
+                break;
+            case 1:
+                this.dataSrv.setItem('droneTraning_Sup', this.droneList);                
+                break
+            default:
+                break;
+        }
     }
 
-    async fetchPlace() {
-        let placesPromise = await this.placeSrv.fetchAllPlace();
-        // console.log('Place', placesPromise);
+    async fetchPlace(currentUser) {
+        let placesPromise;
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                placesPromise = await this.placeSrv.fetchAllPlace();
+                break;
+            case 1:
+                placesPromise = await this.placeSrv.fetchFlyPlaceByNccId(currentUser['id']);
+                break;
+        
+            default:
+                break;
+        }
+
         placesPromise.forEach(droneList => {
             droneList['content'].forEach(pl => {
                 let place = new DiaDiemBay(pl.diaChi, pl.id, pl.nhaCungCap);
                 this.placeList.push(place);
             });
         });
-        console.log('listplace', this.placeList);
-        this.dataSrv.setItem('placeTraning', this.placeList);
-        // this.fieldsPlace = { text: 'diaChi', value: 'id' };
+
+        switch (currentUser['vai_tro_id']) {
+            case 3:
+                this.dataSrv.setItem('placeTraning_Cus', this.placeList);
+                break;
+            case 1:
+                this.dataSrv.setItem('placeTraning_Sup', this.placeList);
+                break;
+            default:
+                break;
+        }
+        
+       
     }
 
     setStatusEvent(event: LichTapBay) {
