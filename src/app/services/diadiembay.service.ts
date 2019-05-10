@@ -40,7 +40,7 @@ export class DiadiembayService {
   }
 
   //FETCH LIST ĐỊA ĐIỂM BAY THEO NHÀ CUNG CẤP ID
-  async fetchFlyPlaceByNhacungcapId(nhacungcapId) {
+  async fetchFlyPlaceByNccId(nhacungcapId) {
     let listPromise: any;
     listPromise = [];
     try {
