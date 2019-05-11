@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild, OnChanges, Input } from '@angular/core';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs, WorkHoursModel, PopupOpenEventArgs } from '@syncfusion/ej2-angular-schedule';
@@ -53,6 +53,12 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     '<div class="time">From&nbsp;:&nbsp;${StartTime.toLocaleString()} </div>' +
     '<div class="time">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;${EndTime.toLocaleString()} </div></div></div>';
     eventSettings: EventSettingsModel;
+    
+    @ViewChild('StartTime') startTimeElement: DateTimePicker;
+    @ViewChild('EndTime') endTimeElement: DateTimePicker;
+    @ViewChild('EventPlace') eventPlaceElement: DropDownList;
+
+    
 
     // filter
     public droneList: any[] = [];
@@ -79,6 +85,14 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public selectedDrone: any;
     public selectedStatus: any;
     public selectedPlace: any;
+
+    // ngModel template event edit 
+    public eventDescription: string;
+    public eventStartTime: Date;
+    public eventEndTime: Date;
+    public eventStatus: string;
+    public eventPlace: string;
+    public placeNameList;
     // maps the appropriate column to fields property
     public default : string = 'Default';
 
@@ -169,10 +183,11 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         // console.log('event', eventsPromise);
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
+                console.log('event :', e);
                 let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
-                                            e.ghiChu, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay, e.droneDaoTao);
+                                            e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay, e.droneDaoTao);
                 this.setStatusEvent(event);
-                console.log('event :', event);
+                console.log('lichtapbay: :', event);
                 this.events.push(event);
             });
         });
@@ -298,88 +313,27 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public onPopupOpen(args: PopupOpenEventArgs): void {
         console.log(args);
         if (args.type === 'Editor') {
-            let statusElement: HTMLInputElement = args.element.querySelector('#EventStatus') as HTMLInputElement;
-            statusElement.readOnly = true;
+            this.eventDescription = args.data['description'];
+            this.eventStartTime = args.data['StartTime'];
+            this.eventEndTime = args.data['EndTime'];
+            this.eventStatus = args.data['status'];
+            this.placeNameList = this.placeSrv.getPlaceNameList();
+            this.eventPlace = args.data['diaDiemBay']['diaChi'];
             let titleElement: HTMLInputElement = args.element.querySelector('#EventTitle') as HTMLInputElement;
             let descriptionElement: HTMLInputElement = args.element.querySelector('#EventDescription') as HTMLInputElement;
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
+            if (this.eventStatus == this.statusList[2].name || this.eventStatus == this.statusList[3].name) {
                 titleElement.readOnly = true;
                 descriptionElement.readOnly = true;
+                this.startTimeElement.readonly = true;
+                this.endTimeElement.readonly = true;
+                this.eventPlaceElement.readonly = true;
             } else {
                 titleElement.readOnly = false;
                 descriptionElement.readOnly = false;
+                this.startTimeElement.readonly = false;
+                this.endTimeElement.readonly = false;
+                this.eventPlaceElement.readonly = false;
             }
-            this.renderStartTimeElement(args, statusElement)
-            this.renderEndTimeElement(args, statusElement)
-            if (args.data['Id']) {
-                this.renderPlaceElement(args, statusElement)
-            }
-
-        }
-    }
-
-    private renderStartTimeElement(args, statusElement) {
-        let startElement: HTMLInputElement = args.element.querySelector('#StartTime') as HTMLInputElement;
-        if (!startElement.classList.contains('e-datetimepicker')) {
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:true}, startElement);
-            } else {
-                new DateTimePicker({ value: new Date(startElement.value) || new Date(), readonly:false }, startElement);
-            }
-        } else {
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                // new DateTimePicker({ value: new Date(startElement.value) || new Date()});
-                // $("#StartTime").prop("readonly", true);
-                startElement.readOnly = true;
-            } else {
-                // new DateTimePicker({ value: new Date(startElement.value) || new Date()});
-                // $("#StartTime").prop("readonly", false);
-                startElement.readOnly = false;
-            }
-        }
-    }
-
-    private renderEndTimeElement(args, statusElement) {
-        let endElement: HTMLInputElement = args.element.querySelector('#EndTime') as HTMLInputElement;
-        if (!endElement.classList.contains('e-datetimepicker')) {
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                new DateTimePicker({ value: new Date(endElement.value) || new Date(), readonly:true }, endElement);
-            } else {
-                new DateTimePicker({ value: new Date(endElement.value) || new Date(), readonly:false }, endElement);
-            }
-        } else {
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                endElement.readOnly = true;
-            } else {
-                endElement.readOnly = false;
-            }
-        }
-    }
-
-    private renderPlaceElement(args, statusElement) {
-        let placeElement: HTMLInputElement = args.element.querySelector('#EventPlace') as HTMLInputElement;
-        let placeNameList = this.placeSrv.getPlaceNameList();
-        console.log('dia diem bay. dia chi', args.data.diaDiemBay.diaChi);
-        // let placeName = placeNameList[];
-        // Cần lấy được placeName của chính event dc click.
-        
-        if (!placeElement.classList.contains('e-dropdownlist')) {
-            this.dropDownListObject = new DropDownList({
-                placeholder: 'Choose place', value: args.data.diaDiemBay.diaChi,
-                dataSource: placeNameList
-            });
-            this.dropDownListObject.appendTo(placeElement);
-            placeElement.setAttribute('name', 'EventPlace');
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                this.dropDownListObject.dataSource = [args.data.diaDiemBay.diaChi];
-            }
-        } else {
-            if (statusElement.value == this.statusList[2].name || statusElement.value == this.statusList[3].name) {
-                this.dropDownListObject.dataSource = [args.data.diaDiemBay.diaChi];
-            } else {
-                this.dropDownListObject.dataSource = placeNameList;
-            }
-            this.dropDownListObject.value = args.data.diaDiemBay.diaChi;
         }
     }
 
@@ -399,39 +353,46 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     private saveFlyPlan(event) {
         let statusEvent
-        switch (event.status) {
-            case this.statusList[0].name:
-                statusEvent = this.statusList[0].eName
-                break;
-            case this.statusList[1].name:
-                statusEvent = this.statusList[1].eName
-                break;
-            case this.statusList[2].name:
-                statusEvent = this.statusList[2].eName
-                break;
-            case this.statusList[3].name:
-                statusEvent = this.statusList[3].eName
-                break;
-            default:
-                break;
-        }
-        let lichtapbay = {
-            "id": event.Id,
-            "nhaCungCapId": event.nhaCungCap.id,
-            "nguoiDangKyId": event.nguoiDangKy.id,
-            "droneDaoTaoId": event.droneDaoTao.id,
-            "diaDiemBayId": event.diaDiemBay.id,
-            "thoiGianBatDau": event.StartTime,
-            "thoiGianKetThuc": event.EndTime,
-            "trangThai": statusEvent,
-            "ghiChu": event.Subject,
-            "noiDung": event.Description
+        console.log('save event', event)
+        if (!this.isStartedOrCancelledEvent(event)) {
+            switch (event.status) {
+                case this.statusList[0].name:
+                    statusEvent = this.statusList[0].eName
+                    break;
+                case this.statusList[1].name:
+                    statusEvent = this.statusList[1].eName
+                    break;
+                case this.statusList[2].name:
+                    statusEvent = this.statusList[2].eName
+                    break;
+                case this.statusList[3].name:
+                    statusEvent = this.statusList[3].eName
+                    break;
+                default:
+                    break;
+            }
+            let lichtapbay = {
+                "id": event.Id,
+                "nhaCungCapId": event.nhaCungCap.id,
+                "nguoiDangKyId": event.nguoiDangKy.id,
+                "droneDaoTaoId": event.droneDaoTao.id,
+                "diaDiemBayId": event.diaDiemBay.id,
+                "thoiGianBatDau": event.StartTime,
+                "thoiGianKetThuc": event.EndTime,
+                "trangThai": statusEvent,
+                "ghiChu": event.Subject,
+                "noiDung": event.Description
+            }
         }
 
         // this.lichbaySrv.createLichTapBay(lichtapbay).subscribe(
         //     (lichtapbay: LichTapBay) => {console.log(lichtapbay)},
         //     (error: any) => {console.log(error)}
         // );
+    }
+
+    private isStartedOrCancelledEvent(event): boolean {
+        return event.status == this.statusList[2].name || event.status == this.statusList[3].name
     }
 
     private createFlyPlan(event) {

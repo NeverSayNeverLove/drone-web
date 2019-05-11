@@ -46,7 +46,7 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
-
+import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 
 
 
@@ -96,6 +96,7 @@ import { TabModule } from '@syncfusion/ej2-angular-navigations';
     DropDownListModule,
     TreeViewModule,
     TabModule,
+    DateTimePickerModule,
 
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
