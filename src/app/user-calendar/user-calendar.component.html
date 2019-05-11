@@ -78,31 +78,36 @@
                         <tr>
                             <td class="e-textlabel">Bắt đầu</td>
                             <td colspan="4">
-                                <input id="StartTime" class="e-field" type="text" name="StartTime" />
+                                <!-- <input id="StartTime" class="e-field" type="text" name="StartTime" /> -->
+                                <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime"></ejs-datetimepicker>
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Kết thúc</td>
                             <td colspan="4">
-                                <input id="EndTime" class="e-field" type="text" name="EndTime" />
+                                <!-- <input id="EndTime" class="e-field" type="text" name="EndTime" /> -->
+                                <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime"></ejs-datetimepicker>
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Trạng thái</td>
                             <td colspan="4">
-                                <input type="text" id="EventStatus" name="status" class="e-field e-input" style="width: 100%"/>
+                                <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status" class="e-field e-input" style="width: 100%" readonly/>
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Địa điểm</td>
                             <td colspan="4">
-                                <input id="EventPlace" class="e-field e-input" type="text" name="PlaceName" style="width: 100%" />
+                                <!-- <input id="EventPlace" class="e-field e-input" type="text" name="PlaceName" style="width: 100%" /> -->
+                                <!-- (change)='onChangePlace($event)' -->
+                                <ejs-dropdownlist #EventPlace [dataSource]='placeNameList' [value]='eventPlace' [fields]='fieldsPlace'
+                                    [placeholder]='waterMark' [popupHeight]='height'></ejs-dropdownlist>
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Mô tả</td>
                             <td colspan="4">
-                                <textarea id="EventDescription" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                                <textarea id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input" name="Description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
                             </td>
                         </tr>
                     </tbody>
