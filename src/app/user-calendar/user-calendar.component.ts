@@ -54,11 +54,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     '<div class="time">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;${EndTime.toLocaleString()} </div></div></div>';
     eventSettings: EventSettingsModel;
     
-    @ViewChild('StartTime') startTimeElement: DateTimePicker;
-    @ViewChild('EndTime') endTimeElement: DateTimePicker;
-    @ViewChild('EventPlace') eventPlaceElement: DropDownList;
-
-    
+    // Cac thanh phan cua edit template
+    @ViewChild('StartTime') startTimeElement: DateTimePicker; // thoi gian bat dau trong user-calendar
+    @ViewChild('EndTime') endTimeElement: DateTimePicker;// thoi gian ket thuc trong user-calendar
+    @ViewChild('EventPlace') eventPlaceElement: DropDownList; // dia diem trong user-calendar
 
     // filter
     public droneList: any[] = [];
@@ -86,7 +85,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public selectedStatus: any;
     public selectedPlace: any;
 
-    // ngModel template event edit 
+    // ngModel - data binding in template event edit 
     public eventDescription: string;
     public eventStartTime: Date;
     public eventEndTime: Date;
@@ -95,9 +94,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public placeNameList;
     // maps the appropriate column to fields property
     public default : string = 'Default';
-
-    // Cac thanh phan cua edit template
-    dropDownListObject: DropDownList;
 
     constructor(private lichbaySrv: LichtapbayService,
         private droneSrv: DronedaotaoService,
@@ -354,7 +350,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     private saveFlyPlan(event) {
         let statusEvent
         console.log('save event', event)
-        if (!this.isStartedOrCancelledEvent(event)) {
+        if (!this.isStartedOrCancelledEvent(event)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
             switch (event.status) {
                 case this.statusList[0].name:
                     statusEvent = this.statusList[0].eName
@@ -391,6 +387,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         // );
     }
 
+    // check xem event co phai o trang thai Started hoac Cancelled
     private isStartedOrCancelledEvent(event): boolean {
         return event.status == this.statusList[2].name || event.status == this.statusList[3].name
     }
