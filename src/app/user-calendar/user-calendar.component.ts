@@ -181,16 +181,31 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
 
 
-    async fetchEvent(currentUser) {
+    fetchEvent(currentUser) {
+        this.createLichTapBay(currentUser);
+        if (this.userSrv.isSup) {     
+            this.createIssue(currentUser);
+        }
+        
+        // User or Sup
+        this.userSrv.isUser ? this.dataSrv.setItem('eventsList', this.events) :
+            this.dataSrv.setItem('eventsList_Sup', this.events);
+       
+        this.eventSettings = {
+            dataSource: <Object[]>extend([], this.events, null, true),
+            enableTooltip: true,
+            tooltipTemplate: this.temp
+        };
+    }
+
+    private async createLichTapBay(currentUser) {
         let eventsPromise;
-        let issuePromise;
         
         // User or Sup
         if (this.userSrv.isUser) {
             eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(currentUser['id']);
         } else {
-            eventsPromise = await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);
-            issuePromise = await this.issueSrv.fetchIssue(currentUser['id']);           
+            eventsPromise = await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);    
         }
         
         // console.log('event', eventsPromise);
@@ -203,44 +218,60 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 // console.log('lichtapbay: :', event);
                 this.events.push(event);
             });
+            this.reloadDataSource();
         });
+    }
 
-        // console.log("issue", issuePromise);
+    private async createIssue(currentUser) {
+        let issuePromise;
+        issuePromise = await this.issueSrv.fetchIssue(currentUser['id']);
+        let stt = 0;
         issuePromise.forEach(issueList => {
             issueList['content'].forEach(i => {
+                console.log('issue ik:', i)
+                let plannedStart = this.formatDateTime(i.duTinhBatDau);
+                let plannedEnd = this.formatDateTime(i.duTinhKetThuc);
+                let start = this.formatDateTime(i.thoiGianBatDau);
+                let end = this.formatDateTime(i.thoiGianKetThuc);
                 //started
-                // if(i.thoiGianBatDau && !i.thoiGianKetThuc){
-                //     let issue = new Issue(i.id, "Started", new Date(i.thoiGianBatDau), new Date(),new Date(i.duTinhBatDau),
-                //     new Date(i.duTinhKetThuc), i.moTa,i.nhaCungCap);
-                //     console.log('stared',issue);
-                //     this.events.push(issue);
-                // }
+                if(start && !end){
+                    let title = this.setTitleIssueStarted(i.moTa);
+                    let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(), '',
+                    '', i.moTa,i.nhaCungCap);
+                    console.log('stared',issue);
+                    this.events.push(issue);
+                }
                 //ended
-                // if(i.thoiGianBatDau && i.thoiGianKetThuc){
-                //     let issue = new Issue(i.id, "Ended", new Date(i.thoiGianBatDau), new Date(),new Date(i.duTinhBatDau),
-                //     new Date(i.duTinhKetThuc), i.moTa, i.nhaCungCap);
-                //     this.events.push(issue);
-                // }
+                if(start && end){
+                    let title = this.setTitleIssueEnded(i.moTa);
+                    let issue = new Issue(i.id, title, new Date(start), new Date(end), '',
+                    '', i.moTa, i.nhaCungCap);
+                    this.events.push(issue);
+                }
                 // //planed
-                    console.log("Planned issue out", i);
-                if(i.duTinhBatDau && i.duTinhKetThuc && !i.thoiGianBatDau && !i.thoiGianKetThuc){
-                    console.log("Planned issue in", i);
-                    let issue = new Issue(i.id, "Planed", new Date(i.thoiGianBatDau), new Date(),new Date(i.duTinhBatDau),
-                    new Date(i.duTinhKetThuc), i.moTa, i.nhaCungCap);
+                if(plannedStart && plannedEnd && !start && !end){
+                    let title = this.setTitleIssuePlanned(i.moTa);
+                    let issue = new Issue(i.id, title, new Date(plannedStart), new Date(plannedEnd), plannedStart,
+                    plannedEnd, i.moTa, i.nhaCungCap);
+                    console.log("Planned issue in", issue);
                     this.events.push(issue);
                 }
             });
-        })
-        
-        // User or Sup
-        this.userSrv.isUser ? this.dataSrv.setItem('eventsList', this.events) :
+            this.reloadDataSource();
             this.dataSrv.setItem('eventsList_Sup', this.events);
-       
-        this.eventSettings = {
-        dataSource: <Object[]>extend([], this.events, null, true),
-        enableTooltip: true,
-        tooltipTemplate: this.temp
-        };
+        })
+    }
+
+    private setTitleIssuePlanned(title: string): string {
+        return 'Planned - ' + title
+    }
+
+    private setTitleIssueStarted(title: string): string {
+        return 'Started - ' + title
+    }
+
+    private setTitleIssueEnded(title: string): string {
+        return 'Ended - ' + title
     }
 
     async fetchDrone(currentUser) {
@@ -570,6 +601,9 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     private formatDateTime(dateTime): string {
-        return moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+        if (dateTime) {
+            return moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
+        }
+        return null;
     }
 }

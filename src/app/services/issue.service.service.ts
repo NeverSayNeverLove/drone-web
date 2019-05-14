@@ -77,13 +77,13 @@ export class Issue {
     public Subject: string = "",//mota
     public StartTime: Date = new Date(),
     public EndTime: Date = new Date(),
-    public Planned_Start: Date = new Date(),
-    public Planned_End: Date = new Date(),
+    public Planned_Start: string = '',
+    public Planned_End: string = '',
     public description: string = "",//mota
     public nhaCungCap: User,
     public allDay: boolean = true,
     public IsReadonly: boolean = false,
     public typeOfEvent: string = "Issue",
-    public CategoryColor: string = "#ff0000",
+    public CategoryColor: string = "#58585a",
   ) {}
 }
