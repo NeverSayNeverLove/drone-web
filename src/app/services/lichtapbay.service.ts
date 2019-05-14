@@ -11,7 +11,7 @@ import { DroneDaoTao } from './dronedaotao.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    // 'accept': 'application/json',
+    'Content-Type': 'application/json',
     // 'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
     // 'x-requested-with': 'XMLHttpRequest'
   })
@@ -271,7 +271,7 @@ export class LichTapBay {
     public droneDaoTao: any,
     public CategoryColor: string = "#f57f17",
     public IsReadonly: boolean = false,
-    public allDay: boolean = false,
+    public IsAllDay: boolean = false,
     public typeOfEvent: string = "LichTapBay",
   ) {}
 }

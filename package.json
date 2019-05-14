@@ -33,6 +33,7 @@
     "@syncfusion/ej2-splitbuttons": "^17.1.42",
     "core-js": "^2.5.4",
     "jquery": "^3.4.1",
+    "moment": "^2.24.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "underscore": "^1.9.1",
