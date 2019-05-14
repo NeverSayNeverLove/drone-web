@@ -13,7 +13,7 @@ import { UserService, User } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 import {Router} from '@angular/router';
-import { Issue } from '../services/issue.service.service';
+import { Issue, IssueService } from '../services/issue.service.service';
 
 L10n.load({
     'en-US': {
@@ -96,6 +96,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public default : string = 'Default';
 
     constructor(private lichbaySrv: LichtapbayService,
+        private issueSrv: IssueService,
         private droneSrv: DronedaotaoService,
         private placeSrv: DiadiembayService,
         private userSrv: UserService,
@@ -130,7 +131,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     initItems(currentUser) {
-        console.log('current User calendar', currentUser, this.userSrv.isSup);
+        // console.log('current User calendar', currentUser, this.userSrv.isSup);
      
         this.getItem(currentUser);
     
@@ -140,53 +141,88 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     getItem(currentUser) {
-        if (this.userSrv.isSup) {
-            this.placeList = this.dataSrv.getItem('placeTraning_Sup');
-            this.droneList = this.dataSrv.getItem('droneTraing_Sup');
-            this.events = this.dataSrv.getItem('eventsList_Sup');
-        }
-        if (this.userSrv.isUser) {
-            this.placeList = this.dataSrv.getItem('placeTraning');
-            this.droneList = this.dataSrv.getItem('droneTraing');
-            this.events = this.dataSrv.getItem('eventsList');
-        }
+        // if (this.userSrv.isSup) {
+        //     this.placeList = this.dataSrv.getItem('placeTraning_Sup');
+        //     this.droneList = this.dataSrv.getItem('droneTraing_Sup');
+        //     this.events = this.dataSrv.getItem('eventsList_Sup');
+        // }
+        // if (this.userSrv.isUser) {
+        //     this.placeList = this.dataSrv.getItem('placeTraning');
+        //     this.droneList = this.dataSrv.getItem('droneTraing');
+        //     this.events = this.dataSrv.getItem('eventsList');
+        // }
       
-        if (!this.events || !this.placeList || !this.droneList) {
-            this.events = [];
-            this.placeList = [];
-            this.droneList = [];
-            this.fetchEvent(currentUser)
-            this.fetchDrone(currentUser);
-            this.fetchPlace(currentUser);
-        } else {
-            this.eventSettings = {
-            dataSource: <Object[]>extend([], this.events, null, true),
-            enableTooltip: true,
-            tooltipTemplate: this.temp
-            };
-        }
+        // if (!this.events || !this.placeList || !this.droneList) {
+        //     this.events = [];
+        //     this.placeList = [];
+        //     this.droneList = [];
+        //     this.fetchEvent(currentUser)
+        //     this.fetchDrone(currentUser);
+        //     this.fetchPlace(currentUser);
+        // } else {
+        //     this.eventSettings = {
+        //     dataSource: <Object[]>extend([], this.events, null, true),
+        //     enableTooltip: true,
+        //     tooltipTemplate: this.temp
+        //     };
+        // }
+        this.fetchEvent(currentUser)
+        this.fetchDrone(currentUser);
+        this.fetchPlace(currentUser);
     }
 
 
 
     async fetchEvent(currentUser) {
         let eventsPromise;
+        let issuePromise;
         
         // User or Sup
-        eventsPromise = this.userSrv.isUser ? await this.lichbaySrv.fetchFlyPlanByUserID(currentUser['id']) :
-            await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);
+        if (this.userSrv.isUser) {
+            eventsPromise = await this.lichbaySrv.fetchFlyPlanByUserID(currentUser['id']);
+        } else {
+            eventsPromise = await this.lichbaySrv.fetchFlyPlanByNccId(currentUser['id']);
+            issuePromise = await this.issueSrv.fetchIssue(currentUser['id']);           
+        }
         
         // console.log('event', eventsPromise);
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
-                console.log('event :', e);
+                console.log('eventtttttt :', e);
                 let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
                                             e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay, e.droneDaoTao);
                 this.setStatusEvent(event);
-                console.log('lichtapbay: :', event);
+                // console.log('lichtapbay: :', event);
                 this.events.push(event);
             });
         });
+
+        // console.log("issue", issuePromise);
+        issuePromise.forEach(issueList => {
+            issueList['content'].forEach(i => {
+                //started
+                // if(i.thoiGianBatDau && !i.thoiGianKetThuc){
+                //     let issue = new Issue(i.id, "Started", new Date(i.thoiGianBatDau), new Date(),new Date(i.duTinhBatDau),
+                //     new Date(i.duTinhKetThuc), i.moTa,i.nhaCungCap);
+                //     console.log('stared',issue);
+                //     this.events.push(issue);
+                // }
+                //ended
+                // if(i.thoiGianBatDau && i.thoiGianKetThuc){
+                //     let issue = new Issue(i.id, "Ended", new Date(i.thoiGianBatDau), new Date(),new Date(i.duTinhBatDau),
+                //     new Date(i.duTinhKetThuc), i.moTa, i.nhaCungCap);
+                //     this.events.push(issue);
+                // }
+                // //planed
+                    console.log("Planned issue out", i);
+                if(i.duTinhBatDau && i.duTinhKetThuc && !i.thoiGianBatDau && !i.thoiGianKetThuc){
+                    console.log("Planned issue in", i);
+                    let issue = new Issue(i.id, "Planed", new Date(i.thoiGianBatDau), new Date(),new Date(i.duTinhBatDau),
+                    new Date(i.duTinhKetThuc), i.moTa, i.nhaCungCap);
+                    this.events.push(issue);
+                }
+            });
+        })
         
         // User or Sup
         this.userSrv.isUser ? this.dataSrv.setItem('eventsList', this.events) :
@@ -208,7 +244,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         
         dronesPromise.forEach(droneList => {
             droneList['content'].forEach(dr => {
-                console.log(dr);
+                // console.log(dr);
                 let drone = new DroneDaoTao(dr.tenDrone, dr.moTa, dr.id, dr.maDrone, dr.nhaCungCap);
                 this.droneList.push(drone);
             });
@@ -307,7 +343,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onPopupOpen(args: PopupOpenEventArgs): void {
-        console.log(args);
+        // console.log(args);
         if (args.type === 'Editor') {
             this.eventDescription = args.data['description'];
             this.eventStartTime = args.data['StartTime'];
@@ -334,7 +370,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onActionComplete(args) {
-        console.log(args);
+        // console.log(args);
         switch (args.requestType) {
             case "eventChanged":
                 this.saveFlyPlan(args.data);
@@ -349,7 +385,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     private saveFlyPlan(event) {
         let statusEvent
-        console.log('save event', event)
+        // console.log('save event', event)
         if (!this.isStartedOrCancelledEvent(event)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
             switch (event.status) {
                 case this.statusList[0].name:
@@ -432,15 +468,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         this.filterDrone();
         this.filterPlace();
         this.filterStatus();
-        console.log($event);
+        // console.log($event);
     }
     filterDrone() {
-        console.log('drone', this.selectedDrone);
+        // console.log('drone', this.selectedDrone);
     }
     filterPlace() {
-        console.log('place', this.selectedPlace);
+        // console.log('place', this.selectedPlace);
     }
     filterStatus() {
-        console.log('status', this.selectedStatus);
+        // console.log('status', this.selectedStatus);
     }
 }
