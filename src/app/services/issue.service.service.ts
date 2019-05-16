@@ -81,6 +81,7 @@ export class Issue {
     public Planned_End: string = '',
     public description: string = "",//mota
     public nhaCungCap: User,
+    public statusIssue: Object,
     public allDay: boolean = true,
     public IsReadonly: boolean = false,
     public typeOfEvent: string = "Issue",

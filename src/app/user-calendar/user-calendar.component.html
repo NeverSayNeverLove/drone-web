@@ -1,30 +1,32 @@
 <div class="grid-container">
-    <div class="header-wf-menu"><user-header></user-header></div>
+    <div class="header-wf-menu">
+        <user-header></user-header>
+    </div>
     <div class="menu-wf-menu">
         <!-- minicalendar -->
-        <ejs-calendar (change)="gotoDate($event, scheduleObj)" ></ejs-calendar>
+        <ejs-calendar (change)="gotoDate($event, scheduleObj)"></ejs-calendar>
         <!-- filter -->
         <ejs-accordion expandMode='Multiple'>
             <e-accordionitems>
                 <e-accordionitem expanded='true'>
-                <ng-template #header>
-                    <div>Drone</div>
-                </ng-template>
-                <ng-template #content>
-                    <ejs-multiselect id='drone-list' [dataSource]='droneList'
-                        [mode]='default' [fields]='fieldsDrone' [(ngModel)]="selectedDrone"
-                        [placeholder]='placeholderDrone' (ngModelChange)="filterAll($event)"></ejs-multiselect>
-                </ng-template>
+                    <ng-template #header>
+                        <div>Drone</div>
+                    </ng-template>
+                    <ng-template #content>
+                        <ejs-multiselect id='drone-list' [dataSource]='droneList' [mode]='default'
+                            [fields]='fieldsDrone' [(ngModel)]="selectedDrone" [placeholder]='placeholderDrone'
+                            (ngModelChange)="filterAll($event)"></ejs-multiselect>
+                    </ng-template>
                 </e-accordionitem>
-                <e-accordionitem  expanded='true'>
-                <ng-template #header>
-                    <div>Địa điểm</div>
-                </ng-template>
-                <ng-template #content>
-                    <ejs-multiselect id='place-list' [dataSource]='placeList'
-                        [mode]='default' [fields]='fieldsPlace' [(ngModel)]="selectedPlace"
-                        [placeholder]='placeholderPlace' (ngModelChange)="filterAll($event)"></ejs-multiselect>
-                </ng-template>
+                <e-accordionitem expanded='true'>
+                    <ng-template #header>
+                        <div>Địa điểm</div>
+                    </ng-template>
+                    <ng-template #content>
+                        <ejs-multiselect id='place-list' [dataSource]='placeList' [mode]='default'
+                            [fields]='fieldsPlace' [(ngModel)]="selectedPlace" [placeholder]='placeholderPlace'
+                            (ngModelChange)="filterAll($event)"></ejs-multiselect>
+                    </ng-template>
                 </e-accordionitem>
                 <!-- <e-accordionitem  expanded='true'>
                 <ng-template #header>
@@ -36,29 +38,24 @@
                         [placeholder]='placeholderTeacher'></ejs-multiselect>
                 </ng-template>
                 </e-accordionitem> -->
-                <e-accordionitem  expanded='true'>
-                <ng-template #header>
-                    <div>Trạng thái</div>
-                </ng-template>
-                <ng-template #content>
-                    <ejs-multiselect id='status-list' [dataSource]='statusList'
-                        [mode]='default' [fields]='fieldsStatus' [(ngModel)]="selectedStatus"
-                        [placeholder]='placeholderStatus' (ngModelChange)="filterAll($event)"></ejs-multiselect>
-                </ng-template>
+                <e-accordionitem expanded='true'>
+                    <ng-template #header>
+                        <div>Trạng thái</div>
+                    </ng-template>
+                    <ng-template #content>
+                        <ejs-multiselect id='status-list' [dataSource]='statusList' [mode]='default'
+                            [fields]='fieldsStatus' [(ngModel)]="selectedStatus" [placeholder]='placeholderStatus'
+                            (ngModelChange)="filterAll($event)"></ejs-multiselect>
+                    </ng-template>
                 </e-accordionitem>
             </e-accordionitems>
         </ejs-accordion>
     </div>
     <div class="main-wf-menu">
         <!-- Schedule -->
-        <ejs-schedule #scheduleObj width='100%' height='650px'
-            [selectedDate]="selectedDate"
-            [eventSettings]="eventSettings"
-            [(currentView)]="scheduleView"
-            (eventRendered)="oneventRendered($event)"
-            [workHours]="workHours"
-            [startHour]="startHour" [endHour]="endHour"
-            (popupOpen)="onPopupOpen($event)"
+        <ejs-schedule #scheduleObj width='100%' height='650px' [selectedDate]="selectedDate"
+            [eventSettings]="eventSettings" [(currentView)]="scheduleView" (eventRendered)="oneventRendered($event)"
+            [workHours]="workHours" [startHour]="startHour" [endHour]="endHour" (popupOpen)="onPopupOpen($event)"
             (actionComplete)="onActionComplete($event)">
             <e-views>
                 <e-view option="Day"></e-view>
@@ -67,53 +64,84 @@
                 <e-view option="MonthAgenda"></e-view>
             </e-views>
             <ng-template #editorTemplate>
-                <table class="custom-event-editor" width="100%" cellpadding="5">
+                <!-- <table class="custom-event-editor" width="100%" cellpadding="5">
                     <tbody>
-                        <tr>
+                        <tr *ngIf=!isIssue>
                             <td class="e-textlabel">Tiêu đề</td>
                             <td colspan="4">
-                                <input id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text" name="Subject" style="width: 100%" />
+                                <input id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text"
+                                    name="Subject" style="width: 100%" />
+                            </td>
+                        </tr>
+                        <tr *ngIf=isIssue>
+                            <td class="e-textlabel">Tên vấn đề</td>
+                            <td colspan="4">
+                                <input id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text"
+                                    name="Subject" style="width: 100%" />
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Bắt đầu</td>
                             <td colspan="4">
-                                <!-- <input id="StartTime" class="e-field" type="text" name="StartTime" /> -->
-                                <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime"></ejs-datetimepicker>
+                                <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime"
+                                    (ngModelChange)='OnChangeStartDate()' [(min)]="minStart" [(max)]="maxStart">
+                                </ejs-datetimepicker>
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Kết thúc</td>
                             <td colspan="4">
-                                <!-- <input id="EndTime" class="e-field" type="text" name="EndTime" /> -->
-                                <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime"></ejs-datetimepicker>
+                                <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime"
+                                    (ngModelChange)='OnChangeEndDate()' [(min)]="minEnd" [(max)]="maxEnd">
+                                </ejs-datetimepicker>
                             </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf=!isIssue>
                             <td class="e-textlabel">Trạng thái</td>
                             <td colspan="4">
-                                <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status" class="e-field e-input" style="width: 100%" readonly/>
+                                <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status"
+                                    class="e-field e-input" style="width: 100%" readonly />
                             </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf=!isIssue>
                             <td class="e-textlabel">Địa điểm</td>
                             <td colspan="4">
-                                <!-- <input id="EventPlace" class="e-field e-input" type="text" name="PlaceName" style="width: 100%" /> -->
-                                <!-- (change)='onChangePlace($event)' -->
-                                <ejs-dropdownlist #EventPlace [dataSource]='placeNameList' [value]='eventPlace' [fields]='fieldsPlace'
-                                    [placeholder]='waterMark' [popupHeight]='height'></ejs-dropdownlist>
+                                <ejs-dropdownlist #EventPlace [dataSource]='placeNameList' [value]='eventPlace'
+                                    [fields]='fieldsPlace' [placeholder]='waterMark' [popupHeight]='height'>
+                                </ejs-dropdownlist>
                             </td>
                         </tr>
                         <tr>
                             <td class="e-textlabel">Mô tả</td>
                             <td colspan="4">
-                                <textarea id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input" name="description" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+                                <textarea id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input"
+                                    name="description" rows="3" cols="50"
+                                    style="width: 100%; height: 60px !important; resize: vertical"></textarea>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <p>{{statusIssueID}}</p>
+                <form *ngIf=isIssue id="chooseStatus">
+                    <label class="radio-inline">
+                        <ejs-radiobutton #plannedRadio label="Planned" name="payment" value="1"
+                        [disabled]="false" [(ngModel)]="statusIssueID" (change)="change($event)"></ejs-radiobutton>
+                    </label>    
+                    <label class="radio-inline">
+                        <ejs-radiobutton #startedRadio label="Started" name="payment" value="2"
+                        [disabled]="false" [(ngModel)]="statusIssueID" (change)="change($event)"></ejs-radiobutton>
+                    </label>
+                    <label class="radio-inline">
+                        <ejs-radiobutton #endedRadio label="Ended" name="payment" value="3"
+                        [disabled]="false" [(ngModel)]="statusIssueID" (change)="change($event)"></ejs-radiobutton>
+                    </label>
+                </form> -->
+                <!-- <edit-issue [selected]></edit-issue> -->
+                <edit-lichtapbay *ngIf="isLichTapBay" [lichTapBayData]="selectedLichTapBayData"></edit-lichtapbay>
+                <edit-issue *ngIf="isIssue" [args]="selectedIssueData"></edit-issue>
             </ng-template>
-            
+
         </ejs-schedule>
     </div>
 </div>
