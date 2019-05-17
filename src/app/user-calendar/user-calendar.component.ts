@@ -290,7 +290,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     private setStatusRejected(event: LichTapBay) {
-        event.CategoryColor = "#58585a";
+        event.CategoryColor = "#AAB7B8";
         // event.IsReadonly = true;
     }
 
