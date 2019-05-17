@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Config } from '../services/config';
+import { Config } from '../services/helper/config';
 
-import { AuthService } from '../services/auth.service';
-import { DataService } from '../services/data.service';
-import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth/auth.service';
+import { DataService } from '../services/helper/data.service';
+import { UserService } from '../services/auth/user.service';
 import {Router} from '@angular/router';
 
 

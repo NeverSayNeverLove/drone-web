@@ -1,10 +1,10 @@
 import { Component, OnInit, OnChanges, ViewEncapsulation, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
-import { ForumService, TopicTableRow, ChuDeForum, CauHoiForum } from '../services/forum.service';
-import { DataService } from '../services/data.service';
-import { BaivietService} from '../services/baiviet.service';
-import { AuthService } from '../services/auth.service';
+import { ForumService, TopicTableRow, ChuDeForum, CauHoiForum } from '../services/forum/forum.service';
+import { DataService } from '../services/helper/data.service';
+import { BaivietService} from '../services/forum/baiviet.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'user-forum-share',

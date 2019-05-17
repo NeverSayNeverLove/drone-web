@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../services/config';
-import { DataService } from './data.service';
+import { Config } from '../helper/config';
+import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from './user.service';
+import { User } from '../auth/user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,7 +20,7 @@ export class DronedaotaoService {
 
   constructor(
     private http: HttpClient,
-    private dataService: DataService
+    private dataSrv: DataService,
   ) { }
   
   //FETCH ALL DRONE ĐÀO TẠO
@@ -100,6 +100,10 @@ export class DronedaotaoService {
   // create a POST
   createPost(dronedaotao: DroneDaoTao): Observable<DroneDaoTao> {
     return this.http.post<DroneDaoTao>(`${Config.api_endpoint}drone-dao-tao/save`, dronedaotao, httpOptions);
+  }
+
+  public findDrone(id): DroneDaoTao {
+      return this.dataSrv.getItem('droneTraning').find(dr => dr.id == id);
   }
 
 }

@@ -5,16 +5,16 @@ import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs, WorkHou
 import { extend } from '@syncfusion/ej2-base';
 import $ from "jquery";
 import { L10n } from '@syncfusion/ej2-base';
-import * as moment from 'moment';
 
-import { LichtapbayService, LichTapBay } from '../services/lichtapbay.service';
-import { DronedaotaoService, DroneDaoTao } from '../services/dronedaotao.service';
-import { DiadiembayService, DiaDiemBay } from '../services/diadiembay.service';
-import { UserService, User } from '../services/user.service';
-import { AuthService } from '../services/auth.service';
-import { DataService } from '../services/data.service';
-import {Router} from '@angular/router';
-import { Issue, IssueService } from '../services/issue.service.service';
+import { LichtapbayService, LichTapBay } from '../services/event/lichtapbay.service';
+import { DronedaotaoService, DroneDaoTao } from '../services/training/dronedaotao.service';
+import { DiadiembayService, DiaDiemBay } from '../services/training/diadiembay.service';
+import { UserService, User } from '../services/auth/user.service';
+import { AuthService } from '../services/auth/auth.service';
+import { DataService } from '../services/helper/data.service';
+import { HelperService } from '../services/helper/helper.service'
+import { Router } from '@angular/router';
+import { Issue, IssueService } from '../services/event/issue.service.service';
 import { RadioButtonComponent } from '@syncfusion/ej2-angular-buttons';
 
 L10n.load({
@@ -95,10 +95,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     // ngModel - data binding in template event edit
     @Input() selectedLichTapBayData: any;
-    private eventDescription: string;
-    private eventStartTime: Date;
-    private eventEndTime: Date;
-    private eventTitle: string;
+    // private eventDescription: string;
+    // private eventStartTime: Date;
+    // private eventEndTime: Date;
+    // private eventTitle: string;
 
     // ngModel - data binding in issue template edit
     @Input() selectedIssueData: any;
@@ -113,6 +113,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         private userSrv: UserService,
         private authSrv: AuthService,
         private dataSrv: DataService,
+        private helperSrv: HelperService,
         private router: Router) {}
 
     ngOnInit() {
@@ -210,17 +211,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         let stt = 0;
         issuePromise.forEach(issueList => {
             issueList['content'].forEach(i => {
-                // console.log('issue ik:', i)
-                let plannedStart = this.formatDateTime(i.duTinhBatDau);
-                let plannedEnd = this.formatDateTime(i.duTinhKetThuc);
-                let start = this.formatDateTime(i.thoiGianBatDau);
-                let end = this.formatDateTime(i.thoiGianKetThuc);
+                let plannedStart = this.helperSrv.formatDateTime(i.duTinhBatDau);
+                let plannedEnd = this.helperSrv.formatDateTime(i.duTinhKetThuc);
+                let start = this.helperSrv.formatDateTime(i.thoiGianBatDau);
+                let end = this.helperSrv.formatDateTime(i.thoiGianKetThuc);
                 //started
                 if(start && !end){
                     let title = this.setTitleIssueStarted(i.moTa);
                     let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(), '',
                     '', i.moTa,i.nhaCungCap, {status:"started",id: 2});
-                    // console.log('stared',issue);
                     this.events.push(issue);
                 }
                 //ended
@@ -296,7 +295,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
        
     }
 
-    private setStatusEvent(event: LichTapBay) {
+    private setStatusEvent(event) {
         switch (event.status) {
             case this.statusList[0].eName:
                 event.status = this.statusList[0].name
@@ -395,59 +394,55 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         console.log('on actioc complete', args);
         switch (args.requestType) {
             case "eventChanged":
+                this.saveEvent(args.data);
                 // this.saveFlyPlan(args.data);
-                this.selectedIssueData = args;
                 break;
             case "eventCreated":
-                this.createFlyPlan(args.data);
+                console.log('eventcreate');
+                // this.createFlyPlan(args.data);
                 break;
             default:
                 break;
         }
     }
-
-    private saveFlyPlan(event) {
-        let statusEvent;
-        let lichtapbay;
-        if (!this.isStartedOrCancelledEvent(event)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
-            switch (event.status) {
-                case this.statusList[0].name:
-                    statusEvent = this.statusList[0].eName
-                    break;
-                case this.statusList[1].name:
-                    statusEvent = this.statusList[1].eName
-                    break;
-                case this.statusList[2].name:
-                    statusEvent = this.statusList[2].eName
-                    break;
-                case this.statusList[3].name:
-                    statusEvent = this.statusList[3].eName
-                    break;
-                default:
-                    break;
-            }
-            this.eventTitle = event.Subject;
-            this.eventDescription = event.description
-            console.log(this.eventDescription, event.description);
-            lichtapbay = this.createLichTapBayObject(event, statusEvent);
-            this.saveLichTapBayToServer(lichtapbay);
-            this.saveLichTapBayToLocal(lichtapbay);
+    private saveEvent(event){
+        if (this.userSrv.isUser) {
+            this.saveFlyPlan(event);
+        }
+        if (this.userSrv.isSup) {
+            console.log('eventChanged sup', event);
         }
     }
 
-    private createLichTapBayObject(event, statusEvent): any {
-        console.log('in create event', event);
+    private saveFlyPlan(event) {
+        let lichbayServer;
+        if (!this.isStartedOrCancelledEvent(event)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
+        let statusEvent =this.getEventStatusName(event.status);
+            // this.eventTitle = event.Subject;
+            // this.eventDescription = event.description
+            console.log('event lich tap bay', event);
+            lichbayServer = this.editLichTapBayObject(event, statusEvent);
+            this.saveLichTapBayToServer(lichbayServer);
+            let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
+            this.setStatusEvent(lichTapBayLocal);
+            this.removeEvent(event);
+            this.addEvent(lichTapBayLocal);
+            this.reloadDataSource();
+        }
+    }
+
+    private editLichTapBayObject(event, statusEvent): any {
         return {
             "id": event.Id,
             "nhaCungCapId": event.nhaCungCap.id,
             "nguoiDangKyId": event.nguoiDangKy.id,
             "droneDaoTaoId": event.droneDaoTao.id,
             "diaDiemBayId": event.diaDiemBay.id,
-            "thoiGianBatDau": this.formatDateTime(this.eventStartTime),
-            "thoiGianKetThuc": this.formatDateTime(this.eventEndTime),
+            "thoiGianBatDau": this.helperSrv.formatDateTime(event.StartTime),
+            "thoiGianKetThuc": this.helperSrv.formatDateTime(event.EndTime),
             "trangThai": statusEvent,
-            "ghiChu": this.eventTitle,
-            "noiDung": this.eventDescription
+            "ghiChu": event.Subject,
+            "noiDung": event.description
         }
     }
 
@@ -458,35 +453,20 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         // );
     }
 
-    private saveLichTapBayToLocal(e) {
-        console.log('save e', e)
-        let key = 'CurrentUser'
-        let currentUser = this.userSrv.getCurrentUser(key);
-        let lichTapBay = new LichTapBay(e.id, e.ghiChu,
-                        new Date(e.thoiGianBatDau),
-                        new Date(e.thoiGianKetThuc),
-                        e.noiDung, e.trangThai,
-                        currentUser,
-                        this.findNhaCungCap(e.nhaCungCapId),
-                        this.findDiaDiemBay(e.diaDiemBayId),
-                        this.findDrone(e.droneDaoTaoId))
-        console.log('save local lich bay', lichTapBay);
-        this.removeEvent(e);
-        this.addEvent(lichTapBay);
-        this.reloadDataSource();
-    }
-
-    private findDiaDiemBay(id) {
-        return this.dataSrv.getItem('placeTraning').find(pl => pl.id == id);
-    }
-
-    private findDrone(id) {
-        return this.dataSrv.getItem('droneTraning').find(dr => dr.id == id);
-    }
-
-    private findNhaCungCap(id) {
-        console.log('nha cung cap:', this.dataSrv.getItem('SupplierList'))
-        return this.dataSrv.getItem('SupplierList').find(ncc => ncc.id == id);
+    // ======================
+    private getEventStatusName(status): string {
+        switch (status) {
+            case this.statusList[0].name:
+                return this.statusList[0].eName
+            case this.statusList[1].name:
+                return this.statusList[1].eName
+            case this.statusList[2].name:
+                return this.statusList[2].eName
+            case this.statusList[3].name:
+                return this.statusList[3].eName
+            default:
+                break;
+        }
     }
 
     private addEvent(event) {
@@ -562,13 +542,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
     filterStatus() {
         // console.log('status', this.selectedStatus);
-    }
-
-    private formatDateTime(dateTime): string {
-        if (dateTime) {
-            return moment(dateTime).format("YYYY-MM-DD HH:mm:ss");
-        }
-        return null;
     }
 
     // public isIssue(event): boolean {

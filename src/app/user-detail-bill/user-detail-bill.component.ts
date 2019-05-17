@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Config } from '../services/config';
+import { Config } from '../services/helper/config';
 import {TreeViewComponent} from "@syncfusion/ej2-angular-navigations";
-import { CartRow, Item } from '../services/cart.service';
+import { CartRow, Item } from '../services/product/cart.service';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../services/product.service';
-import { DataService } from '../services/data.service';
+import { ProductService } from '../services/product/product.service';
+import { DataService } from '../services/helper/data.service';
 
 // import * as $ from 'jquery';
 

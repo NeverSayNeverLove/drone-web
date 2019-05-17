@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../services/config';
+import { Config } from '../helper/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DataService } from '../services/data.service';
+import { DataService } from '../helper/data.service';
 import { tap } from 'rxjs/operators';
 
 const httpOptions = {

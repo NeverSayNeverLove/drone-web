@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../services/config';
-import { DataService } from './data.service';
+import { Config } from '../helper/config';
+import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { DiaDiemBay } from '../services/diadiembay.service';
 
-import { User } from './user.service';
-import { DroneDaoTao } from './dronedaotao.service';
+import { DronedaotaoService, DroneDaoTao } from '../training/dronedaotao.service';
+import { DiadiembayService, DiaDiemBay } from '../training/diadiembay.service';
+import { UserService, User } from '../auth/user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,7 +23,10 @@ export class LichtapbayService {
   constructor(
     private http: HttpClient,
     private dataService: DataService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private droneSrv: DronedaotaoService,
+    private placeSrv: DiadiembayService,
+    private userSrv: UserService,
   ) { }
   
   //FETCH LỊCH TẬP BAY THEO ID
@@ -239,6 +242,22 @@ export class LichtapbayService {
 
   updateLichTapBay(lichtapbay) {
     return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
+  }
+
+  public saveLichTapBayToLocal(e): LichTapBay {
+      console.log('save e', e)
+      let key = 'CurrentUser'
+      let currentUser = this.userSrv.getCurrentUser(key);
+      let lichTapBay = new LichTapBay(e.id, e.ghiChu,
+                      new Date(e.thoiGianBatDau),
+                      new Date(e.thoiGianKetThuc),
+                      e.noiDung, e.trangThai,
+                      currentUser,
+                      this.userSrv.findNhaCungCap(e.nhaCungCapId),
+                      this.placeSrv.findDiaDiemBay(e.diaDiemBayId),
+                      this.droneSrv.findDrone(e.droneDaoTaoId))
+      console.log('save local lich bay', lichTapBay);
+      return lichTapBay;
   }
 }
 

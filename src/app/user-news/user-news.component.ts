@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 
-import { BaivietService, Post } from '../services/baiviet.service';
-import { DataService } from '../services/data.service';
-import { AuthService } from '../services/auth.service';
+import { BaivietService, Post } from '../services/forum/baiviet.service';
+import { DataService } from '../services/helper/data.service';
+import { AuthService } from '../services/auth/auth.service';
 // Pagination
-import { PagerService } from '../services/pager.service';
+import { PagerService } from '../services/helper/pager.service';
 import * as _ from 'underscore';
 
 

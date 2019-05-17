@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { BaivietService, Post } from '../services/baiviet.service';
-import { ChuyenmucService, ChuyenMuc } from '../services/chuyenmuc.service';
-import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum.service';
-import { DronedaotaoService, DroneDaoTao} from '../services/dronedaotao.service';
-import { DiadiembayService,DiaDiemBay} from '../services/diadiembay.service';
-import { LichtapbayService} from '../services/lichtapbay.service';
-import { ProductService} from '../services/product.service';
-import { DataService } from '../services/data.service';
-import { IssueService } from '../services/issue.service.service';
+import { BaivietService, Post } from '../services/forum/baiviet.service';
+import { ChuyenmucService, ChuyenMuc } from '../services/forum/chuyenmuc.service';
+import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum/forum.service';
+import { DronedaotaoService, DroneDaoTao} from '../services/training/dronedaotao.service';
+import { DiadiembayService,DiaDiemBay} from '../services/training/diadiembay.service';
+import { LichtapbayService} from '../services/event/lichtapbay.service';
+import { ProductService} from '../services/product/product.service';
+import { DataService } from '../services/helper/data.service';
+import { IssueService } from '../services/event/issue.service.service';
 
 
 @Component({
