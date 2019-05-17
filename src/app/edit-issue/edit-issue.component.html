@@ -38,14 +38,14 @@
 <form id="chooseStatus">
   <label class="radio-inline">
       <ejs-radiobutton #plannedRadio label="Planned" name="payment" value="1"
-      [disabled]="false" [(ngModel)]="statusIssueID" (change)="onChangeStatus($event)"></ejs-radiobutton>
+      [disabled]="disabledPlanned" [(ngModel)]="statusIssueID" (change)="onClickPlannedRadio($event)"></ejs-radiobutton>
   </label>    
   <label class="radio-inline">
       <ejs-radiobutton #startedRadio label="Started" name="payment" value="2"
-      [disabled]="false" [(ngModel)]="statusIssueID" (change)="onChangeStatus($event)"></ejs-radiobutton>
+      [disabled]="disabledStarted" [(ngModel)]="statusIssueID" (change)="onClickStartedRadio($event)"></ejs-radiobutton>
   </label>
   <label class="radio-inline">
       <ejs-radiobutton #endedRadio label="Ended" name="payment" value="3"
-      [disabled]="false" [(ngModel)]="statusIssueID" (change)="onChangeStatus($event)"></ejs-radiobutton>
+      [disabled]="disabledEnded" [(ngModel)]="statusIssueID" (change)="onClickEndedRadio($event)"></ejs-radiobutton>
   </label>
 </form>
