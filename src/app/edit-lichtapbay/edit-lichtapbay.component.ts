@@ -27,10 +27,6 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
     {id: 3, name: "Đang diễn ra", eName: "started"},
     {id: 4, name: "Đã hủy", eName: "cancelled"}
   ];
-  public minStart: Date = new Date(0);
-  public maxStart: Date = new Date(2019, 1, 2);
-  public minEnd: Date = new Date(0);
-  public maxEnd: Date = new Date(2019, 1, 2);
 
   // Cac thanh phan cua edit template
   @ViewChild('StartTime') startTimeElement: DateTimePicker; // thoi gian bat dau trong user-calendar
@@ -51,17 +47,17 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     // sended
-    // console.log('lich bay 2:', this.lichTapBayData);
-    this.renderLichTapBayTemplate(this.lichTapBayData);
+    this.renderLichTapBayTemplate();
   }
 
-  public renderLichTapBayTemplate(lichTapBayData) {
-    if (lichTapBayData) {
-      this.eventDescription = lichTapBayData['description'];
-      this.eventStartTime = lichTapBayData['StartTime'];
-      this.eventEndTime = lichTapBayData['EndTime'];
-      this.eventStatus = lichTapBayData['status'];
-      this.eventPlace = lichTapBayData['diaDiemBay']['diaChi'];
+  public renderLichTapBayTemplate() {
+    if (this.lichTapBayData) {
+      this.eventTitle = this.lichTapBayData['Subject'];
+      this.eventDescription = this.lichTapBayData['description'];
+      this.eventStartTime = this.lichTapBayData['StartTime'];
+      this.eventEndTime = this.lichTapBayData['EndTime'];
+      this.eventStatus = this.lichTapBayData['status'];
+      this.eventPlace = this.lichTapBayData['diaDiemBay']['diaChi'];
       this.placeNameList = this.placeSrv.getPlaceNameList();
       if (this.eventStatus == this.statusList[2].name || this.eventStatus == this.statusList[3].name) {
           this.titleElement['nativeElement']['readOnly'] = true;
@@ -69,11 +65,11 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
           this.startTimeElement.readonly = true;
           this.endTimeElement.readonly = true;
           this.placeElement.readonly = true;
-          this.minStart = new Date();
-          this.maxStart = lichTapBayData['EndTime'];
-          this.minEnd = lichTapBayData['StartTime'];
-          let day: number = 30;
-          this.maxEnd = new Date( this.maxEnd.setTime(this.maxStart.getTime() + day*24*60*60*1000) );//ngày nào cũng được
+          // this.minStart = new Date();
+          // this.maxStart = lichTapBayData['EndTime'];
+          // this.minEnd = lichTapBayData['StartTime'];
+          // let day: number = 30;
+          // this.maxEnd = new Date( this.maxEnd.setTime(this.maxStart.getTime() + day*24*60*60*1000) );//ngày nào cũng được
     
       } else {
           this.titleElement['nativeElement']['readOnly'] = false;
@@ -81,20 +77,20 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
           this.startTimeElement.readonly = false;
           this.endTimeElement.readonly = false;
           this.placeElement.readonly = false;
-          this.minStart = new Date();
-          this.maxStart = lichTapBayData['EndTime'];
-          this.minEnd = lichTapBayData['StartTime'];
-          let day: number = 30;
-          this.maxEnd = new Date( this.maxEnd.setTime(this.maxStart.getTime() + day*24*60*60*1000) );//ngày nào cũng được
+          // this.minStart = new Date();
+          // this.maxStart = lichTapBayData['EndTime'];
+          // this.minEnd = lichTapBayData['StartTime'];
+          // let day: number = 30;
+          // this.maxEnd = new Date( this.maxEnd.setTime(this.maxStart.getTime() + day*24*60*60*1000) );//ngày nào cũng được
       }
+    }
   }
-  }
-  public OnChangeStartDate() {
-    console.log('this.eventStartTime:', this.eventStartTime)
-    this.minEnd = this.eventStartTime;
-  }
-  public OnChangeEndDate() {
-    console.log('this.eventEndTime:', this.eventEndTime)
-    this.maxStart = this.eventEndTime;
-  }
+  // public OnChangeStartDate() {
+  //   console.log('this.eventStartTime:', this.eventStartTime)
+  //   this.minEnd = this.eventStartTime;
+  // }
+  // public OnChangeEndDate() {
+  //   console.log('this.eventEndTime:', this.eventEndTime)
+  //   this.maxStart = this.eventEndTime;
+  // }
 }

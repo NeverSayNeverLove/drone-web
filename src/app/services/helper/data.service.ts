@@ -14,6 +14,13 @@ export class DataService {
   currCart = this.cartSource.asObservable();
 
   constructor() { }
+    
+  public statusList: any[] = [
+    {id: 1, name: "Đang chờ", eName: "waiting"},
+    {id: 2, name: "Đã chấp nhận", eName: "accepted"},
+    {id: 3, name: "Đang diễn ra", eName: "started"},
+    {id: 4, name: "Đã hủy", eName: "cancelled"}
+  ];
   
   public storage: Map<string, any> = new Map();
 

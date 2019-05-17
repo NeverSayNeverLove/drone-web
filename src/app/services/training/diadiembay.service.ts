@@ -4,7 +4,7 @@ import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from '../auth/user.service';
+import { UserService, User } from '../auth/user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,7 +20,8 @@ export class DiadiembayService {
 
   constructor(
     private http: HttpClient,
-    private dataSrv: DataService
+    private dataSrv: DataService,
+    private userSrv: UserService,
   ) { }
    //FETCH ĐỊA ĐIỂM BAY THEO ID
    async fetchFlyPlaceById(id){

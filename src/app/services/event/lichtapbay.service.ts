@@ -22,7 +22,7 @@ export class LichtapbayService {
 
   constructor(
     private http: HttpClient,
-    private dataService: DataService,
+    private dataSrv: DataService,
     public datepipe: DatePipe,
     private droneSrv: DronedaotaoService,
     private placeSrv: DiadiembayService,
@@ -258,6 +258,34 @@ export class LichtapbayService {
                       this.droneSrv.findDrone(e.droneDaoTaoId))
       console.log('save local lich bay', lichTapBay);
       return lichTapBay;
+  }
+
+
+  public  saveLichTapBayToServer(e) {
+    this.updateLichTapBay(e).subscribe(
+        (lichtapbay) => {console.log('lich bay:', lichtapbay)},
+        (error: any) => {console.log(error)}
+    );
+  }
+
+  // check xem event co phai o trang thai Started hoac Cancelled
+  public isStartedOrCancelledEvent(status): boolean {
+      return status == this.dataSrv.statusList[2].name || status == this.dataSrv.statusList[3].name
+  }
+
+  public getLichBayStatusName(status): string {
+      switch (status) {
+          case this.dataSrv.statusList[0].name:
+              return this.dataSrv.statusList[0].eName
+          case this.dataSrv.statusList[1].name:
+              return this.dataSrv.statusList[1].eName
+          case this.dataSrv.statusList[2].name:
+              return this.dataSrv.statusList[2].eName
+          case this.dataSrv.statusList[3].name:
+              return this.dataSrv.statusList[3].eName
+          default:
+              break;
+      }
   }
 }
 

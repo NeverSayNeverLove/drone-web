@@ -6,6 +6,7 @@ import { extend } from '@syncfusion/ej2-base';
 import $ from "jquery";
 import { L10n } from '@syncfusion/ej2-base';
 
+import { EditLichtapbayComponent } from '../edit-lichtapbay/edit-lichtapbay.component'
 import { LichtapbayService, LichTapBay } from '../services/event/lichtapbay.service';
 import { DronedaotaoService, DroneDaoTao } from '../services/training/dronedaotao.service';
 import { DiadiembayService, DiaDiemBay } from '../services/training/diadiembay.service';
@@ -79,12 +80,12 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public fieldsTeacher: any;
     public placeholderTeacher: string = "Lựa chọn giáo viên";
     
-    public statusList: any[] = [
-      {id: 1, name: "Đang chờ", eName: "waiting"},
-      {id: 2, name: "Đã chấp nhận", eName: "accepted"},
-      {id: 3, name: "Đang diễn ra", eName: "started"},
-      {id: 4, name: "Đã hủy", eName: "cancelled"}
-    ];
+    // public statusList: any[] = [
+    //   {id: 1, name: "Đang chờ", eName: "waiting"},
+    //   {id: 2, name: "Đã chấp nhận", eName: "accepted"},
+    //   {id: 3, name: "Đang diễn ra", eName: "started"},
+    //   {id: 4, name: "Đã hủy", eName: "cancelled"}
+    // ];
     public fieldsStatus: any;
     public placeholderStatus: string = "Lựa chọn trạng thái";
 
@@ -95,6 +96,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     // ngModel - data binding in template event edit
     @Input() selectedLichTapBayData: any;
+    @ViewChild(EditLichtapbayComponent) editLichBay;
     // private eventDescription: string;
     // private eventStartTime: Date;
     // private eventEndTime: Date;
@@ -269,11 +271,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 this.droneList.push(drone);
             });
         });
-
-        // User or Sup
         this.dataSrv.setItem('droneTraning', this.droneList);
-              
-
     }
 
     async fetchPlace(currentUser) {
@@ -292,26 +290,24 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
         //User or Sup
         this.dataSrv.setItem('placeTraning', this.placeList)
-      
-       
     }
 
     private setStatusEvent(event) {
         switch (event.status) {
-            case this.statusList[0].eName:
-                event.status = this.statusList[0].name
+            case this.dataSrv.statusList[0].eName:
+                event.status = this.dataSrv.statusList[0].name
                 this.setStatusPlanned(event);
                 break;
-            case this.statusList[1].eName:
-                event.status = this.statusList[1].name
+            case this.dataSrv.statusList[1].eName:
+                event.status = this.dataSrv.statusList[1].name
                 this.setStatusAccepted(event);
                 break;
-            case this.statusList[2].eName:
-                event.status = this.statusList[2].name
+            case this.dataSrv.statusList[2].eName:
+                event.status = this.dataSrv.statusList[2].name
                 this.setStatusStarted(event);
                 break;
-            case this.statusList[3].eName:
-                event.status = this.statusList[3].name
+            case this.dataSrv.statusList[3].eName:
+                event.status = this.dataSrv.statusList[3].name
                 this.setStatusRejected(event);
                 break;
             default:
@@ -321,22 +317,18 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     private setStatusPlanned(event: LichTapBay) {
         event.CategoryColor = "#f57f17";
-        // event.IsReadonly = false;
     }
 
     private setStatusAccepted(event: LichTapBay) {
         event.CategoryColor = "#7fa900";
-        // event.IsReadonly = false;
     }
 
     private setStatusStarted(event: LichTapBay) {
         event.CategoryColor = "#00bdae";
-        // event.IsReadonly = true;
     }
 
     private setStatusRejected(event: LichTapBay) {
         event.CategoryColor = "#AAB7B8";
-        // event.IsReadonly = true;
     }
 
     // fetch tat ca nha cung cap
@@ -392,7 +384,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onActionComplete(args) {
-        console.log('on actioc complete', args);
         switch (args.requestType) {
             case "eventChanged":
                 this.saveEvent(args.data);
@@ -406,6 +397,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 break;
         }
     }
+
     private saveEvent(event){
         if (this.userSrv.isUser) {
             this.saveFlyPlan(event);
@@ -417,18 +409,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     private saveFlyPlan(event) {
         let lichbayServer;
-        if (!this.isStartedOrCancelledEvent(event)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
-        let statusEvent =this.getEventStatusName(event.status);
-            // this.eventTitle = event.Subject;
-            // this.eventDescription = event.description
-            console.log('event lich tap bay', event);
-            lichbayServer = this.editLichTapBayObject(event, statusEvent);
-            this.saveLichTapBayToServer(lichbayServer);
-            let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
-            this.setStatusEvent(lichTapBayLocal);
-            this.removeEvent(event);
-            this.addEvent(lichTapBayLocal);
-            this.reloadDataSource();
+        if (!this.lichbaySrv.isStartedOrCancelledEvent(event.status)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
+        let statusEvent =this.lichbaySrv.getLichBayStatusName(event.status);
+        lichbayServer = this.editLichTapBayObject(event, statusEvent);
+        this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
+        let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
+        this.setStatusEvent(lichTapBayLocal);
+        this.removeEvent(event);
+        this.addEvent(lichTapBayLocal);
+        this.reloadDataSource();
         }
     }
 
@@ -439,36 +428,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             "nguoiDangKyId": event.nguoiDangKy.id,
             "droneDaoTaoId": event.droneDaoTao.id,
             "diaDiemBayId": event.diaDiemBay.id,
-            "thoiGianBatDau": this.helperSrv.formatDateTime(event.StartTime),
-            "thoiGianKetThuc": this.helperSrv.formatDateTime(event.EndTime),
+            "thoiGianBatDau": this.helperSrv.formatDateTime(this.editLichBay.eventStartTime),
+            "thoiGianKetThuc": this.helperSrv.formatDateTime(this.editLichBay.eventEndTime),
             "trangThai": statusEvent,
             "ghiChu": event.Subject,
             "noiDung": event.description
         }
     }
 
-    private saveLichTapBayToServer(e) {
-        // this.lichbaySrv.updateLichTapBay(e).subscribe(
-        //     (lichtapbay) => {console.log('lich bay:', lichtapbay)},
-        //     (error: any) => {console.log(error)}
-        // );
-    }
-
     // ======================
-    private getEventStatusName(status): string {
-        switch (status) {
-            case this.statusList[0].name:
-                return this.statusList[0].eName
-            case this.statusList[1].name:
-                return this.statusList[1].eName
-            case this.statusList[2].name:
-                return this.statusList[2].eName
-            case this.statusList[3].name:
-                return this.statusList[3].eName
-            default:
-                break;
-        }
-    }
 
     private addEvent(event) {
         this.events.push(event)
@@ -476,7 +444,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     private removeEvent(e) {
         this.events = this.events.filter(function(event){
-            return event.Id != e.id;
+            return event.Id != e.Id;
         });
     }
 
@@ -488,25 +456,20 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         };
     }
 
-    // check xem event co phai o trang thai Started hoac Cancelled
-    private isStartedOrCancelledEvent(event): boolean {
-        return event.status == this.statusList[2].name || event.status == this.statusList[3].name
-    }
-
     private createFlyPlan(event) {
         let statusEvent
         switch (event.status) {
-            case this.statusList[0].name:
-                statusEvent = this.statusList[0].eName
+            case this.dataSrv.statusList[0].name:
+                statusEvent = this.dataSrv.statusList[0].eName
                 break;
-            case this.statusList[1].name:
-                statusEvent = this.statusList[1].eName
+            case this.dataSrv.statusList[1].name:
+                statusEvent = this.dataSrv.statusList[1].eName
                 break;
-            case this.statusList[2].name:
-                statusEvent = this.statusList[2].eName
+            case this.dataSrv.statusList[2].name:
+                statusEvent = this.dataSrv.statusList[2].eName
                 break;
-            case this.statusList[3].name:
-                statusEvent = this.statusList[3].eName
+            case this.dataSrv.statusList[3].name:
+                statusEvent = this.dataSrv.statusList[3].eName
                 break;
             default:
                 break;
