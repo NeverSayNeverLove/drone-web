@@ -1,4 +1,4 @@
-<div class="grid-container">
+ <div class="grid-container">
     <div class="header-wf-menu">
         <user-header></user-header>
     </div>
@@ -64,79 +64,6 @@
                 <e-view option="MonthAgenda"></e-view>
             </e-views>
             <ng-template #editorTemplate>
-                <!-- <table class="custom-event-editor" width="100%" cellpadding="5">
-                    <tbody>
-                        <tr *ngIf=!isIssue>
-                            <td class="e-textlabel">Tiêu đề</td>
-                            <td colspan="4">
-                                <input id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text"
-                                    name="Subject" style="width: 100%" />
-                            </td>
-                        </tr>
-                        <tr *ngIf=isIssue>
-                            <td class="e-textlabel">Tên vấn đề</td>
-                            <td colspan="4">
-                                <input id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text"
-                                    name="Subject" style="width: 100%" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="e-textlabel">Bắt đầu</td>
-                            <td colspan="4">
-                                <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime"
-                                    (ngModelChange)='OnChangeStartDate()' [(min)]="minStart" [(max)]="maxStart">
-                                </ejs-datetimepicker>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="e-textlabel">Kết thúc</td>
-                            <td colspan="4">
-                                <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime"
-                                    (ngModelChange)='OnChangeEndDate()' [(min)]="minEnd" [(max)]="maxEnd">
-                                </ejs-datetimepicker>
-                            </td>
-                        </tr>
-                        <tr *ngIf=!isIssue>
-                            <td class="e-textlabel">Trạng thái</td>
-                            <td colspan="4">
-                                <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status"
-                                    class="e-field e-input" style="width: 100%" readonly />
-                            </td>
-                        </tr>
-                        <tr *ngIf=!isIssue>
-                            <td class="e-textlabel">Địa điểm</td>
-                            <td colspan="4">
-                                <ejs-dropdownlist #EventPlace [dataSource]='placeNameList' [value]='eventPlace'
-                                    [fields]='fieldsPlace' [placeholder]='waterMark' [popupHeight]='height'>
-                                </ejs-dropdownlist>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="e-textlabel">Mô tả</td>
-                            <td colspan="4">
-                                <textarea id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input"
-                                    name="description" rows="3" cols="50"
-                                    style="width: 100%; height: 60px !important; resize: vertical"></textarea>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <p>{{statusIssueID}}</p>
-                <form *ngIf=isIssue id="chooseStatus">
-                    <label class="radio-inline">
-                        <ejs-radiobutton #plannedRadio label="Planned" name="payment" value="1"
-                        [disabled]="false" [(ngModel)]="statusIssueID" (change)="change($event)"></ejs-radiobutton>
-                    </label>    
-                    <label class="radio-inline">
-                        <ejs-radiobutton #startedRadio label="Started" name="payment" value="2"
-                        [disabled]="false" [(ngModel)]="statusIssueID" (change)="change($event)"></ejs-radiobutton>
-                    </label>
-                    <label class="radio-inline">
-                        <ejs-radiobutton #endedRadio label="Ended" name="payment" value="3"
-                        [disabled]="false" [(ngModel)]="statusIssueID" (change)="change($event)"></ejs-radiobutton>
-                    </label>
-                </form> -->
                 <!-- <edit-issue [selected]></edit-issue> -->
                 <edit-lichtapbay *ngIf="isLichTapBay" [lichTapBayData]="selectedLichTapBayData"></edit-lichtapbay>
                 <edit-issue *ngIf="isIssue" [args]="selectedIssueData"></edit-issue>

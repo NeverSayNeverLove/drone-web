@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Product, ProductService } from '../services/product.service';
-import { DataService } from '../services/data.service';
+import { Product, ProductService } from '../services/product/product.service';
+import { DataService } from '../services/helper/data.service';
 import { ActivatedRoute } from "@angular/router";
-import { Item, CartService } from '../services/cart.service';
+import { Item, CartService } from '../services/product/cart.service';
 
 @Component({
   selector: 'user-detail-product',

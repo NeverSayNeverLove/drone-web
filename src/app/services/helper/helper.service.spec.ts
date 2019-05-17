@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LichtapbayService } from './lichtapbay.service';
+import { HelperService } from './helper.service';
 
-describe('LichtapbayService', () => {
+describe('HelperService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: LichtapbayService = TestBed.get(LichtapbayService);
+    const service: HelperService = TestBed.get(HelperService);
     expect(service).toBeTruthy();
   });
 });

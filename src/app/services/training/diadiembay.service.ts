@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../services/config';
-import { DataService } from './data.service';
+import { Config } from '../helper/config';
+import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from './user.service';
+import { UserService, User } from '../auth/user.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,7 +20,8 @@ export class DiadiembayService {
 
   constructor(
     private http: HttpClient,
-    private dataSrv: DataService
+    private dataSrv: DataService,
+    private userSrv: UserService,
   ) { }
    //FETCH ĐỊA ĐIỂM BAY THEO ID
    async fetchFlyPlaceById(id){
@@ -110,6 +111,10 @@ export class DiadiembayService {
    // create a POST
    createDiadiemBay(diadiembay: DiaDiemBay): Observable<DiaDiemBay> {
     return this.http.post<DiaDiemBay>(`${Config.api_endpoint}dia-diem-bay/save`, diadiembay, httpOptions);
+  }
+
+  public findDiaDiemBay(id): DiaDiemBay {
+      return this.dataSrv.getItem('placeTraning').find(pl => pl.id == id);
   }
 
 }

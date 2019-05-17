@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
-import { Product, ProductService } from '../services/product.service';
-import { DataService } from '../services/data.service';
+import { Product, ProductService } from '../services/product/product.service';
+import { DataService } from '../services/helper/data.service';
 // Pagination
-import { PagerService } from '../services/pager.service';
+import { PagerService } from '../services/helper/pager.service';
 import * as _ from 'underscore';
 
 @Component({

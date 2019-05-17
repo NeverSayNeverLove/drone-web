@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
-import { Config } from '../../services/config';
+import { Config } from '../../services/helper/config';
 import { ToolbarComponent, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { TooltipModule, Position, TooltipComponent } from '@syncfusion/ej2-angular-popups';
 import { removeClass } from '@syncfusion/ej2-base';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
-import { Item } from 'src/app/services/cart.service';
-import { DataService } from 'src/app/services/data.service';
+import { Item } from 'src/app/services/product/cart.service';
+import { DataService } from 'src/app/services/helper/data.service';
 
 
 @Component({

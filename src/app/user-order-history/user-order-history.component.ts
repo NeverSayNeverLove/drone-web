@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Config } from '../services/config';
+import { Config } from '../services/helper/config';
 import {TreeViewComponent} from "@syncfusion/ej2-angular-navigations";
 import { enableRipple, createElement } from '@syncfusion/ej2-base';
 import { TabComponent} from '@syncfusion/ej2-angular-navigations';
 
-import { CartRow } from '../services/cart.service';
+import { CartRow } from '../services/product/cart.service';
 
 
 

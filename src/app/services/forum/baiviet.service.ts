@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../services/config';
-import { DataService } from './data.service';
+import { Config } from '../helper/config';
+import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs'; 
 

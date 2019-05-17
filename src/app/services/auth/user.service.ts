@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../services/config';
-import { DataService } from './data.service';
+import { Config } from '../helper/config';
+import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const httpOptions = {
@@ -136,6 +136,10 @@ export class UserService {
 
   public getToken(): string {
     return this.dataService.getItemLocal('token_type') + ' ' + this.dataService.getItemLocal('access_token');
+  }
+
+  public findNhaCungCap(id) {
+      return this.dataService.getItem('SupplierList').find(ncc => ncc.id == id);
   }
 }
 

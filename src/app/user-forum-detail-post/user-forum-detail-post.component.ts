@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 
 
-import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum.service';
-import { DataService } from '../services/data.service';
-import { BaivietService } from '../services/baiviet.service';
+import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum/forum.service';
+import { DataService } from '../services/helper/data.service';
+import { BaivietService } from '../services/forum/baiviet.service';
 
 
 @Component({

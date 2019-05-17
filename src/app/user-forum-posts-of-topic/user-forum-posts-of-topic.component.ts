@@ -6,9 +6,9 @@ import { PageSettingsModel, getPosition } from '@syncfusion/ej2-angular-grids';
 import { FilterSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 import { SelectionSettingsModel, RowSelectEventArgs,  GridComponent } from '@syncfusion/ej2-angular-grids';
-import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum.service';
-import { DataService } from '../services/data.service';
-import { BaivietService} from '../services/baiviet.service';
+import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum/forum.service';
+import { DataService } from '../services/helper/data.service';
+import { BaivietService} from '../services/forum/baiviet.service';
 
 
 @Component({

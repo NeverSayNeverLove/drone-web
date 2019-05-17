@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Config } from '../services/config';
+import { Config } from '../services/helper/config';
 
 @Component({
   selector: 'app-signup',
