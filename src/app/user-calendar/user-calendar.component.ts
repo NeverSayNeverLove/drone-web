@@ -149,7 +149,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         this.fieldsDrone = { text: 'tenDrone', value: 'id' };
         this.fieldsStatus = { text: 'name', value: 'id' };
         this.fieldsPlace = { text: 'diaChi', value: 'id' };
-        this.fieldsStatus = { text: 'status', value: 'id'};
+      
         
     }
 
@@ -219,21 +219,22 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 if(start && !end){
                     let title = this.setTitleIssueStarted(i.moTa);
                     let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(), '',
-                    '', i.moTa,i.nhaCungCap, {status:"started",id: 2});
+                    '', i.moTa,i.nhaCungCap, 2);
+                    // console.log('stared',issue);
                     this.events.push(issue);
                 }
                 //ended
                 if(start && end){
                     let title = this.setTitleIssueEnded(i.moTa);
                     let issue = new Issue(i.id, title, new Date(start), new Date(end), '',
-                    '', i.moTa, i.nhaCungCap, {status:"ended",id: 3});
+                    '', i.moTa, i.nhaCungCap, 3);
                     this.events.push(issue);
                 }
                 // //planed
                 if(plannedStart && plannedEnd && !start && !end){
                     let title = this.setTitleIssuePlanned(i.moTa);
                     let issue = new Issue(i.id, title, new Date(plannedStart), new Date(plannedEnd), plannedStart,
-                    plannedEnd, i.moTa, i.nhaCungCap, {status:"planned",id: 1});
+                    plannedEnd, i.moTa, i.nhaCungCap, 1);
                     this.events.push(issue);
                 }
             });
