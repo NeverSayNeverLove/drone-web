@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Config } from '../services/config';
 import { DataService } from './data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { DiaDiemBay } from '../services/diadiembay.service';
 

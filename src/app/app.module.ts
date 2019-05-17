@@ -47,6 +47,9 @@ import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
+import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { EditIssueComponent } from './edit-issue/edit-issue.component';
+import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.component';
 
 
 
@@ -77,6 +80,8 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     UserDetailBillComponent,
     UserOrderHistoryComponent,
     SupAddProductComponent,
+    EditIssueComponent,
+    EditLichtapbayComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,7 +102,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
     TreeViewModule,
     TabModule,
     DateTimePickerModule,
-
+    RadioButtonModule,
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService,
