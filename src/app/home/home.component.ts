@@ -133,8 +133,10 @@ export class HomeComponent implements OnInit {
     // let promise = this.productSrv.fetchProduct();
     // console.log (promise);
 
-    let issuePromise = this.issueSrv.fetchIssue(4);
-    console.log(issuePromise);
+    let issuePromise = this.issueSrv.fetchTypeOfIssue();
+    console.log("type_of_issue",issuePromise);
+    let typeissuePromise = this.issueSrv.fetchIssue(5);
+    console.log("issue",issuePromise);
   }
 
 
