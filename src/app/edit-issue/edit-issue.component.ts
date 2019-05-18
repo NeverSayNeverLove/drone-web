@@ -45,7 +45,7 @@ export class EditIssueComponent {
     // sended
     console.log('args: change', this.args);
     this.issueData = this.args['data'];
-    console.log("issue dataaaaaaaaa",this.issueData);
+    console.log("issue dataaaaaaaaa", this.issueData);
     this.renderIssueTemplate();
   }
 
