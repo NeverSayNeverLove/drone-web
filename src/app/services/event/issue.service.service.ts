@@ -85,6 +85,6 @@ export class Issue {
     public allDay: boolean = true,
     public IsReadonly: boolean = false,
     public typeOfEvent: string = "Issue",
-    public CategoryColor: string = "#58585a",
+    public CategoryColor: string = "#ea7a57",
   ) {}
 }

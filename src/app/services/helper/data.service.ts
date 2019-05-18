@@ -19,7 +19,8 @@ export class DataService {
     {id: 1, name: "Đang chờ", eName: "waiting"},
     {id: 2, name: "Đã chấp nhận", eName: "accepted"},
     {id: 3, name: "Đang diễn ra", eName: "started"},
-    {id: 4, name: "Đã hủy", eName: "cancelled"}
+    {id: 4, name: "Đã hủy", eName: "cancelled"},
+    {id: 5, name: "Kết thúc", eName: "ended"},
   ];
   
   public storage: Map<string, any> = new Map();

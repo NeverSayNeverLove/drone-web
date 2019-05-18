@@ -14,11 +14,8 @@ const httpOptions = {
 })
 export class UserService {
 
-  currentUser;
-
   constructor(private http: HttpClient,
     private dataService: DataService,) {
-      this.currentUser = this.dataService.getItemLocal('CurrentUser');
     }
   
   //FETCH ALL USER
@@ -115,15 +112,15 @@ export class UserService {
   }
 
   public get isSup(): boolean {
-    return this.currentUser['vai_tro_id'] == '1';
+    return this.dataService.getItemLocal('CurrentUser')['vai_tro_id'] == '1';
   }
 
   public get isUser(): boolean {
-    return this.currentUser['vai_tro_id'] == '3';
+    return this.dataService.getItemLocal('CurrentUser')['vai_tro_id'] == '3';
   }
 
   public get isAdmin(): boolean {
-    return this.currentUser['vai_tro_id'] == '2';
+    return this.dataService.getItemLocal('CurrentUser')['vai_tro_id'] == '2';
   }
 
   public getAccessToken(): string {
