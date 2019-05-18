@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ViewChild } from '@angular/core';
 import { LichtapbayService } from '../services/event/lichtapbay.service'
 import { DiadiembayService } from '../services/training/diadiembay.service';
 import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 
+import { UserService } from '../services/auth/user.service';
+import { DataService } from '../services/helper/data.service';
 
 @Component({
   selector: 'edit-lichtapbay',
@@ -17,16 +19,13 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   public eventStartTime: Date;
   public eventEndTime: Date;
   public eventStatus: string;
-  public eventPlace: string;
+  public eventPlace: number;
   public eventTitle: string;
   
-  public placeNameList;
-  public statusList: any[] = [
-    {id: 1, name: "Đang chờ", eName: "waiting"},
-    {id: 2, name: "Đã chấp nhận", eName: "accepted"},
-    {id: 3, name: "Đang diễn ra", eName: "started"},
-    {id: 4, name: "Đã hủy", eName: "cancelled"}
-  ];
+  public placeList;
+  public fieldsPlace: any;
+  
+  @Output() changedLichbay = new EventEmitter<object>();
 
   // Cac thanh phan cua edit template
   @ViewChild('StartTime') startTimeElement: DateTimePicker; // thoi gian bat dau trong user-calendar
@@ -37,51 +36,68 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
 
 
   constructor(
-    private placeSrv: DiadiembayService
+    private placeSrv: DiadiembayService,
+    private userSrv: UserService,
+    private dataSrv: DataService,
     ) { }
 
   ngOnInit() {
     //undefined
     // console.log('lich bay 1:', this.lichTapBayData);
+
   }
 
   ngOnChanges() {
     // sended
     this.renderLichTapBayTemplate();
+    // this.fieldsPlace = { text: 'diaChi', value: 'id' };
+  }
+
+  public sendChangedLichBay() {
+    this.changedLichbay.emit(this.lichTapBayData);
   }
 
   public renderLichTapBayTemplate() {
     if (this.lichTapBayData) {
+      //showUpView
       this.eventTitle = this.lichTapBayData['Subject'];
       this.eventDescription = this.lichTapBayData['description'];
       this.eventStartTime = this.lichTapBayData['StartTime'];
       this.eventEndTime = this.lichTapBayData['EndTime'];
       this.eventStatus = this.lichTapBayData['status'];
-      this.eventPlace = this.lichTapBayData['diaDiemBay']['diaChi'];
-      this.placeNameList = this.placeSrv.getPlaceNameList();
-      if (this.eventStatus == this.statusList[2].name || this.eventStatus == this.statusList[3].name) {
+      // console.log('eventPlace', this.lichTapBayData['diaDiemBay']);
+      this.eventPlace = this.lichTapBayData['diaDiemBay']['id'];
+      this.fieldsPlace = { text: 'diaChi', value: 'id' };
+      this.placeList = this.placeSrv.getPlaceList();
+      // console.log('placeNameList', this.placeNameList);
+      
+      //setTemplate
+      // NCC || Đang diễn ra, Kết thúc, Hủy của User
+      if (this.userSrv.isSup || this.eventStatus == this.dataSrv.statusList[2].name || this.eventStatus == this.dataSrv.statusList[3].name
+          || this.eventStatus == this.dataSrv.statusList[4].name) {
           this.titleElement['nativeElement']['readOnly'] = true;
           this.descriptionElement['nativeElement']['readOnly'] = true;
           this.startTimeElement.readonly = true;
           this.endTimeElement.readonly = true;
           this.placeElement.readonly = true;
-          // this.minStart = new Date();
-          // this.maxStart = lichTapBayData['EndTime'];
-          // this.minEnd = lichTapBayData['StartTime'];
-          // let day: number = 30;
-          // this.maxEnd = new Date( this.maxEnd.setTime(this.maxStart.getTime() + day*24*60*60*1000) );//ngày nào cũng được
-    
-      } else {
+      }
+     
+      //  Đang chờ của User
+      if (this.userSrv.isUser && this.eventStatus == this.dataSrv.statusList[0].name) {
           this.titleElement['nativeElement']['readOnly'] = false;
           this.descriptionElement['nativeElement']['readOnly'] = false;
           this.startTimeElement.readonly = false;
           this.endTimeElement.readonly = false;
           this.placeElement.readonly = false;
-          // this.minStart = new Date();
-          // this.maxStart = lichTapBayData['EndTime'];
-          // this.minEnd = lichTapBayData['StartTime'];
-          // let day: number = 30;
-          // this.maxEnd = new Date( this.maxEnd.setTime(this.maxStart.getTime() + day*24*60*60*1000) );//ngày nào cũng được
+      }
+      
+      //Đã chấp nhận của User
+      if (this.userSrv.isUser && this.eventStatus == this.dataSrv.statusList[1].name) {
+          this.titleElement['nativeElement']['readOnly'] = true;
+          this.descriptionElement['nativeElement']['readOnly'] = false;
+          this.startTimeElement.readonly = true;
+          this.endTimeElement.readonly = true;
+          this.placeElement.readonly = true;
       }
     }
   }
@@ -93,4 +109,16 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   //   console.log('this.eventEndTime:', this.eventEndTime)
   //   this.maxStart = this.eventEndTime;
   // }
+  public onChangePlace(event) {
+    this.lichTapBayData['diaDiemBay'] = this.placeSrv.findDiaDiemBay(event);
+    this.sendChangedLichBay();
+  }
+  public onChangeStart(event) {
+    this.lichTapBayData['StartTime'] = new Date(event);
+    this.sendChangedLichBay();
+  }
+  public onChangeEnd(event) {
+    this.lichTapBayData['EndTime'] = new Date(event);
+    this.sendChangedLichBay();
+  }
 }

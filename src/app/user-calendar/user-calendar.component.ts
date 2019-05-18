@@ -96,7 +96,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     // ngModel - data binding in template event edit
     @Input() selectedLichTapBayData: any;
-    @ViewChild(EditLichtapbayComponent) editLichBay;
+    currentLichBay: LichTapBay;
     // private eventDescription: string;
     // private eventStartTime: Date;
     // private eventEndTime: Date;
@@ -169,6 +169,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     fetchEvent(currentUser) {
         this.createLichTapBay(currentUser);
+        
         if (this.userSrv.isSup) {     
             this.createIssue(currentUser);
         }
@@ -310,25 +311,33 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 event.status = this.dataSrv.statusList[3].name
                 this.setStatusRejected(event);
                 break;
+            case this.dataSrv.statusList[4].eName:
+                event.status = this.dataSrv.statusList[4].name
+                this.setStatusEnded(event);
+                break;
             default:
                 break;
         }
     }
 
     private setStatusPlanned(event: LichTapBay) {
-        event.CategoryColor = "#f57f17";
-    }
-
-    private setStatusAccepted(event: LichTapBay) {
         event.CategoryColor = "#7fa900";
     }
 
+    private setStatusAccepted(event: LichTapBay) {
+        event.CategoryColor = "#229954";
+    }
+
     private setStatusStarted(event: LichTapBay) {
-        event.CategoryColor = "#00bdae";
+        event.CategoryColor = "#2874A6";
     }
 
     private setStatusRejected(event: LichTapBay) {
-        event.CategoryColor = "#AAB7B8";
+        event.CategoryColor = "#95A5A6";
+    }
+    
+    private setStatusEnded(event: LichTapBay) {
+        event.CategoryColor = "#154360";
     }
 
     // fetch tat ca nha cung cap
@@ -339,7 +348,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         supPromise = await this.userSrv.fetchAllSup(token)
         supPromise.forEach(supList => {
             supList['data'].forEach(sup => {
-                let newSup = new User(sup.dia_chi, sup.email, sup.ho_ten, 2, sup.so_dien_thoai,
+                let newSup = new User(sup.dia_chi, sup.email, sup.ho_ten, sup.id, sup.so_dien_thoai,
                     {id: 1, tenVaiTro: "employee"})
                     supplierList.push(newSup);
             });
@@ -375,6 +384,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                 this.isLichTapBay = true;
                 this.isIssue = false;
                 this.selectedLichTapBayData = args.data;
+                
             } else {
                 this.isIssue = true;
                 this.isLichTapBay = false;
@@ -384,6 +394,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onActionComplete(args) {
+        console.log('args:', args)
         switch (args.requestType) {
             case "eventChanged":
                 this.saveEvent(args.data);
@@ -399,6 +410,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     private saveEvent(event){
+        console.log(event);
         if (this.userSrv.isUser) {
             this.saveFlyPlan(event);
         }
@@ -408,28 +420,40 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     private saveFlyPlan(event) {
-        let lichbayServer;
         if (!this.lichbaySrv.isStartedOrCancelledEvent(event.status)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
-        let statusEvent =this.lichbaySrv.getLichBayStatusName(event.status);
-        lichbayServer = this.editLichTapBayObject(event, statusEvent);
-        this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
-        let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
-        this.setStatusEvent(lichTapBayLocal);
-        this.removeEvent(event);
-        this.addEvent(lichTapBayLocal);
-        this.reloadDataSource();
+            let statusEvent =this.lichbaySrv.getLichBayStatusName(event.status);
+            // Tạo object để lưu lên server với trạng thái = tiếng anh
+            let lichbayServer = this.createChangedLichTapBayObject(event, statusEvent);
+            this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
+            // Tạo object để lưu tại Local với trạng thái = tiếng việt
+            let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
+            this.setStatusEvent(lichTapBayLocal);
+            // remove event có cùng id nhưng sai thông tin (được add tự động)
+            this.removeLichTapBay(event);
+            // hiển thị lên giao diện event mới
+            this.addEvent(lichTapBayLocal);
+            this.reloadDataSource();
         }
     }
 
-    private editLichTapBayObject(event, statusEvent): any {
+    private createChangedLichTapBayObject(event, statusEvent): any {
+        // Có thay đổi || Không có thay đổi trên giao diện
+        // Lấy của con (current) || cha (event)
+        let diaDiemBayID = this.currentLichBay ? this.currentLichBay.diaDiemBay.id : event.diaDiemBay.id;
+        let startTime = this.currentLichBay ? this.helperSrv.formatDateTime(this.currentLichBay.StartTime) :
+            this.helperSrv.formatDateTime(event.StartTime);
+        let endTime = this.currentLichBay ? this.helperSrv.formatDateTime(this.currentLichBay.EndTime) :
+            this.helperSrv.formatDateTime(event.EndTime);
+        // Reset object Current để có thể Drop and Drag
+        this.currentLichBay = null;
         return {
             "id": event.Id,
             "nhaCungCapId": event.nhaCungCap.id,
             "nguoiDangKyId": event.nguoiDangKy.id,
             "droneDaoTaoId": event.droneDaoTao.id,
-            "diaDiemBayId": event.diaDiemBay.id,
-            "thoiGianBatDau": this.helperSrv.formatDateTime(this.editLichBay.eventStartTime),
-            "thoiGianKetThuc": this.helperSrv.formatDateTime(this.editLichBay.eventEndTime),
+            "diaDiemBayId": diaDiemBayID,
+            "thoiGianBatDau": startTime,
+            "thoiGianKetThuc": endTime,
             "trangThai": statusEvent,
             "ghiChu": event.Subject,
             "noiDung": event.description
@@ -442,9 +466,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         this.events.push(event)
     }
 
-    private removeEvent(e) {
+    private removeLichTapBay(e) {
         this.events = this.events.filter(function(event){
-            return event.Id != e.Id;
+            return  event.TypeOfEvent == 'Issue' || event.Id != e.Id
+        });
+    }
+
+    private removeIssue(e) {
+        this.events = this.events.filter(function(event){
+            return  event.TypeOfEvent == 'LichTapBay' || event.Id != e.Id
         });
     }
 
@@ -490,6 +520,10 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         //     (lichtapbay: LichTapBay) => {console.log(lichtapbay)},
         //     (error: any) => {console.log(error)}
         // );
+    }
+
+    receiveChangedLichBay(event) {
+        this.currentLichBay = event;
     }
 
     filterAll($event) {

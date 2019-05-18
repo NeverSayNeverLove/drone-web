@@ -98,14 +98,8 @@ export class DiadiembayService {
     return listPromise;
   }
 
-  getPlaceNameList() {
-    let listName = this.dataSrv.getItem('placeTraning');
-    if (listName) {
-      listName = listName.map(p => p.diaChi)
-    } else {
-      listName = []
-    }
-    return listName;
+  getPlaceList() {
+    return this.dataSrv.getItem('placeTraning');
   }
   
    // create a POST

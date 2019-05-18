@@ -245,7 +245,6 @@ export class LichtapbayService {
   }
 
   public saveLichTapBayToLocal(e): LichTapBay {
-      console.log('save e', e)
       let key = 'CurrentUser'
       let currentUser = this.userSrv.getCurrentUser(key);
       let lichTapBay = new LichTapBay(e.id, e.ghiChu,
@@ -256,12 +255,11 @@ export class LichtapbayService {
                       this.userSrv.findNhaCungCap(e.nhaCungCapId),
                       this.placeSrv.findDiaDiemBay(e.diaDiemBayId),
                       this.droneSrv.findDrone(e.droneDaoTaoId))
-      console.log('save local lich bay', lichTapBay);
       return lichTapBay;
   }
 
 
-  public  saveLichTapBayToServer(e) {
+  public saveLichTapBayToServer(e) {
     this.updateLichTapBay(e).subscribe(
         (lichtapbay) => {console.log('lich bay:', lichtapbay)},
         (error: any) => {console.log(error)}
