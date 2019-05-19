@@ -30,21 +30,25 @@ export class UserDetailProductComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.productID = params['productID'];
     });
-    this.getDetailProduct(this.productID);
-    console.log("items hiện tại: ", this.items);
-
-    this.items = this.dataSrv.getItemLocal("cartThuy");
-    console.log("items hiện tại: ", this.items);
-    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
-    console.log ("totalQuantity: ",this.totalQuantity);
+    this.initData();
 
 
   }
 
-  getDetailProduct(id: number) {
+  async initData(){
+    await this.getDetailProduct(this.productID);
+    console.log("items hiện tại: ", this.items);
+
+    this.items = await this.dataSrv.getItemLocal("cartThuy");
+    console.log("items hiện tại: ", this.items);
+    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
+    console.log ("totalQuantity: ",this.totalQuantity);
+  }
+
+  async getDetailProduct(id: number) {
     //lấy productList từ local cache
-    this.productList = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
-    this.currProduct = this.productList.find(p => p.id == this.productID);
+    this.productList = await JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
+    this.currProduct = await this.productList.find(p => p.id == this.productID);
   }
 
   minus() {
