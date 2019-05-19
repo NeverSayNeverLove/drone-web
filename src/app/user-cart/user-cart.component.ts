@@ -23,10 +23,13 @@ export class UserCartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.items = this.dataSrv.getItemLocal("cartThuy");
+   this.initData();
+  }
+
+  async initData() {
+    this.items = await this.dataSrv.getItemLocal("cartThuy");
     this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
-  
   }
 
   calculateBill() {

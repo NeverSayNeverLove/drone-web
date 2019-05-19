@@ -7,10 +7,13 @@ import { Product } from './product.service';
 export class CartService {
 
   constructor() { }
-  countTotalQuantity(items: Item[]) {
+  public countTotalQuantity(items: Item[]) {
     let totalQuantity = 0;
-    items.forEach(i => totalQuantity += i.quantity);
-    return totalQuantity;
+    if (items) {
+      items.forEach(i => totalQuantity += i.quantity);
+      return totalQuantity;
+    }
+    
   }
 }
 
