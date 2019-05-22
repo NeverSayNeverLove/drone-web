@@ -121,7 +121,7 @@ export class LichtapbayService {
       let pageSize = tmp['size'];
 
       //Fetch từ trang thứ 2
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?`+
           `page=${page}&limit=${pageSize}`+
@@ -202,7 +202,7 @@ export class LichtapbayService {
           `&ketThucSau=` + endAfter+
           `&nhaCungCapId=` + nhacungcapId, httpOptions)
           .subscribe(data => {
-            console.log('data lich bay', data)
+            // console.log('data lich bay', data)
             resolve(data);
           });
       });
@@ -212,7 +212,7 @@ export class LichtapbayService {
       let pageSize = tmp['size'];
 
       //Fetch từ trang thứ 2
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           // this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nhacungcapId}?page=${page}&limit=${pageSize}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
           this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
@@ -255,6 +255,7 @@ export class LichtapbayService {
                       currentUser,
                       this.userSrv.findNhaCungCap(e.nhaCungCapId),
                       this.placeSrv.findDiaDiemBay(e.diaDiemBayId),
+                      e.diaDiemBayId,
                       this.droneSrv.findDrone(e.droneDaoTaoId))
       return lichTapBay;
   }
@@ -313,6 +314,7 @@ export class LichTapBay {
     public nguoiDangKy: User,
     public nhaCungCap: User,
     public diaDiemBay: DiaDiemBay,
+    public diaDiemBayID: number,
     public droneDaoTao: any,
     public CategoryColor: string = "#f57f17",
     public IsReadonly: boolean = false,

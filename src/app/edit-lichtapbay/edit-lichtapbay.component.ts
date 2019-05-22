@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ViewChild } from '@angular/core';
-import { LichtapbayService } from '../services/event/lichtapbay.service'
+// import { LichtapbayService } from '../services/event/lichtapbay.service'
 import { DiadiembayService } from '../services/training/diadiembay.service';
 import { DateTimePicker } from '@syncfusion/ej2-calendars';
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
@@ -14,7 +14,7 @@ import { DataService } from '../services/helper/data.service';
 })
 export class EditLichtapbayComponent implements OnInit, OnChanges {
 
-  @Input() lichTapBayData: Object ;
+  @Input() lichTapBayData: Object;
   public eventDescription: string;
   public eventStartTime: Date;
   public eventEndTime: Date;
@@ -65,11 +65,11 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
       this.eventStartTime = this.lichTapBayData['StartTime'];
       this.eventEndTime = this.lichTapBayData['EndTime'];
       this.eventStatus = this.lichTapBayData['status'];
-      // console.log('eventPlace', this.lichTapBayData['diaDiemBay']);
       this.eventPlace = this.lichTapBayData['diaDiemBay']['id'];
       this.fieldsPlace = { text: 'diaChi', value: 'id' };
-      this.placeList = this.placeSrv.getPlaceList();
-      // console.log('placeNameList', this.placeNameList);
+      // chỉ lấy địa điểm của nhà cung cấp mà lich bay hiện tại đã đăng kí
+      console.log('renderLichTapBayTemplate', this.lichTapBayData)
+      this.placeList = this.getCurrSupPlaceList(this.lichTapBayData['nhaCungCap']['id']);
       
       //setTemplate
       // NCC || Đang diễn ra, Kết thúc, Hủy của User
@@ -101,22 +101,22 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
       }
     }
   }
-  // public OnChangeStartDate() {
-  //   console.log('this.eventStartTime:', this.eventStartTime)
-  //   this.minEnd = this.eventStartTime;
-  // }
-  // public OnChangeEndDate() {
-  //   console.log('this.eventEndTime:', this.eventEndTime)
-  //   this.maxStart = this.eventEndTime;
-  // }
+
+  // lấy danh sách địa điểm theo id nhà cung cấp.
+  private getCurrSupPlaceList(id: number) {
+    return this.placeSrv.getPlaceList().filter(e => e['nhaCungCap']['id'] == id);
+  }
+
   public onChangePlace(event) {
     this.lichTapBayData['diaDiemBay'] = this.placeSrv.findDiaDiemBay(event);
     this.sendChangedLichBay();
   }
+
   public onChangeStart(event) {
     this.lichTapBayData['StartTime'] = new Date(event);
     this.sendChangedLichBay();
   }
+
   public onChangeEnd(event) {
     this.lichTapBayData['EndTime'] = new Date(event);
     this.sendChangedLichBay();

@@ -55,7 +55,7 @@ export class DiadiembayService {
       listPromise.push(tmp);
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             console.log('List Dia_diem_bay by Nha_cung_cap_Id',data);
@@ -84,7 +84,7 @@ export class DiadiembayService {
       listPromise.push(tmp);
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}dia-diem-bay/all?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             resolve(data);

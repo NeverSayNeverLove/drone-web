@@ -38,7 +38,7 @@ export class DronedaotaoService {
       listPromise.push(tmp);
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           // fake can bo nha cung cap de lay tat ca drone
           this.http.get(`${Config.api_endpoint}drone-dao-tao/all?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
@@ -67,7 +67,7 @@ export class DronedaotaoService {
       listPromise.push(tmp);
       let pages = tmp['totalPages'];
       let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}drone-dao-tao/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
             resolve(data);

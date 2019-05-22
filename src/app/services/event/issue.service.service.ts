@@ -36,7 +36,7 @@ export class IssueService {
       issuePromise.push(tmp);
       let pages = tmp['totalPages'];
       // let pageSize = tmp['size'];
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}loi-phat-sinh/nha-cung-cap-id=${sup_Id}?page=${page}&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
             resolve(data);
