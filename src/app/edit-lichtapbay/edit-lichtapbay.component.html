@@ -12,7 +12,7 @@
             <td class="e-textlabel">Bắt đầu</td>
             <td colspan="4">
                 <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime" [max]="eventEndTime"
-                    (ngModelChange)='onChangeStart($event)' name="StartTime">
+                name="StartTime" class="e-field e-input" >
                 </ejs-datetimepicker>
             </td>
         </tr>
@@ -20,7 +20,7 @@
             <td class="e-textlabel">Kết thúc</td>
             <td colspan="4">
                 <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime" [min]="eventStartTime"
-                    (ngModelChange)='onChangeEnd($event)' name="EndTime">
+                name="EndTime" class="e-field e-input" >
                 </ejs-datetimepicker>
             </td>
         </tr>
@@ -34,8 +34,8 @@
         <tr>
             <td class="e-textlabel">Địa điểm</td>
             <td colspan="4">
-                <ejs-dropdownlist #EventPlace [dataSource]='placeList' (ngModelChange)='onChangePlace($event)'
-                    [(ngModel)]='eventPlace' [fields]='fieldsPlace' [placeholder]='waterMark' [popupHeight]='height'>
+                <ejs-dropdownlist #EventPlace [dataSource]='placeList' class="e-field e-input"
+                    name="diaDiemBayID" [(ngModel)]='eventPlace' [fields]='fieldsPlace' [placeholder]='waterMark' [popupHeight]='height'>
                 </ejs-dropdownlist>
             </td>
         </tr>

@@ -57,6 +57,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     eventSettings: EventSettingsModel;
     isIssue: boolean = false;
     isLichTapBay: boolean = false;
+    isNewLichTapBay: boolean = false;
     
     // Cac thanh phan cua edit template
     @ViewChild('StartTime') startTimeElement: DateTimePicker; // thoi gian bat dau trong user-calendar
@@ -199,7 +200,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         eventsPromise.forEach(eventList => {
             eventList['content'].forEach(e => {
                 let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
-                                            e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay, e.droneDaoTao);
+                                            e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao);
                 this.setStatusEvent(event);
   
                 this.events.push(event);
@@ -277,12 +278,13 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     async fetchPlace(currentUser) {
         let placesPromise;
-
         //User or Sup
         placesPromise = this.userSrv.isUser? await this.placeSrv.fetchAllPlace():
                         await this.placeSrv.fetchFlyPlaceByNccId(currentUser['id']);
 
+                        // console.log('places:', placesPromise)
         placesPromise.forEach(droneList => {
+            // console.log('places Promise:', droneList)
             droneList['content'].forEach(pl => {
                 let place = new DiaDiemBay(pl.diaChi, pl.id, pl.nhaCungCap);
                 this.placeList.push(place);
@@ -347,6 +349,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         let token = this.userSrv.getToken();
         supPromise = await this.userSrv.fetchAllSup(token)
         supPromise.forEach(supList => {
+            // console.log('supList', supList)
             supList['data'].forEach(sup => {
                 let newSup = new User(sup.dia_chi, sup.email, sup.ho_ten, sup.id, sup.so_dien_thoai,
                     {id: 1, tenVaiTro: "employee"})
@@ -383,26 +386,38 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             if (args.data['typeOfEvent'] == 'LichTapBay') {
                 this.isLichTapBay = true;
                 this.isIssue = false;
+                this.isNewLichTapBay = false;
                 this.selectedLichTapBayData = args.data;
                 
             } else {
                 this.isIssue = true;
                 this.isLichTapBay = false;
+                this.isNewLichTapBay = false;
                 this.selectedIssueData = args;
+            }
+        }
+        if (args.type == 'Editor' && !args.data['Id']) {
+            if (this.userSrv.isUser) {
+                console.log('hereeee')
+                this.isNewLichTapBay = true;
+                this.isLichTapBay = false;
+                this.isIssue = false;
+            } else {
+                this.isNewLichTapBay = false;
+                this.isLichTapBay = false;
+                this.isIssue = false;
             }
         }
     }
 
     public onActionComplete(args) {
-        console.log('args:', args)
         switch (args.requestType) {
             case "eventChanged":
+                console.log('eventChanged:', args)
                 this.saveEvent(args.data);
-                // this.saveFlyPlan(args.data);
                 break;
             case "eventCreated":
-                console.log('eventcreate');
-                // this.createFlyPlan(args.data);
+                console.log('eventcreate', args);
                 break;
             default:
                 break;
@@ -410,7 +425,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     private saveEvent(event){
-        console.log(event);
+        // console.log(event);
         if (this.userSrv.isUser) {
             this.saveFlyPlan(event);
         }
@@ -424,6 +439,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
             let statusEvent =this.lichbaySrv.getLichBayStatusName(event.status);
             // Tạo object để lưu lên server với trạng thái = tiếng anh
             let lichbayServer = this.createChangedLichTapBayObject(event, statusEvent);
+            // console.log('lichbayServer', lichbayServer);
             this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
             // Tạo object để lưu tại Local với trạng thái = tiếng việt
             let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
@@ -439,13 +455,19 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     private createChangedLichTapBayObject(event, statusEvent): any {
         // Có thay đổi || Không có thay đổi trên giao diện
         // Lấy của con (current) || cha (event)
-        let diaDiemBayID = this.currentLichBay ? this.currentLichBay.diaDiemBay.id : event.diaDiemBay.id;
-        let startTime = this.currentLichBay ? this.helperSrv.formatDateTime(this.currentLichBay.StartTime) :
-            this.helperSrv.formatDateTime(event.StartTime);
-        let endTime = this.currentLichBay ? this.helperSrv.formatDateTime(this.currentLichBay.EndTime) :
-            this.helperSrv.formatDateTime(event.EndTime);
+        // console.log('this is currentLichBay', this.currentLichBay)
+        // console.log('this is event', event)
+        let diaDiemBayID = event.diaDiemBayID;
+        // this.currentLichBay ? this.currentLichBay.diaDiemBay.id : event.diaDiemBay.id;
+        let startTime = this.helperSrv.formatDateTime(event.StartTime);
+        // this.currentLichBay ? this.helperSrv.formatDateTime(this.currentLichBay.StartTime) :
+        //     this.helperSrv.formatDateTime(event.StartTime);
+        let endTime = this.helperSrv.formatDateTime(event.EndTime);
+        // this.currentLichBay ? this.helperSrv.formatDateTime(this.currentLichBay.EndTime) :
+        //     this.helperSrv.formatDateTime(event.EndTime);
         // Reset object Current để có thể Drop and Drag
-        this.currentLichBay = null;
+
+        // this.currentLichBay = null;
         return {
             "id": event.Id,
             "nhaCungCapId": event.nhaCungCap.id,
@@ -464,6 +486,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     private addEvent(event) {
         this.events.push(event)
+        // console.log('this events',this.events)
     }
 
     private removeLichTapBay(e) {
@@ -522,7 +545,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         // );
     }
 
-    receiveChangedLichBay(event) {
+    receiveNewLichBay(event) {
         this.currentLichBay = event;
     }
 

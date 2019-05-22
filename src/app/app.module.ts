@@ -50,6 +50,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { EditIssueComponent } from './edit-issue/edit-issue.component';
 import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.component';
+import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.component';
 
 
 
@@ -82,6 +83,7 @@ import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.compo
     SupAddProductComponent,
     EditIssueComponent,
     EditLichtapbayComponent,
+    NewLichtapbayComponent,
   ],
   imports: [
     BrowserModule,

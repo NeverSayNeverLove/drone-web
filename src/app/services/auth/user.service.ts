@@ -67,8 +67,8 @@ export class UserService {
       let total = tmp['data']['total'];
       let pageSize = tmp['data']['pageSize'];
       let pages = Math.ceil(total / pageSize);
-      console.log('tmp:--', tmp, total, pageSize, pages)
-      for (let page = 2; page <= pages; page++) {
+      // console.log('tmp:--', tmp, total, pageSize, pages)
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint_khai}userssup/page=${page}&limit=${pageSize}`, httpHeader).subscribe(data => {
             resolve(data);
