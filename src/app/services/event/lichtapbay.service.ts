@@ -236,12 +236,16 @@ export class LichtapbayService {
     return listPromise;
   }
 
-  createLichTapBay(lichtapbay) {
+  public createLichTapBay(lichtapbay) {
     return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
   }
 
-  updateLichTapBay(lichtapbay) {
+  public updateLichTapBay(lichtapbay) {
     return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
+  }
+
+  public deleteLichTapBayToServer(id) {
+    return this.http.delete(`${Config.api_endpoint}lich-tap-bay/delete/${id}`);
   }
 
   public saveLichTapBayToLocal(e): LichTapBay {
