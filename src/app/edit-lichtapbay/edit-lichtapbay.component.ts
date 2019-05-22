@@ -68,7 +68,7 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
       this.eventPlace = this.lichTapBayData['diaDiemBay']['id'];
       this.fieldsPlace = { text: 'diaChi', value: 'id' };
       // chỉ lấy địa điểm của nhà cung cấp mà lich bay hiện tại đã đăng kí
-      console.log('renderLichTapBayTemplate', this.lichTapBayData)
+      // console.log('renderLichTapBayTemplate', this.lichTapBayData)
       this.placeList = this.getCurrSupPlaceList(this.lichTapBayData['nhaCungCap']['id']);
       
       //setTemplate
@@ -105,20 +105,5 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   // lấy danh sách địa điểm theo id nhà cung cấp.
   private getCurrSupPlaceList(id: number) {
     return this.placeSrv.getPlaceList().filter(e => e['nhaCungCap']['id'] == id);
-  }
-
-  public onChangePlace(event) {
-    this.lichTapBayData['diaDiemBay'] = this.placeSrv.findDiaDiemBay(event);
-    this.sendChangedLichBay();
-  }
-
-  public onChangeStart(event) {
-    this.lichTapBayData['StartTime'] = new Date(event);
-    this.sendChangedLichBay();
-  }
-
-  public onChangeEnd(event) {
-    this.lichTapBayData['EndTime'] = new Date(event);
-    this.sendChangedLichBay();
   }
 }

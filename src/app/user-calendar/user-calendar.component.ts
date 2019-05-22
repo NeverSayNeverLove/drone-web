@@ -382,7 +382,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onPopupOpen(args: PopupOpenEventArgs): void {
-        // console.log(args)
         if (args.type == 'Editor' && args.data['Id']) {
             if (args.data['typeOfEvent'] == 'LichTapBay') {
                 this.isLichTapBay = true;
@@ -399,6 +398,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         }
         if (args.type == 'Editor' && !args.data['Id']) {
             if (this.userSrv.isUser) {
+                console.log('hereeee')
                 this.isNewLichTapBay = true;
                 this.isLichTapBay = false;
                 this.isIssue = false;
@@ -411,13 +411,13 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     public onActionComplete(args) {
-        console.log('args:', args)
         switch (args.requestType) {
             case "eventChanged":
+                console.log('eventChanged:', args)
                 this.saveEvent(args.data);
                 break;
             case "eventCreated":
-                console.log('eventcreate');
+                console.log('eventcreate', args);
                 break;
             default:
                 break;
@@ -543,10 +543,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         //     (lichtapbay: LichTapBay) => {console.log(lichtapbay)},
         //     (error: any) => {console.log(error)}
         // );
-    }
-
-    receiveChangedLichBay(event) {
-        this.currentLichBay = event;
     }
 
     receiveNewLichBay(event) {

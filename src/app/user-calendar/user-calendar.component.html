@@ -65,8 +65,7 @@
             </e-views>
             <ng-template #editorTemplate>
                 <!-- <edit-issue [selected]></edit-issue> -->
-                <edit-lichtapbay *ngIf="isLichTapBay" (changedLichbay)="receiveChangedLichBay($event)"
-                    [lichTapBayData]="selectedLichTapBayData"></edit-lichtapbay>
+                <edit-lichtapbay *ngIf="isLichTapBay" [lichTapBayData]="selectedLichTapBayData"></edit-lichtapbay>
                 <new-lichtapbay *ngIf="isNewLichTapBay" (createLichbay)="receiveNewLichBay($event)" ></new-lichtapbay>
                 <edit-issue *ngIf="isIssue" [args]="selectedIssueData"></edit-issue>
             </ng-template>
