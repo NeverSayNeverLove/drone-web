@@ -24,6 +24,12 @@ L10n.load({
             'saveButton': 'Lưu',
             'cancelButton': 'Đóng',
             'deleteButton': 'Xóa',
+            'confirmDelete': 'Xác nhận xóa',
+            'delete': 'Xóa',
+            "deleteContent": "Bạn chắc chắn muốn xóa sự kiện này?",
+            "deleteEvent": "Xóa sự kiện",
+            'cancel': 'Đóng',
+            "close": "Đóng",
             'newEvent': 'Đăng kí lịch',
             'day': 'Ngày',
             'week': 'Tuần',
@@ -398,7 +404,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         }
         if (args.type == 'Editor' && !args.data['Id']) {
             if (this.userSrv.isUser) {
-                console.log('hereeee', args.data)
                 this.isNewLichTapBay = true;
                 this.isLichTapBay = false;
                 this.isIssue = false;
@@ -414,11 +419,15 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         switch (args.requestType) {
             case "eventChanged":
                 console.log('eventChanged:', args)
-                this.saveEvent(args.data);
+                this.saveFlyPlant(args.data);
                 break;
             case "eventCreated":
                 console.log('eventcreate', args);
-                this.createEvent(args.data);
+                this.createFlyPlan(args.data);
+                break;
+            case "eventRemoved":
+                console.log('eventRemoved', args);
+                this.deleteFlyPlan(args.data);
                 break;
             default:
                 break;
@@ -426,7 +435,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
 
     //#region edit LichTapBay
-    private saveEvent(event){
+    private saveFlyPlant(event){
         if (this.userSrv.isUser) {
             this.saveChangedFlyPlan(event);
         }
@@ -472,7 +481,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     //#endregion
 
     //#region Create LichTapBay
-    private createEvent(event) {
+    private createFlyPlan(event) {
         if (this.userSrv.isUser) {
             this.createNewFlyPlan(event);
         }
@@ -507,11 +516,18 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     }
     //#endregion
 
+    //#region Delete LichTapBay
+    private deleteFlyPlan(events) {
+        events.forEach(event => {
+            this.lichbaySrv.deleteLichTapBayToServer(event.Id).subscribe(e => console.log(e));
+        });
+    }
+    //#endregion
+
     // ======================
 
     private addEvent(event) {
         this.events.push(event)
-        // console.log('this events',this.events)
     }
 
     private removeLichTapBay(e) {
