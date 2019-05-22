@@ -20,6 +20,8 @@ const httpOptions = {
 })
 export class LichtapbayService {
 
+  newLichBay;
+
   constructor(
     private http: HttpClient,
     private dataSrv: DataService,
@@ -190,7 +192,6 @@ export class LichtapbayService {
 
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        // this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?page=1&limit=${Config.pageSizeMax}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
         this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
           `page=1&limit=${Config.pageSizeMax}`+
           `&droneId=` + droneId+
@@ -202,7 +203,6 @@ export class LichtapbayService {
           `&ketThucSau=` + endAfter+
           `&nhaCungCapId=` + nhacungcapId, httpOptions)
           .subscribe(data => {
-            // console.log('data lich bay', data)
             resolve(data);
           });
       });
@@ -214,7 +214,6 @@ export class LichtapbayService {
       //Fetch từ trang thứ 2
       for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          // this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nhacungcapId}?page=${page}&limit=${pageSize}&droneId=&diaDiemId=&trangThai=&batDauTruoc=${batDauDen}&batDauSau=${batDauTu}&ketThucTruoc=&ketThucSau=&nhaCungCapId=${nhacungcapId}`, httpOptions)
           this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
           `page=${page}&limit=${pageSize}`+
           `&droneId=` + droneId+
@@ -246,27 +245,44 @@ export class LichtapbayService {
   }
 
   public saveLichTapBayToLocal(e): LichTapBay {
-      let key = 'CurrentUser'
-      let currentUser = this.userSrv.getCurrentUser(key);
+      let currentUser = this.userSrv.getCurrentUser('CurrentUser');
       let lichTapBay = new LichTapBay(e.id, e.ghiChu,
                       new Date(e.thoiGianBatDau),
                       new Date(e.thoiGianKetThuc),
                       e.noiDung, e.trangThai,
                       currentUser,
                       this.userSrv.findNhaCungCap(e.nhaCungCapId),
+                      e.nhaCungCapId,
                       this.placeSrv.findDiaDiemBay(e.diaDiemBayId),
                       e.diaDiemBayId,
-                      this.droneSrv.findDrone(e.droneDaoTaoId))
+                      this.droneSrv.findDrone(e.droneDaoTaoId),
+                      e.droneDaoTaoId)
       return lichTapBay;
   }
 
 
   public saveLichTapBayToServer(e) {
     this.updateLichTapBay(e).subscribe(
-        (lichtapbay) => {console.log('lich bay:', lichtapbay)},
+        (lichtapbay) => {console.log('lich bay:', lichtapbay);},
         (error: any) => {console.log(error)}
     );
   }
+
+  public createNewLichTapBayToLocal(e): LichTapBay {
+    let currentUser = this.userSrv.getCurrentUser('CurrentUser');
+    let lichTapBay = new LichTapBay(e.Id, e.Subject,
+                    new Date(e.StartTime),
+                    new Date(e.EndTime),
+                    e.description, this.dataSrv.statusList[0].name,
+                    currentUser,
+                    this.userSrv.findNhaCungCap(e.nhaCungCapID),
+                    e.nhaCungCapID,
+                    this.placeSrv.findDiaDiemBay(e.diaDiemBayID),
+                    e.diaDiemBayID,
+                    this.droneSrv.findDrone(e.droneDaoTaoID),
+                    e.droneDaoTaoID)
+    return lichTapBay;
+}
 
   // check xem event co phai o trang thai Started hoac Cancelled
   public isStartedOrCancelledEvent(status): boolean {
@@ -292,12 +308,8 @@ export class LichtapbayService {
 
 export class LichTapBay {
 
-  private _DroneName: string;
   public get DroneName(): string {
-    return this._DroneName;
-  }
-  public set DroneName(value: string) {
-    this._DroneName = value;
+    return this.droneDaoTao.tenDrone;
   }
 
   public get PlaceName(): string {
@@ -313,10 +325,12 @@ export class LichTapBay {
     public status: string = "1",
     public nguoiDangKy: User,
     public nhaCungCap: User,
+    public nhaCungCapID: number,
     public diaDiemBay: DiaDiemBay,
     public diaDiemBayID: number,
-    public droneDaoTao: any,
-    public CategoryColor: string = "#f57f17",
+    public droneDaoTao: DroneDaoTao,
+    public droneDaoTaoID: number,
+    public CategoryColor: string = "#7fa900",
     public IsReadonly: boolean = false,
     public IsAllDay: boolean = false,
     public typeOfEvent: string = "LichTapBay",

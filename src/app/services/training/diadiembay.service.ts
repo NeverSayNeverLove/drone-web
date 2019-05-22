@@ -98,8 +98,12 @@ export class DiadiembayService {
     return listPromise;
   }
 
-  getPlaceList() {
+  public getPlaceList() {
     return this.dataSrv.getItem('placeTraning');
+  }
+
+  public getPlaceListByIDNCC(id) {
+    return this.dataSrv.getItem('placeTraning').filter(e => e.nhaCungCap.id == id);
   }
   
    // create a POST

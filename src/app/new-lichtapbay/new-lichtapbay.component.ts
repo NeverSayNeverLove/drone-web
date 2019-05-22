@@ -3,6 +3,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DiadiembayService } from '../services/training/diadiembay.service';
 import { LichTapBay } from '../services/event/lichtapbay.service';
 import { DataService } from '../services/helper/data.service';
+import { UserService, User } from '../services/auth/user.service';
+import { DronedaotaoService, DroneDaoTao } from '../services/training/dronedaotao.service';
 
 @Component({
   selector: 'new-lichtapbay',
@@ -17,37 +19,47 @@ export class NewLichtapbayComponent implements OnInit {
   public eventStatus: string;
   public eventPlace: number;
   public eventTitle: string;
+  public eventSup: number;
+  public eventDrone: number;
+
+  public fieldsSup: any;
+  public supList;
 
   public placeList;
   public fieldsPlace: any;
 
+  public fieldsDrone: any;
+  public droneList;
+
   newLichBay: LichTapBay;
 
-  @Output() createLichbay = new EventEmitter<object>();
+  // @Output() createLichbay = new EventEmitter<object>();
 
   constructor(
     private placeSrv: DiadiembayService,
-    private dataSrv: DataService,) { }
+    private dataSrv: DataService,
+    private userSrv: UserService,
+    private droneSrv: DronedaotaoService,) { }
 
   ngOnInit() {
-    console.log('on init')
     this.renderLichTapBayTemplate();
   }
 
-  ngOnChanges() {
-    console.log('on changes')
-    // this.renderLichTapBayTemplate();
-  }
-
-  public sendChangedLichBay() {
-    this.createLichbay.emit(this.newLichBay);
-  }
-
   private renderLichTapBayTemplate() {
+    this.placeList = [];
+    this.droneList = []
     this.eventStatus = this.dataSrv.statusList[0].name;
-    console.log(this.eventStatus)
+    this.fieldsSup = { text: 'hoTen', value: 'id' };
+    this.supList = this.userSrv.getSupList();
+
     this.fieldsPlace = { text: 'diaChi', value: 'id' };
-    this.placeList = this.placeSrv.getPlaceList();
-    // console.log('this is placeList', this.placeList)
+    this.fieldsDrone = { text: 'tenDrone', value: 'id' };
+  }
+
+  public onSelectedSup(event) {
+    this.placeList = [];
+    this.placeList = this.placeSrv.getPlaceListByIDNCC(event);
+    this.droneList = []
+    this.droneList = this.droneSrv.getDroneListByIDNCC(event);
   }
 }

@@ -101,7 +101,6 @@ export class UserService {
     return listPromise
   }
   
-  
   getCurrentUser(key) {
     let user: User = this.dataService.getItemLocal(key);
     return user;
@@ -137,6 +136,10 @@ export class UserService {
 
   public findNhaCungCap(id) {
       return this.dataService.getItem('SupplierList').find(ncc => ncc.id == id);
+  }
+
+  public getSupList() {
+    return this.dataService.getItem('SupplierList');
   }
 }
 

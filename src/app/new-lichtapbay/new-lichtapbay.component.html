@@ -31,10 +31,26 @@
           </td>
       </tr>
       <tr>
+          <td class="e-textlabel">Nhà cung cấp</td>
+          <td colspan="4">
+              <ejs-dropdownlist #EventSup [dataSource]='supList' [(ngModel)]='eventSup' (ngModelChange)='onSelectedSup($event)'
+                [fields]='fieldsSup' [popupHeight]='height' class="e-field e-input" name="nhaCungCapID">
+              </ejs-dropdownlist>
+          </td>
+      </tr>
+      <tr>
           <td class="e-textlabel">Địa điểm</td>
           <td colspan="4">
-              <ejs-dropdownlist #EventPlace [dataSource]='placeList' [(ngModel)]='eventPlace' 
-                [fields]='fieldsPlace' [popupHeight]='height' class="e-field e-input">
+              <ejs-dropdownlist #EventPlace [dataSource]='placeList' [(ngModel)]='eventPlace'
+                [fields]='fieldsPlace' [popupHeight]='height' class="e-field e-input" name="diaDiemBayID">
+              </ejs-dropdownlist>
+          </td>
+      </tr>
+      <tr>
+          <td class="e-textlabel">Drone</td>
+          <td colspan="4">
+              <ejs-dropdownlist #EventDrone [dataSource]='droneList' [(ngModel)]='eventDrone'
+                [fields]='fieldsDrone' [popupHeight]='height' class="e-field e-input" name="droneDaoTaoID">
               </ejs-dropdownlist>
           </td>
       </tr>
