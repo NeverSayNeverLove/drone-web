@@ -106,6 +106,10 @@ export class DronedaotaoService {
       return this.dataSrv.getItem('droneTraning').find(dr => dr.id == id);
   }
 
+  public getDroneListByIDNCC(id) {
+    return this.dataSrv.getItem('droneTraning').filter(e => e.nhaCungCap.id == id);
+  }
+
 }
 export class DroneDaoTao {
   constructor(
