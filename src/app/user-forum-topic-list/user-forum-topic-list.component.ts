@@ -19,7 +19,7 @@ import { UserForumShareComponent} from '../user-forum-share/user-forum-share.com
   encapsulation: ViewEncapsulation.None
 
 })
-export class UserForumTopicListComponent implements OnInit, AfterViewInit {
+export class UserForumTopicListComponent implements OnInit {
   public topicList: Array<TopicTableRow> = [];
   public data_topicsList: Object[];
 
@@ -51,12 +51,13 @@ export class UserForumTopicListComponent implements OnInit, AfterViewInit {
 
     // this.initData();
   }
-  ngAfterViewInit() {
+  ngOnChanges(){
     console.log ('forumChild topicList:', this.forumChild.topicList);
     this.topicList = this.forumChild.topicList;
     this.data_topicsList = this.topicList;
     // this.initData();
     // this.grid.refresh();
+    
   }
 
   add() {

@@ -202,6 +202,7 @@ export class LichtapbayService {
           `&ketThucSau=` + endAfter+
           `&nhaCungCapId=` + nhacungcapId, httpOptions)
           .subscribe(data => {
+            console.log('data lich bay', data)
             resolve(data);
           });
       });

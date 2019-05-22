@@ -47,30 +47,38 @@ export class UserForumShareComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.loggedIn = this.authSrv.loggedIn;
     this.initData();
-    this.sendMessage();
     this.initilaizeTarget();
+    // this.sendMessage();
+console.log('init');
   }
   ngOnChanges() {
+console.log('change');
+    // this.loggedIn = this.authSrv.loggedIn;
+    // this.initData();
     this.sendMessage();
+    // this.initilaizeTarget();
   }
   sendMessage() {
     this.messageEvent.emit(this.topicList);
+    console.log('messageEvent', this.topicList);
   }
 
   async initData() {
     await this.getTopic();
     this.data_topicsList = this.topicList;
+    this.sendMessage();
+    console.log('share topic list', this.data_topicsList);
   }
   async getTopic() {
     let topicPromise = await this.forumSrv.fetchChudeForum();
     let postPromise = await this.forumSrv.fetchCauhoiForum();
-    console.log('postPromise',postPromise);
-    topicPromise.forEach(t => {      
+    topicPromise.forEach(t => {    
       let topicTr: TopicTableRow = new TopicTableRow();
       topicTr.id = t.id;
       topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
       this.topicList.push(topicTr);
-    });
+    }); 
+    // console.log('this.topicList',this.topicList); 
     this.topicList.forEach(t => {
        postPromise.forEach(postPage =>{
          postPage.content.forEach(post =>{
@@ -80,7 +88,7 @@ export class UserForumShareComponent implements OnInit, OnChanges {
          });
        }); 
     });
-    console.log('topicList',this.topicList);
+    // console.log('topicList',this.topicList);
     this.baivietSrv.setPost(this.topicList,"locPostList"); 
   } 
  
