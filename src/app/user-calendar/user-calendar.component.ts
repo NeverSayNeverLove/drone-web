@@ -48,7 +48,8 @@ L10n.load({
 @Component({
   selector: 'app-user-calendar',
   templateUrl: './user-calendar.component.html',
-  styleUrls: ['./user-calendar.component.scss']
+  styleUrls: ['./user-calendar.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserCalendarComponent implements OnInit {
     @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent;

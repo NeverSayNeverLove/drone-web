@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -19,7 +19,7 @@ import { UserForumShareComponent} from '../user-forum-share/user-forum-share.com
   encapsulation: ViewEncapsulation.None
 
 })
-export class UserForumTopicListComponent implements OnInit {
+export class UserForumTopicListComponent implements OnInit, OnChanges{
   public topicList: Array<TopicTableRow> = [];
   public data_topicsList: Object[];
 
@@ -49,13 +49,13 @@ export class UserForumTopicListComponent implements OnInit {
     this.topicList = this.forumChild.topicList;
     this.data_topicsList = this.topicList;
 
-    // this.initData();
+    this.initData();
   }
   ngOnChanges(){
     console.log ('forumChild topicList:', this.forumChild.topicList);
     this.topicList = this.forumChild.topicList;
     this.data_topicsList = this.topicList;
-    // this.initData();
+    this.initData();
     // this.grid.refresh();
     
   }
@@ -68,33 +68,33 @@ export class UserForumTopicListComponent implements OnInit {
     this.topicList = $event;
   }
 
-  // async initData() {
-  //   await this.getTopic();
-  //   this.data_topicsList = this.topicList;
-  // }
+  async initData() {
+    await this.getTopic();
+    this.data_topicsList = this.topicList;
+  }
 
-  // async getTopic() {
-  //   let topicPromise = await this.forumSrv.fetchChudeForum();
-  //   let postPromise = await this.forumSrv.fetchCauhoiForum();
-  //   console.log('postPromise',postPromise);
-  //   topicPromise.forEach(t => {      
-  //     let topicTr: TopicTableRow = new TopicTableRow();
-  //     topicTr.id = t.id;
-  //     topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
-  //     this.topicList.push(topicTr);
-  //   });
-  //   this.topicList.forEach(t => {
-  //      postPromise.forEach(postPage =>{
-  //        postPage.content.forEach(post =>{
-  //           if(post.chuDe.id === t.id){
-  //             t.numOfPost ++;
-  //           }
-  //        });
-  //      }); 
-  //   });
-  //   console.log('topicList',this.topicList);
-  //   this.baivietSrv.setPost(this.topicList,"locPostList"); 
-  // } 
+  async getTopic() {
+    let topicPromise = await this.forumSrv.fetchChudeForum();
+    let postPromise = await this.forumSrv.fetchCauhoiForum();
+    console.log('postPromise',postPromise);
+    topicPromise.forEach(t => {      
+      let topicTr: TopicTableRow = new TopicTableRow();
+      topicTr.id = t.id;
+      topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
+      this.topicList.push(topicTr);
+    });
+    this.topicList.forEach(t => {
+       postPromise.forEach(postPage =>{
+         postPage.content.forEach(post =>{
+            if(post.chuDe.id === t.id){
+              t.numOfPost ++;
+            }
+         });
+       }); 
+    });
+    console.log('topicList',this.topicList);
+    this.baivietSrv.setPost(this.topicList,"locPostList"); 
+  } 
 
   rowSelected(args: RowSelectEventArgs) {
     // Get the selected records (selected row object).
