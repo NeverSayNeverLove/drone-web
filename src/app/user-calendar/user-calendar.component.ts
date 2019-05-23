@@ -1,6 +1,10 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild, OnChanges, Input } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { DropDownList } from '@syncfusion/ej2-dropdowns';
 import { DateTimePicker } from '@syncfusion/ej2-calendars';
+import { RadioButtonComponent } from '@syncfusion/ej2-angular-buttons';
+import { createSpinner, showSpinner, hideSpinner } from '@syncfusion/ej2-angular-popups';
 import { ScheduleComponent, EventSettingsModel, View, EventRenderedArgs, WorkHoursModel, PopupOpenEventArgs } from '@syncfusion/ej2-angular-schedule';
 import { extend } from '@syncfusion/ej2-base';
 import $ from "jquery";
@@ -14,9 +18,7 @@ import { UserService, User } from '../services/auth/user.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DataService } from '../services/helper/data.service';
 import { HelperService } from '../services/helper/helper.service'
-import { Router } from '@angular/router';
 import { Issue, IssueService } from '../services/event/issue.service.service';
-import { RadioButtonComponent } from '@syncfusion/ej2-angular-buttons';
 
 L10n.load({
     'en-US': {
@@ -47,7 +49,7 @@ L10n.load({
   templateUrl: './user-calendar.component.html',
   styleUrls: ['./user-calendar.component.scss']
 })
-export class UserCalendarComponent implements OnInit, OnChanges {
+export class UserCalendarComponent implements OnInit {
     @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent;
     public selectedDate: Date = new Date();
     public scheduleView: View = 'Month';
@@ -64,7 +66,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     isIssue: boolean = false;
     isLichTapBay: boolean = false;
     isNewLichTapBay: boolean = false;
-    
+    loadingData: boolean = true;
     // Cac thanh phan cua edit template
     @ViewChild('StartTime') startTimeElement: DateTimePicker; // thoi gian bat dau trong user-calendar
     @ViewChild('EndTime') endTimeElement: DateTimePicker;// thoi gian ket thuc trong user-calendar
@@ -87,12 +89,6 @@ export class UserCalendarComponent implements OnInit, OnChanges {
     public fieldsTeacher: any;
     public placeholderTeacher: string = "Lựa chọn giáo viên";
     
-    // public statusList: any[] = [
-    //   {id: 1, name: "Đang chờ", eName: "waiting"},
-    //   {id: 2, name: "Đã chấp nhận", eName: "accepted"},
-    //   {id: 3, name: "Đang diễn ra", eName: "started"},
-    //   {id: 4, name: "Đã hủy", eName: "cancelled"}
-    // ];
     public fieldsStatus: any;
     public placeholderStatus: string = "Lựa chọn trạng thái";
 
@@ -141,9 +137,21 @@ export class UserCalendarComponent implements OnInit, OnChanges {
 
     }
 
-    ngOnChanges() {
-        console.log('ok')
-    }
+    // ngAfterViewInit() {
+    //     //createSpinner() method is used to create spinner
+    //     createSpinner({
+    //       // Specify the target for the spinner to show
+    //       target: document.getElementById('container')
+    //     });
+    
+    //     // showSpinner() will make the spinner visible
+    //     showSpinner(document.getElementById('container'));
+    
+    //     setInterval(function(){
+    //       // hideSpinner() method used hide spinner
+    //       hideSpinner(document.getElementById('container'));
+    //     }, 100000);
+    // }
 
     ngOnDestroy(): void {
         console.log(this.dataSrv.getItem('placeTraning'));
@@ -171,6 +179,8 @@ export class UserCalendarComponent implements OnInit, OnChanges {
         this.fetchPlace(currentUser);
         if (this.userSrv.isUser) { // neu la user thi ms fetch nha cung cap
             this.fetchAllSup();
+        } else {
+            this.loadingData = false;
         }
     }
 
@@ -361,6 +371,7 @@ export class UserCalendarComponent implements OnInit, OnChanges {
                     {id: 1, tenVaiTro: "employee"})
                     supplierList.push(newSup);
             });
+            this.loadingData = false;
             this.dataSrv.setItem('SupplierList', supplierList);
         });
     }
