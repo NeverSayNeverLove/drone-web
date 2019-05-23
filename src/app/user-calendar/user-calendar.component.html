@@ -15,7 +15,7 @@
                     <ng-template #content>
                         <ejs-multiselect id='drone-list' [dataSource]='droneList' [mode]='default'
                             [fields]='fieldsDrone' [(ngModel)]="selectedDrone" [placeholder]='placeholderDrone'
-                            (ngModelChange)="filterAll($event)"></ejs-multiselect>
+                            (ngModelChange)="filterAll()"></ejs-multiselect>
                     </ng-template>
                 </e-accordionitem>
                 <e-accordionitem expanded='true'>
@@ -25,7 +25,7 @@
                     <ng-template #content>
                         <ejs-multiselect id='place-list' [dataSource]='placeList' [mode]='default'
                             [fields]='fieldsPlace' [(ngModel)]="selectedPlace" [placeholder]='placeholderPlace'
-                            (ngModelChange)="filterAll($event)"></ejs-multiselect>
+                            (ngModelChange)="filterAll()"></ejs-multiselect>
                     </ng-template>
                 </e-accordionitem>
                 <e-accordionitem expanded='true'>
@@ -35,7 +35,7 @@
                     <ng-template #content>
                         <ejs-multiselect id='status-list' [dataSource]='this.dataSrv.statusList' [mode]='default'
                             [fields]='fieldsStatus' [(ngModel)]="selectedStatus" [placeholder]='placeholderStatus'
-                            (ngModelChange)="filterAll($event)"></ejs-multiselect>
+                            (ngModelChange)="filterAll()"></ejs-multiselect>
                     </ng-template>
                 </e-accordionitem>
             </e-accordionitems>
