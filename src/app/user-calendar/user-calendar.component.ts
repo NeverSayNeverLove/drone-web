@@ -19,6 +19,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { DataService } from '../services/helper/data.service';
 import { HelperService } from '../services/helper/helper.service'
 import { Issue, IssueService } from '../services/event/issue.service.service';
+import { FiltercalendarService } from '../services/filter/filtercalendar.service'
 
 L10n.load({
     'en-US': {
@@ -54,6 +55,7 @@ export class UserCalendarComponent implements OnInit {
     public selectedDate: Date = new Date();
     public scheduleView: View = 'Month';
     public events: any[] = [];
+    public eventsList: any[] = [];
     public workHours: WorkHoursModel = { highlight: false };
     public startHour: string = '06:00';
     public endHour: string = '17:00';
@@ -99,7 +101,7 @@ export class UserCalendarComponent implements OnInit {
 
     // ngModel - data binding in template event edit
     @Input() selectedLichTapBayData: any;
-    currentLichBay: LichTapBay;
+    // currentLichBay: LichTapBay;
     // private eventDescription: string;
     // private eventStartTime: Date;
     // private eventEndTime: Date;
@@ -119,6 +121,7 @@ export class UserCalendarComponent implements OnInit {
         private authSrv: AuthService,
         private dataSrv: DataService,
         private helperSrv: HelperService,
+        private filterCalSrv: FiltercalendarService,
         private router: Router) {}
 
     ngOnInit() {
@@ -164,18 +167,18 @@ export class UserCalendarComponent implements OnInit {
         }
     }
 
-    fetchEvent(currentUser) {
-        this.createLichTapBay(currentUser);
+    private async fetchEvent(currentUser) {
+        await this.createLichTapBay(currentUser);
         
         if (this.userSrv.isSup) {     
-            this.createIssue(currentUser);
+            await this.createIssue(currentUser);
         }
         
         // User or Sup
-        this.dataSrv.setItem('eventsList', this.events)
-        // this.userSrv.isUser ? this.dataSrv.setItem('eventsList', this.events) :
-        //     this.dataSrv.setItem('eventsList_Sup', this.events);
-       
+        this.dataSrv.setItem('events', this.events)
+       this.eventsList = JSON.parse(JSON.stringify(this.events));
+       this.dataSrv.setItem('eventsList', this.eventsList)
+       console.log('fetch', this.eventsList, this.dataSrv.getItem('eventsList'))
         this.eventSettings = {
             dataSource: <Object[]>extend([], this.events, null, true),
             enableTooltip: true,
@@ -240,7 +243,9 @@ export class UserCalendarComponent implements OnInit {
                 }
             });
             this.reloadDataSource();
-            this.dataSrv.setItem('eventsList', this.events);
+            this.dataSrv.setItem('events', this.events);
+            this.eventsList = JSON.parse(JSON.stringify(this.events));
+            this.dataSrv.setItem('eventsList', this.eventsList)
         })
     }
 
@@ -549,27 +554,21 @@ export class UserCalendarComponent implements OnInit {
         };
     }
 
-    receiveNewLichBay(event) {
-        this.currentLichBay = event;
-    }
-
-    filterAll($event) {
-        this.filterDrone();
-        this.filterPlace();
-        this.filterStatus();
-        // console.log($event);
-    }
-    filterDrone() {
-        // console.log('drone', this.selectedDrone);
-    }
-    filterPlace() {
-        // console.log('place', this.selectedPlace);
-    }
-    filterStatus() {
-        // console.log('status', this.selectedStatus);
-    }
-
-    // public isIssue(event): boolean {
-    //     return event['typeOfEvent'] == "Issue";
+    // receiveNewLichBay(event) {
+    //     this.currentLichBay = event;
     // }
+
+    public filterAll() {
+        this.events = this.dataSrv.getItem('eventsList')
+        if (this.selectedDrone && this.selectedDrone.length) {
+            this.events = this.filterCalSrv.filterDrone(this.events, this.selectedDrone);
+        }
+        if (this.selectedPlace && this.selectedPlace.length) {
+            this.events = this.filterCalSrv.filterPlace(this.events, this.selectedPlace);
+        }
+        if (this.selectedStatus && this.selectedStatus.length) {
+            this.events = this.filterCalSrv.filterStatusLichBay(this.events, this.selectedStatus);
+        }
+        this.reloadDataSource();
+    }
 }
