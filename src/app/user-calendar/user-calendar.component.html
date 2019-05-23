@@ -52,8 +52,12 @@
         </ejs-accordion>
     </div>
     <div class="main-wf-menu">
+        <!-- <div *ngIf="loadingData" id="container"></div> -->
+        <div *ngIf="loadingData">
+            <img src="../../assets/images/ajax-loader2.gif" class="loading-data">
+        </div>
         <!-- Schedule -->
-        <ejs-schedule #scheduleObj width='100%' height='650px' [selectedDate]="selectedDate"
+        <ejs-schedule *ngIf="!loadingData" #scheduleObj width='100%' height='650px' [selectedDate]="selectedDate"
             [eventSettings]="eventSettings" [(currentView)]="scheduleView" (eventRendered)="oneventRendered($event)"
             [workHours]="workHours" [startHour]="startHour" [endHour]="endHour" (popupOpen)="onPopupOpen($event)"
             (actionComplete)="onActionComplete($event)">
