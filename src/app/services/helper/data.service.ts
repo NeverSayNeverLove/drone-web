@@ -22,6 +22,12 @@ export class DataService {
     {id: 4, name: "Đã hủy", eName: "cancelled"},
     {id: 5, name: "Kết thúc", eName: "ended"},
   ];
+    
+  public statusIssueList: any[] = [
+    {id: 1, name: "Dự định", eName: "planned"},
+    {id: 2, name: "Đang diễn ra", eName: "started"},
+    {id: 3, name: "Kết thúc", eName: "ended"},
+  ];
   
   public storage: Map<string, any> = new Map();
 
