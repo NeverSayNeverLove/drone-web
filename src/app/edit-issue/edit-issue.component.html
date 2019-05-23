@@ -10,7 +10,7 @@
       <tr>
           <td class="e-textlabel">Bắt đầu</td>
           <td colspan="4">
-              <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime"
+              <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime" name="StartTime" class="e-field e-input"
                   (ngModelChange)='onChangeStartDate()' [(min)]="minStart" [(max)]="maxStart">
               </ejs-datetimepicker>
           </td>
@@ -18,9 +18,17 @@
       <tr>
           <td class="e-textlabel">Kết thúc</td>
           <td colspan="4">
-              <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime"
+              <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime" name="EndTime" class="e-field e-input"
                   (ngModelChange)='onChangeEndDate()' [(min)]="minEnd" [(max)]="maxEnd">
               </ejs-datetimepicker>
+          </td>
+      </tr>
+      <tr>
+          <td class="e-textlabel">Trạng thái Issue</td>
+          <td colspan="4">
+              <ejs-dropdownlist #EventStatus [dataSource]='statusIssueList' class="e-field e-input" name="statusID"
+                [(ngModel)]='eventStatus' (ngModelChange)='onSelectedStatusIssue($event)' [fields]='fieldsIssueStatus' [popupHeight]='height'>
+              </ejs-dropdownlist>
           </td>
       </tr>
       <tr>
@@ -33,19 +41,3 @@
       </tr>
   </tbody>
 </table>
-
-<p>{{statusIssueID}}</p>
-<form id="chooseStatus">
-  <label class="radio-inline">
-      <ejs-radiobutton #plannedRadio label="Planned" name="payment" value="1"
-      [disabled]="disabledPlanned" [(ngModel)]="statusIssueID" (change)="onClickPlannedRadio($event)"></ejs-radiobutton>
-  </label>    
-  <label class="radio-inline">
-      <ejs-radiobutton #startedRadio label="Started" name="payment" value="2"
-      [disabled]="disabledStarted" [(ngModel)]="statusIssueID" (change)="onClickStartedRadio($event)"></ejs-radiobutton>
-  </label>
-  <label class="radio-inline">
-      <ejs-radiobutton #endedRadio label="Ended" name="payment" value="3"
-      [disabled]="disabledEnded" [(ngModel)]="statusIssueID" (change)="onClickEndedRadio($event)"></ejs-radiobutton>
-  </label>
-</form>

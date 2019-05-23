@@ -48,7 +48,6 @@ export class DiadiembayService {
       let tmp;
       tmp = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${nhacungcapId}?page=1&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
-          console.log('List Dia_diem_bay by Nha_cung_cap_Id page 1',data);
           resolve(data);
         });
       });
@@ -58,7 +57,6 @@ export class DiadiembayService {
       for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint}dia-diem-bay/nha-cung-cap-id=${nhacungcapId}?page=${page}&limit=${pageSize}`, httpOptions).subscribe(data => {
-            console.log('List Dia_diem_bay by Nha_cung_cap_Id',data);
             resolve(data);
           });
         });

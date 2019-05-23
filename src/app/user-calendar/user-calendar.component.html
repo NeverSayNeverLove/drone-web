@@ -28,22 +28,12 @@
                             (ngModelChange)="filterAll($event)"></ejs-multiselect>
                     </ng-template>
                 </e-accordionitem>
-                <!-- <e-accordionitem  expanded='true'>
-                <ng-template #header>
-                    <div>Giáo viên</div>
-                </ng-template>
-                <ng-template #content>
-                    <ejs-multiselect id='teacher-list' [dataSource]='teacherList'
-                        [mode]='default' [fields]='fieldsTeacher'
-                        [placeholder]='placeholderTeacher'></ejs-multiselect>
-                </ng-template>
-                </e-accordionitem> -->
                 <e-accordionitem expanded='true'>
                     <ng-template #header>
-                        <div>Trạng thái</div>
+                        <div>Trạng thái lịch bay</div>
                     </ng-template>
                     <ng-template #content>
-                        <ejs-multiselect id='status-list' [dataSource]='statusList' [mode]='default'
+                        <ejs-multiselect id='status-list' [dataSource]='this.dataSrv.statusList' [mode]='default'
                             [fields]='fieldsStatus' [(ngModel)]="selectedStatus" [placeholder]='placeholderStatus'
                             (ngModelChange)="filterAll($event)"></ejs-multiselect>
                     </ng-template>

@@ -134,24 +134,7 @@ export class UserCalendarComponent implements OnInit {
 
         // init list events
         this.initItems(currentUser);
-
     }
-
-    // ngAfterViewInit() {
-    //     //createSpinner() method is used to create spinner
-    //     createSpinner({
-    //       // Specify the target for the spinner to show
-    //       target: document.getElementById('container')
-    //     });
-    
-    //     // showSpinner() will make the spinner visible
-    //     showSpinner(document.getElementById('container'));
-    
-    //     setInterval(function(){
-    //       // hideSpinner() method used hide spinner
-    //       hideSpinner(document.getElementById('container'));
-    //     }, 100000);
-    // }
 
     ngOnDestroy(): void {
         console.log(this.dataSrv.getItem('placeTraning'));
@@ -160,14 +143,11 @@ export class UserCalendarComponent implements OnInit {
     }
 
     initItems(currentUser) {
-     
         this.getItem(currentUser);
     
         this.fieldsDrone = { text: 'tenDrone', value: 'id' };
         this.fieldsStatus = { text: 'name', value: 'id' };
         this.fieldsPlace = { text: 'diaChi', value: 'id' };
-      
-        
     }
 
     getItem(currentUser) {
@@ -430,15 +410,15 @@ export class UserCalendarComponent implements OnInit {
         switch (args.requestType) {
             case "eventChanged":
                 console.log('eventChanged:', args)
-                this.saveFlyPlant(args.data);
+                this.saveEvent(args.data);
                 break;
             case "eventCreated":
                 console.log('eventcreate', args);
-                this.createFlyPlan(args.data);
+                this.createEvent(args.data);
                 break;
             case "eventRemoved":
                 console.log('eventRemoved', args);
-                this.deleteFlyPlan(args.data);
+                this.deleteEvent(args.data);
                 break;
             default:
                 break;
@@ -446,7 +426,7 @@ export class UserCalendarComponent implements OnInit {
     }
 
     //#region edit LichTapBay
-    private saveFlyPlant(event){
+    private saveEvent(event){
         if (this.userSrv.isUser) {
             this.saveChangedFlyPlan(event);
         }
@@ -492,7 +472,7 @@ export class UserCalendarComponent implements OnInit {
     //#endregion
 
     //#region Create LichTapBay
-    private createFlyPlan(event) {
+    private createEvent(event) {
         if (this.userSrv.isUser) {
             this.createNewFlyPlan(event);
         }
@@ -528,10 +508,18 @@ export class UserCalendarComponent implements OnInit {
     //#endregion
 
     //#region Delete LichTapBay
-    private deleteFlyPlan(events) {
-        events.forEach(event => {
-            this.lichbaySrv.deleteLichTapBayToServer(event.Id).subscribe(e => console.log(e));
-        });
+    private deleteEvent(events) {
+        if (this.userSrv.isUser) {
+            events.forEach(event => {
+                this.lichbaySrv.deleteLichTapBayToServer(event.Id).subscribe(e => console.log(e));
+            });
+        }
+        if (this.userSrv.isSup) {
+            console.log(events);
+            events.forEach(event => {
+                this.issueSrv.deleteIssueToServer(event.Id).subscribe(e => console.log(e));
+            });
+        }
     }
     //#endregion
 

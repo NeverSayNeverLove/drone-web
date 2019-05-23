@@ -69,6 +69,10 @@ export class IssueService {
     return issuePromise;
   }
 
+  public deleteIssueToServer(id) {
+    return this.http.delete(`${Config.api_endpoint}loi-phat-sinh/delete/${id}`);
+  }
+
 }
 
 export class Issue {
