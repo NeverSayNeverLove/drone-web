@@ -431,24 +431,27 @@ export class UserCalendarComponent implements OnInit {
         }
     }
 
-    //#region edit LichTapBay
+    //#region edit Event chung 
     private saveEvent(event){
         if (this.userSrv.isUser) {
-            this.saveChangedFlyPlan(event);
+            this.saveChangedFlyPlanByUser(event);
         }
         if (this.userSrv.isSup) {
             console.log('eventChanged sup', event);
+            if (event.typeOfEvent == "LichTapBay") {
+                this.saveChangedFlyPlanBySup(event);
+            }
         }
     }
 
-    private saveChangedFlyPlan(event) {
+    private saveChangedFlyPlanByUser(event) {
         if (!this.lichbaySrv.isStartedOrCancelledEvent(event.status)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
-            let statusEvent =this.lichbaySrv.getLichBayStatusName(event.status);
+            let statusEvent =this.lichbaySrv.getLichBayStatusName1(event.status); //TV -> TA
             // Tạo object để lưu lên server với trạng thái = tiếng anh
             let lichbayServer = this.createChangedLichTapBayObject(event, statusEvent);
             this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
             // Tạo object để lưu tại Local với trạng thái = tiếng việt
-            let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocal(lichbayServer);
+            let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocalByUser(lichbayServer);
             this.setStatusEvent(lichTapBayLocal);
             // remove event có cùng id nhưng sai thông tin (được add tự động)
             this.removeLichTapBay(event);
@@ -456,6 +459,16 @@ export class UserCalendarComponent implements OnInit {
             this.addEvent(lichTapBayLocal);
             this.reloadDataSource();
         }
+    }
+    private saveChangedFlyPlanBySup(event) {
+        let status =this.lichbaySrv.getLichBayStatusName2(event.status); // id -> eName
+        let lichbayServer = this.createChangedLichTapBayObject(event, status);
+        this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
+        let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocalBySup(event, status);
+        this.setStatusEvent(lichTapBayLocal);
+        this.removeLichTapBay(event);
+        this.addEvent(lichTapBayLocal);
+        this.reloadDataSource();
     }
 
     private createChangedLichTapBayObject(event, statusEvent): any {

@@ -30,7 +30,7 @@ export class LichtapbayService {
     private placeSrv: DiadiembayService,
     private userSrv: UserService,
   ) { }
-  
+
   //FETCH LỊCH TẬP BAY THEO ID
   async fetchFlyPlanById(id) {
     let flyPlanPromise: any;
@@ -52,7 +52,7 @@ export class LichtapbayService {
   fomatDate(date: Date) {
     let fomated_Date = "";
     // fomated_Date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-    fomated_Date =this.datepipe.transform(date, 'dd-MM-yyyy');
+    fomated_Date = this.datepipe.transform(date, 'dd-MM-yyyy');
     return fomated_Date;
   }
 
@@ -77,7 +77,7 @@ export class LichtapbayService {
     droneId: string,
     diaDiemId: string,
     trangThai: string,
-    ) {
+  ) {
 
     let listPromise: any;
     listPromise = [];
@@ -103,15 +103,15 @@ export class LichtapbayService {
 
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?`+
-          `page=1&limit=${Config.pageSizeMax}`+
-          `&droneId=` + droneId+
-          `&diaDiemId=` + diaDiemId+
-          `&trangThai=` + trangThai+
-          `&batDauTruoc=` + startBefore+
-          `&batDauSau=` + startAfter+
-          `&ketThucTruoc=` + endBefore+
-          `&ketThucSau=` + endAfter+
+        this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?` +
+          `page=1&limit=${Config.pageSizeMax}` +
+          `&droneId=` + droneId +
+          `&diaDiemId=` + diaDiemId +
+          `&trangThai=` + trangThai +
+          `&batDauTruoc=` + startBefore +
+          `&batDauSau=` + startAfter +
+          `&ketThucTruoc=` + endBefore +
+          `&ketThucSau=` + endAfter +
           `&nguoiDangKyId=` + nguoiDangKyId, httpOptions)
           .subscribe(data => {
             resolve(data);
@@ -125,16 +125,16 @@ export class LichtapbayService {
       //Fetch từ trang thứ 2
       for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?`+
-          `page=${page}&limit=${pageSize}`+
-          `&droneId=` + droneId+
-          `&diaDiemId=` + diaDiemId+
-          `&trangThai=` + trangThai+
-          `&batDauTruoc=` + startBefore+
-          `&batDauSau=` + startAfter+
-          `&ketThucTruoc=` + endBefore+
-          `&ketThucSau=` + endAfter+
-          `&nguoiDangKyId=` + nguoiDangKyId, httpOptions)
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/nha-cung-cap-id=${nhacungcapId}?` +
+            `page=${page}&limit=${pageSize}` +
+            `&droneId=` + droneId +
+            `&diaDiemId=` + diaDiemId +
+            `&trangThai=` + trangThai +
+            `&batDauTruoc=` + startBefore +
+            `&batDauSau=` + startAfter +
+            `&ketThucTruoc=` + endBefore +
+            `&ketThucSau=` + endAfter +
+            `&nguoiDangKyId=` + nguoiDangKyId, httpOptions)
             .subscribe(data => {
               resolve(data);
             });
@@ -167,7 +167,7 @@ export class LichtapbayService {
     nhacungcapId: string,
     droneId: string,
     diaDiemId: string,
-    trangThai: string,) {
+    trangThai: string, ) {
 
     let listPromise: any;
     listPromise = [];
@@ -192,15 +192,15 @@ export class LichtapbayService {
 
       let tmp;
       tmp = await new Promise((resolve, reject) => {
-        this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
-          `page=1&limit=${Config.pageSizeMax}`+
-          `&droneId=` + droneId+
-          `&diaDiemId=` + diaDiemId+
-          `&trangThai=` + trangThai+
-          `&batDauTruoc=` + startBefore+
-          `&batDauSau=` + startAfter+
-          `&ketThucTruoc=` + endBefore+
-          `&ketThucSau=` + endAfter+
+        this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?` +
+          `page=1&limit=${Config.pageSizeMax}` +
+          `&droneId=` + droneId +
+          `&diaDiemId=` + diaDiemId +
+          `&trangThai=` + trangThai +
+          `&batDauTruoc=` + startBefore +
+          `&batDauSau=` + startAfter +
+          `&ketThucTruoc=` + endBefore +
+          `&ketThucSau=` + endAfter +
           `&nhaCungCapId=` + nhacungcapId, httpOptions)
           .subscribe(data => {
             resolve(data);
@@ -214,17 +214,17 @@ export class LichtapbayService {
       //Fetch từ trang thứ 2
       for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
-          this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?`+
-          `page=${page}&limit=${pageSize}`+
-          `&droneId=` + droneId+
-          `&diaDiemId=` + diaDiemId+
-          `&trangThai=` + trangThai+
-          `&batDauTruoc=` + startBefore+
-          `&batDauSau=` + startAfter+
-          `&ketThucTruoc=` + endBefore+
-          `&ketThucSau=` + endAfter+
-          `&nhaCungCapId=` + nhacungcapId, httpOptions)
-          .subscribe(data => {
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/nguoi-dang-ky-id=${nguoiDangKyId}?` +
+            `page=${page}&limit=${pageSize}` +
+            `&droneId=` + droneId +
+            `&diaDiemId=` + diaDiemId +
+            `&trangThai=` + trangThai +
+            `&batDauTruoc=` + startBefore +
+            `&batDauSau=` + startAfter +
+            `&ketThucTruoc=` + endBefore +
+            `&ketThucSau=` + endAfter +
+            `&nhaCungCapId=` + nhacungcapId, httpOptions)
+            .subscribe(data => {
               resolve(data);
             });
         });
@@ -248,66 +248,106 @@ export class LichtapbayService {
     return this.http.delete(`${Config.api_endpoint}lich-tap-bay/delete/${id}`);
   }
 
-  public saveLichTapBayToLocal(e): LichTapBay {
-      let currentUser = this.userSrv.getCurrentUser('CurrentUser');
-      let lichTapBay = new LichTapBay(e.id, e.ghiChu,
-                      new Date(e.thoiGianBatDau),
-                      new Date(e.thoiGianKetThuc),
-                      e.noiDung, e.trangThai,
-                      currentUser,
-                      this.userSrv.findNhaCungCap(e.nhaCungCapId),
-                      e.nhaCungCapId,
-                      this.placeSrv.findDiaDiemBay(e.diaDiemBayId),
-                      e.diaDiemBayId,
-                      this.droneSrv.findDrone(e.droneDaoTaoId),
-                      e.droneDaoTaoId)
-      return lichTapBay;
+  public saveLichTapBayToLocalByUser(e): LichTapBay {
+    let currentUser = this.userSrv.getCurrentUser('CurrentUser');
+    let lichTapBay = new LichTapBay(e.id, e.ghiChu,
+      new Date(e.thoiGianBatDau),
+      new Date(e.thoiGianKetThuc),
+      e.noiDung, e.trangThai,
+      currentUser,
+      this.userSrv.findNhaCungCap(e.nhaCungCapId),
+      e.nhaCungCapId,
+      this.placeSrv.findDiaDiemBay(e.diaDiemBayId),
+      e.diaDiemBayId,
+      this.droneSrv.findDrone(e.droneDaoTaoId),
+      e.droneDaoTaoId)
+    return lichTapBay;
+  }
+  public saveLichTapBayToLocalBySup(e: LichTapBay, status: string): LichTapBay {
+    let lichTapBay = new LichTapBay(
+      e.Id,
+      e.Subject,
+      new Date(e.StartTime),
+      new Date(e.EndTime),
+      e.description,
+      status,
+      e.nguoiDangKy,
+      e.nhaCungCap,
+      e.nhaCungCapID,
+      e.diaDiemBay,
+      e.diaDiemBayID,
+      e.droneDaoTao,
+      e.droneDaoTaoID )
+    return lichTapBay;
   }
 
 
   public saveLichTapBayToServer(e) {
     this.updateLichTapBay(e).subscribe(
-        (lichtapbay) => {console.log('lich bay:', lichtapbay);},
-        (error: any) => {console.log(error)}
+      (lichtapbay) => { console.log('lich bay:', lichtapbay); },
+      (error: any) => { console.log(error) }
     );
   }
 
   public createNewLichTapBayToLocal(e): LichTapBay {
     let currentUser = this.userSrv.getCurrentUser('CurrentUser');
     let lichTapBay = new LichTapBay(e.Id, e.Subject,
-                    new Date(e.StartTime),
-                    new Date(e.EndTime),
-                    e.description, this.dataSrv.statusList[0].name,
-                    currentUser,
-                    this.userSrv.findNhaCungCap(e.nhaCungCapID),
-                    e.nhaCungCapID,
-                    this.placeSrv.findDiaDiemBay(e.diaDiemBayID),
-                    e.diaDiemBayID,
-                    this.droneSrv.findDrone(e.droneDaoTaoID),
-                    e.droneDaoTaoID)
+      new Date(e.StartTime),
+      new Date(e.EndTime),
+      e.description, this.dataSrv.statusList[0].name,
+      currentUser,
+      this.userSrv.findNhaCungCap(e.nhaCungCapID),
+      e.nhaCungCapID,
+      this.placeSrv.findDiaDiemBay(e.diaDiemBayID),
+      e.diaDiemBayID,
+      this.droneSrv.findDrone(e.droneDaoTaoID),
+      e.droneDaoTaoID)
     return lichTapBay;
-}
+    
+  }
 
   // check xem event co phai o trang thai Started hoac Cancelled
   public isStartedOrCancelledEvent(status): boolean {
-      return status == this.dataSrv.statusList[2].name || status == this.dataSrv.statusList[3].name
+    return status == this.dataSrv.statusList[2].name || status == this.dataSrv.statusList[3].name
   }
 
-  public getLichBayStatusName(status): string {
-      switch (status) {
-          case this.dataSrv.statusList[0].name:
-              return this.dataSrv.statusList[0].eName
-          case this.dataSrv.statusList[1].name:
-              return this.dataSrv.statusList[1].eName
-          case this.dataSrv.statusList[2].name:
-              return this.dataSrv.statusList[2].eName
-          case this.dataSrv.statusList[3].name:
-              return this.dataSrv.statusList[3].eName
-          default:
-              break;
-      }
+  public getLichBayStatusName1(status: string): string {
+    switch (status) {
+      case this.dataSrv.statusList[0].name:
+        return this.dataSrv.statusList[0].eName;
+      case this.dataSrv.statusList[1].name:
+        return this.dataSrv.statusList[1].eName;
+      case this.dataSrv.statusList[2].name:
+        return this.dataSrv.statusList[2].eName;
+      case this.dataSrv.statusList[3].name:
+        return this.dataSrv.statusList[3].eName;
+      case this.dataSrv.statusList[4].name:
+        return this.dataSrv.statusList[4].eName;
+      default:
+        break;
+    }
   }
+
+  public getLichBayStatusName2(status: number): string {
+    switch (status) {
+      case this.dataSrv.statusList[0].id:
+        return this.dataSrv.statusList[0].eName;
+      case this.dataSrv.statusList[1].id:
+        return this.dataSrv.statusList[1].eName;
+      case this.dataSrv.statusList[2].id:
+        return this.dataSrv.statusList[2].eName;
+      case this.dataSrv.statusList[3].id:
+        return this.dataSrv.statusList[3].eName;
+      case this.dataSrv.statusList[4].id:
+        return this.dataSrv.statusList[4].eName;
+      default:
+        break;
+    }
+  }
+
 }
+
+
 
 
 export class LichTapBay {
@@ -338,5 +378,5 @@ export class LichTapBay {
     public IsReadonly: boolean = false,
     public IsAllDay: boolean = false,
     public typeOfEvent: string = "LichTapBay",
-  ) {}
+  ) { }
 }

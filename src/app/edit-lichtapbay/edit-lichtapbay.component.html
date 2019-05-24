@@ -27,15 +27,21 @@
         <tr>
             <td class="e-textlabel">Trạng thái</td>
             <td colspan="4">
-                <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status"
+                <input *ngIf="this.userSrv.isUser" type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status"
                     class="e-field e-input" style="width: 100%" readonly />
+                <ejs-dropdownlist *ngIf="userSrv.isSup" 
+                    #StatusLichTapBay 
+                    [dataSource]='statusLichTapBayList' [fields]='fieldsStatus'
+                    class="e-field e-input" name="status" [popupHeight]='height'
+                    [(ngModel)]='eventStatusID' (ngModelChange)="changeStatus($event)" >
+                </ejs-dropdownlist>
             </td>
         </tr>
         <tr>
             <td class="e-textlabel">Địa điểm</td>
             <td colspan="4">
                 <ejs-dropdownlist #EventPlace [dataSource]='placeList' class="e-field e-input"
-                    name="diaDiemBayID" [(ngModel)]='eventPlace' [fields]='fieldsPlace' [popupHeight]='height'>
+                    name="diaDiemBayID" [(ngModel)]='eventPlaceID' [fields]='fieldsPlace' [popupHeight]='height'>
                 </ejs-dropdownlist>
             </td>
         </tr>
