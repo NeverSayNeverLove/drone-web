@@ -92,9 +92,6 @@ console.log('change');
     this.baivietSrv.setPost(this.topicList,"locPostList"); 
   } 
  
-  public initilaizeTarget: EmitType<object> = () => {
-    this.targetElement = this.container.nativeElement.parentElement;
-  }
  
   public handleOnClickTopicOK: EmitType<object> = () => {
     let topicName: HTMLInputElement = document.getElementById('topic-dialog').querySelector('#nameTopic');
@@ -139,6 +136,9 @@ console.log('change');
 
   
   
+  public initilaizeTarget: EmitType<object> = () => {
+    this.targetElement = this.container.nativeElement.parentElement;
+  }
 
   public topicBtnClick = function (event: any): void {
     this.topicDialog.animationSettings = { effect: 'Zoom', duration: 400 };
