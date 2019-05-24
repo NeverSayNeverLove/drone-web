@@ -18,7 +18,7 @@ import { UserService, User } from '../services/auth/user.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DataService } from '../services/helper/data.service';
 import { HelperService } from '../services/helper/helper.service'
-import { Issue, IssueService } from '../services/event/issue.service.service';
+import { Issue, IssueService, IssueCategory } from '../services/event/issue.service.service';
 import { FiltercalendarService } from '../services/filter/filtercalendar.service'
 
 L10n.load({
@@ -87,13 +87,11 @@ export class UserCalendarComponent implements OnInit {
     public placeList: any[] = [];
     public fieldsPlace: any;
     public placeholderPlace: string = "Lựa chọn địa điểm";
-
-    public teacherList: any[] = [];
-    public fieldsTeacher: any;
-    public placeholderTeacher: string = "Lựa chọn giáo viên";
     
     public fieldsStatus: any;
     public placeholderStatus: string = "Lựa chọn trạng thái";
+
+    public issueCateList: any[] = [];
 
     public selectedDrone: any;
     public selectedStatus: any;
@@ -102,11 +100,6 @@ export class UserCalendarComponent implements OnInit {
 
     // ngModel - data binding in template event edit
     @Input() selectedLichTapBayData: any;
-    // currentLichBay: LichTapBay;
-    // private eventDescription: string;
-    // private eventStartTime: Date;
-    // private eventEndTime: Date;
-    // private eventTitle: string;
 
     // ngModel - data binding in issue template edit
     @Input() selectedIssueData: any;
@@ -154,13 +147,13 @@ export class UserCalendarComponent implements OnInit {
         this.fieldsPlace = { text: 'diaChi', value: 'id' };
     }
 
-    getItem(currentUser) {
+    private async getItem(currentUser) {
         this.events = [];
         this.placeList = [];
         this.droneList = [];
-        this.fetchEvent(currentUser) // event + issue neu co
-        this.fetchDrone(currentUser);
-        this.fetchPlace(currentUser);
+        await this.fetchEvent(currentUser) // event + issue neu co
+        await this.fetchDrone(currentUser);
+        await this.fetchPlace(currentUser);
         if (this.userSrv.isUser) { // neu la user thi ms fetch nha cung cap
             this.fetchAllSup();
         } else {
@@ -173,13 +166,13 @@ export class UserCalendarComponent implements OnInit {
         
         if (this.userSrv.isSup) {     
             await this.createIssue(currentUser);
+            await this.fetchIssueCategory();
         }
         
         // User or Sup
         this.dataSrv.setItem('events', this.events)
        this.eventsList = JSON.parse(JSON.stringify(this.events));
        this.dataSrv.setItem('eventsList', this.eventsList)
-       console.log('fetch', this.eventsList, this.dataSrv.getItem('eventsList'))
         this.eventSettings = {
             dataSource: <Object[]>extend([], this.events, null, true),
             enableTooltip: true,
@@ -215,6 +208,7 @@ export class UserCalendarComponent implements OnInit {
         issuePromise = await this.issueSrv.fetchIssue(currentUser['id']);
         let stt = 0;
         issuePromise.forEach(issueList => {
+            console.log('issue list:', issueList)
             issueList['content'].forEach(i => {
                 let plannedStart = this.helperSrv.formatDateTime(i.duTinhBatDau);
                 let plannedEnd = this.helperSrv.formatDateTime(i.duTinhKetThuc);
@@ -224,7 +218,7 @@ export class UserCalendarComponent implements OnInit {
                 if(start && !end){
                     let title = this.setTitleIssueStarted(i.moTa);
                     let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(), '',
-                    '', i.moTa,i.nhaCungCap, 2);
+                    '', i.moTa, i.nhaCungCap, 2, i.loaiLoi['0']);
                     // console.log('stared',issue);
                     this.events.push(issue);
                 }
@@ -232,14 +226,14 @@ export class UserCalendarComponent implements OnInit {
                 if(start && end){
                     let title = this.setTitleIssueEnded(i.moTa);
                     let issue = new Issue(i.id, title, new Date(start), new Date(end), '',
-                    '', i.moTa, i.nhaCungCap, 3);
+                    '', i.moTa, i.nhaCungCap, 3, i.loaiLoi['0']);
                     this.events.push(issue);
                 }
                 // //planed
                 if(plannedStart && plannedEnd && !start && !end){
                     let title = this.setTitleIssuePlanned(i.moTa);
                     let issue = new Issue(i.id, title, new Date(plannedStart), new Date(plannedEnd), plannedStart,
-                    plannedEnd, i.moTa, i.nhaCungCap, 1);
+                    plannedEnd, i.moTa, i.nhaCungCap, 1, i.loaiLoi['0']);
                     this.events.push(issue);
                 }
             });
@@ -248,6 +242,19 @@ export class UserCalendarComponent implements OnInit {
             this.eventsList = JSON.parse(JSON.stringify(this.events));
             this.dataSrv.setItem('eventsList', this.eventsList)
         })
+    }
+
+    private async fetchIssueCategory() {
+        let issueCatePromise;
+        issueCatePromise = await this.issueSrv.fetchIssueCategory();
+        issueCatePromise.forEach(issueCateList => {
+            console.log('issuecategory list:', issueCateList)
+            issueCateList['content'].forEach(issueCate => {
+                let issuecate = new IssueCategory(issueCate.id, issueCate.mauLoi, issueCate.tenLoi)
+                this.issueCateList.push(issuecate);
+            });
+        });
+        this.dataSrv.setItem('issueCate', this.issueCateList)
     }
 
     private setTitleIssuePlanned(title: string): string {
@@ -262,7 +269,7 @@ export class UserCalendarComponent implements OnInit {
         return 'Ended - ' + title
     }
 
-    async fetchDrone(currentUser) {
+    private async fetchDrone(currentUser) {
         let dronesPromise: any;
 
         // User or Sup
@@ -278,15 +285,12 @@ export class UserCalendarComponent implements OnInit {
         this.dataSrv.setItem('droneTraning', this.droneList);
     }
 
-    async fetchPlace(currentUser) {
+    private async fetchPlace(currentUser) {
         let placesPromise;
         //User or Sup
         placesPromise = this.userSrv.isUser? await this.placeSrv.fetchAllPlace():
                         await this.placeSrv.fetchFlyPlaceByNccId(currentUser['id']);
-
-                        // console.log('places:', placesPromise)
         placesPromise.forEach(droneList => {
-            // console.log('places Promise:', droneList)
             droneList['content'].forEach(pl => {
                 let place = new DiaDiemBay(pl.diaChi, pl.id, pl.nhaCungCap);
                 this.placeList.push(place);
@@ -351,7 +355,6 @@ export class UserCalendarComponent implements OnInit {
         let token = this.userSrv.getToken();
         supPromise = await this.userSrv.fetchAllSup(token)
         supPromise.forEach(supList => {
-            // console.log('supList', supList)
             supList['data'].forEach(sup => {
                 let newSup = new User(sup.dia_chi, sup.email, sup.ho_ten, sup.id, sup.so_dien_thoai,
                     {id: 1, tenVaiTro: "employee"})
@@ -415,15 +418,12 @@ export class UserCalendarComponent implements OnInit {
     public onActionComplete(args) {
         switch (args.requestType) {
             case "eventChanged":
-                console.log('eventChanged:', args)
                 this.saveEvent(args.data);
                 break;
             case "eventCreated":
-                console.log('eventcreate', args);
                 this.createEvent(args.data);
                 break;
             case "eventRemoved":
-                console.log('eventRemoved', args);
                 this.deleteEvent(args.data);
                 break;
             default:
@@ -441,6 +441,9 @@ export class UserCalendarComponent implements OnInit {
             if (event.typeOfEvent == "LichTapBay") {
                 this.saveChangedFlyPlanBySup(event);
             }
+            if (event.typeOfEvent == "Issue") {
+                this.saveChangedIssue(event);
+            }
         }
     }
 
@@ -448,7 +451,7 @@ export class UserCalendarComponent implements OnInit {
         if (!this.lichbaySrv.isStartedOrCancelledEvent(event.status)) { // neu event khong phai trang thai started hoac cancelled thi co the SAVE
             let statusEvent =this.lichbaySrv.getLichBayStatusName1(event.status); //TV -> TA
             // Tạo object để lưu lên server với trạng thái = tiếng anh
-            let lichbayServer = this.createChangedLichTapBayObject(event, statusEvent);
+            let lichbayServer = this.lichbaySrv.createChangedLichTapBayObject(event, statusEvent);
             this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
             // Tạo object để lưu tại Local với trạng thái = tiếng việt
             let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocalByUser(lichbayServer);
@@ -462,7 +465,7 @@ export class UserCalendarComponent implements OnInit {
     }
     private saveChangedFlyPlanBySup(event) {
         let status =this.lichbaySrv.getLichBayStatusName2(event.status); // id -> eName
-        let lichbayServer = this.createChangedLichTapBayObject(event, status);
+        let lichbayServer = this.lichbaySrv.createChangedLichTapBayObject(event, status);
         this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
         let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocalBySup(event, status);
         this.setStatusEvent(lichTapBayLocal);
@@ -471,22 +474,10 @@ export class UserCalendarComponent implements OnInit {
         this.reloadDataSource();
     }
 
-    private createChangedLichTapBayObject(event, statusEvent): any {
-        let diaDiemBayID = event.diaDiemBayID;
-        let startTime = this.helperSrv.formatDateTime(event.StartTime);
-        let endTime = this.helperSrv.formatDateTime(event.EndTime);
-        return {
-            "id": event.Id,
-            "nhaCungCapId": event.nhaCungCap.id,
-            "nguoiDangKyId": event.nguoiDangKy.id,
-            "droneDaoTaoId": event.droneDaoTao.id,
-            "diaDiemBayId": diaDiemBayID,
-            "thoiGianBatDau": startTime,
-            "thoiGianKetThuc": endTime,
-            "trangThai": statusEvent,
-            "ghiChu": event.Subject,
-            "noiDung": event.description
-        }
+    private saveChangedIssue(event) {
+        // Tạo object để lưu lên server với trạng thái = tiếng anh
+        let issueServer = this.issueSrv.createChangedIssueObject(event);
+        this.issueSrv.saveIssueToServer(issueServer);
     }
     //#endregion
 
@@ -501,28 +492,12 @@ export class UserCalendarComponent implements OnInit {
     }
 
     private createNewFlyPlan(event) {
-        let lichbayServer = this.createNewLichTapBayToServer(event);
+        let lichbayServer = this.lichbaySrv.createNewLichTapBayToServer(event);
         this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
         let lichTapBayLocal = this.lichbaySrv.createNewLichTapBayToLocal(event);
         this.removeLichTapBay(event);
         this.addEvent(lichTapBayLocal);
         this.reloadDataSource();
-    }
-
-    private createNewLichTapBayToServer(event): any {
-        let startTime = this.helperSrv.formatDateTime(event.StartTime);
-        let endTime = this.helperSrv.formatDateTime(event.EndTime);
-        return {
-            "nhaCungCapId": event.nhaCungCapID,
-            "nguoiDangKyId": this.userSrv.getCurrentUser('CurrentUser').id,
-            "droneDaoTaoId": event.droneDaoTaoID,
-            "diaDiemBayId": event.diaDiemBayID,
-            "thoiGianBatDau": startTime,
-            "thoiGianKetThuc": endTime,
-            "trangThai": this.dataSrv.statusList[0].eName,
-            "ghiChu": event.Subject,
-            "noiDung": event.description
-        }
     }
     //#endregion
 
@@ -550,7 +525,7 @@ export class UserCalendarComponent implements OnInit {
 
     private removeLichTapBay(e) {
         this.events = this.events.filter(function(event){
-            return  event.TypeOfEvent == 'Issue' || event.Id != e.Id
+            return event.TypeOfEvent == 'Issue' || event.Id != e.Id
         });
     }
 
@@ -567,10 +542,6 @@ export class UserCalendarComponent implements OnInit {
             tooltipTemplate: this.temp
         };
     }
-
-    // receiveNewLichBay(event) {
-    //     this.currentLichBay = event;
-    // }
 
     public filterAll() {
         this.events = this.dataSrv.getItem('eventsList')

@@ -3,13 +3,13 @@ import { Config } from '../helper/config';
 import { DataService } from '../helper/data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../auth/user.service';
+
+import { UserService, User } from '../auth/user.service';
+import { HelperService } from '../helper/helper.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'accept': 'application/json',
-    'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
-    'x-requested-with': 'XMLHttpRequest'
+    'Content-Type': 'application/json',
   })
 };
 @Injectable({
@@ -19,7 +19,9 @@ export class IssueService {
 
   constructor(
     private http: HttpClient,
-    private dataSrv: DataService
+    private dataSrv: DataService,
+    private helperSrv: HelperService,
+    private userSrv: UserService,
   ) { }
    //FETCH TẤT CẢ LỖI PHÁT SINH CỦA NHÀ CUNG CẤP 
    async fetchIssue(sup_Id: number) {
@@ -51,7 +53,7 @@ export class IssueService {
   }
 
   //FETCH  TẤT CẢ LOẠI LỖI
-  async fetchTypeOfIssue() {
+  async fetchIssueCategory() {
     let issuePromise: any;
     issuePromise = [];
     try {
@@ -62,15 +64,81 @@ export class IssueService {
         });
       });
       issuePromise.push(tmp);
-
+      let pages = tmp['totalPages'];
+      // let pageSize = tmp['size'];
+      for (let page = 2; page <= Config.pages; page++) {
+        tmp = await new Promise((resolve, reject) => {
+          this.http.get(`${Config.api_endpoint}loai-loi/?page=${page}&limit=${Config.pageSizeMax}`, httpOptions).subscribe(data => {
+            resolve(data);
+          });
+        });
+        issuePromise.push(tmp);
+      }
     } catch (error) {
       throw error;
     }
     return issuePromise;
   }
 
+  public saveIssueToServer(issue) {
+    this.updateIssue(issue).subscribe(
+      (issue) => {console.log('issue:', issue);},
+      (error: any) => {console.log(error)}
+  );
+  }
+
+  private updateIssue(issue) {
+    return this.http.post(`${Config.api_endpoint}loi-phat-sinh/save`, issue, httpOptions);
+  }
+
+  public createIssue(lichtapbay) {
+    return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
+  }
+
   public deleteIssueToServer(id) {
     return this.http.delete(`${Config.api_endpoint}loi-phat-sinh/delete/${id}`);
+  }
+  
+
+  public createChangedIssueObject(event) {
+    let startTime = this.helperSrv.formatDateTime(event.StartTime);
+    let endTime = this.helperSrv.formatDateTime(event.EndTime);
+    let planned_start = this.helperSrv.formatDateTime(event.StartTime);
+    let planned_end = this.helperSrv.formatDateTime(event.EndTime);
+
+    switch (event.statusID) {
+        case 1: // planned
+            startTime = null;
+            endTime = null;
+            planned_start = this.helperSrv.formatDateTime(event.StartTime);
+            planned_end = this.helperSrv.formatDateTime(event.EndTime);
+            break;
+        case 2: // started
+            startTime = this.helperSrv.formatDateTime(event.StartTime);
+            endTime = null;
+            planned_start = this.helperSrv.formatDateTime(event.StartTime);
+            planned_end = this.helperSrv.formatDateTime(event.EndTime);
+            break;
+        case 3: // ended
+            startTime = this.helperSrv.formatDateTime(event.StartTime);
+            endTime = this.helperSrv.formatDateTime(event.EndTime);
+            planned_start = this.helperSrv.formatDateTime(event.StartTime);
+            planned_end = this.helperSrv.formatDateTime(event.EndTime);
+            break;
+        default:
+            break;
+    }
+    
+    return {
+        "id": event.Id,
+        "nhaCungCapId": this.userSrv.getCurrentUserID('CurrentUser'),
+        "thoiGianBatDau": startTime,
+        "thoiGianKetThuc": endTime,
+        "duTinhBatDau": planned_start,
+        "duTinhKetThuc": planned_end,
+        "moTa": event.Subject,
+        "listLoaiLoiId": [event.issuesCategoryID]
+    }
   }
 
 }
@@ -86,9 +154,18 @@ export class Issue {
     public description: string = "",//mota
     public nhaCungCap: User,
     public statusID: number,
-    public allDay: boolean = true,
+    public issuesCategory: IssueCategory,
+    public allDay: boolean = false,
     public IsReadonly: boolean = false,
     public typeOfEvent: string = "Issue",
     public CategoryColor: string = "#ea7a57",
+  ) {}
+}
+
+export class IssueCategory {
+  constructor(
+    public id: number = 0,
+    public mauLoi: string= "",
+    public tenLoi: string= "",
   ) {}
 }

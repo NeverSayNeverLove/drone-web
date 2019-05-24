@@ -101,13 +101,18 @@ export class UserService {
     return listPromise
   }
   
-  getCurrentUser(key) {
+  public getCurrentUser(key) {
     let user: User = this.dataService.getItemLocal(key);
     return user;
   }
 
-  setCurrentUser(key, user) {
+  public setCurrentUser(key, user) {
     this.dataService.setItemLocal(key, (user));
+  }
+
+  public getCurrentUserID(key) {
+    let ID: number = this.dataService.getItemLocal(key).id;
+    return ID;
   }
 
   public get isSup(): boolean {

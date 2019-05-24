@@ -8,6 +8,14 @@
           </td>
       </tr>
       <tr>
+          <td class="e-textlabel">Loại Issue</td>
+          <td colspan="4">
+              <ejs-dropdownlist #IssueCategory [dataSource]='issueCateList' class="e-field e-input" name="issuesCategoryID"
+                [(ngModel)]='issueCate' [fields]='fieldsIssueCate' [popupHeight]='height'>
+              </ejs-dropdownlist>
+          </td>
+      </tr>
+      <tr>
           <td class="e-textlabel">Bắt đầu</td>
           <td colspan="4">
               <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime" name="StartTime" class="e-field e-input"
