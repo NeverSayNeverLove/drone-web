@@ -14,7 +14,6 @@ import { UserNewsComponent } from './user-news/user-news.component';
 import { UserCalendarComponent } from './user-calendar/user-calendar.component';
 import { HeaderComponent } from './user-general/header/header.component';
 import { FooterComponent } from './user-general/footer/footer.component';
-import { NccCalendarComponent } from './ncc-calendar/ncc-calendar.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { UserDetailNewComponent } from './user-detail-new/user-detail-new.component';
@@ -51,6 +50,7 @@ import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { EditIssueComponent } from './edit-issue/edit-issue.component';
 import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.component';
 import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.component';
+import { NewIssueComponent } from './new-issue/new-issue.component';
 
 
 
@@ -67,7 +67,6 @@ import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.componen
     HeaderComponent,
     FooterComponent,
     UserNewsComponent,
-    NccCalendarComponent,
     SignupComponent,
     ForgotPassComponent,
     UserDetailNewComponent,
@@ -84,6 +83,7 @@ import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.componen
     EditIssueComponent,
     EditLichtapbayComponent,
     NewLichtapbayComponent,
+    NewIssueComponent,
   ],
   imports: [
     BrowserModule,

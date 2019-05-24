@@ -7,12 +7,11 @@ import { DatePipe } from '@angular/common';
 import { DronedaotaoService, DroneDaoTao } from '../training/dronedaotao.service';
 import { DiadiembayService, DiaDiemBay } from '../training/diadiembay.service';
 import { UserService, User } from '../auth/user.service';
+import { HelperService } from '../helper/helper.service'
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    // 'accept-language': 'en-US,en;q=0.9,vi;q=0.8,ja;q=0.7',
-    // 'x-requested-with': 'XMLHttpRequest'
   })
 };
 @Injectable({
@@ -29,6 +28,7 @@ export class LichtapbayService {
     private droneSrv: DronedaotaoService,
     private placeSrv: DiadiembayService,
     private userSrv: UserService,
+    private helperSrv: HelperService,
   ) { }
 
   //FETCH LỊCH TẬP BAY THEO ID
@@ -236,6 +236,41 @@ export class LichtapbayService {
     return listPromise;
   }
 
+  public createChangedLichTapBayObject(event, statusEvent): any {
+    let diaDiemBayID = event.diaDiemBayID;
+    let startTime = this.helperSrv.formatDateTime(event.StartTime);
+    let endTime = this.helperSrv.formatDateTime(event.EndTime);
+    return {
+        "id": event.Id,
+        "nhaCungCapId": event.nhaCungCap.id,
+        "nguoiDangKyId": event.nguoiDangKy.id,
+        "droneDaoTaoId": event.droneDaoTao.id,
+        "diaDiemBayId": diaDiemBayID,
+        "thoiGianBatDau": startTime,
+        "thoiGianKetThuc": endTime,
+        "trangThai": statusEvent,
+        "ghiChu": event.Subject,
+        "noiDung": event.description
+    }
+  }
+
+
+  public createNewLichTapBayToServer(event): any {
+    let startTime = this.helperSrv.formatDateTime(event.StartTime);
+    let endTime = this.helperSrv.formatDateTime(event.EndTime);
+    return {
+        "nhaCungCapId": event.nhaCungCapID,
+        "nguoiDangKyId": this.userSrv.getCurrentUser('CurrentUser').id,
+        "droneDaoTaoId": event.droneDaoTaoID,
+        "diaDiemBayId": event.diaDiemBayID,
+        "thoiGianBatDau": startTime,
+        "thoiGianKetThuc": endTime,
+        "trangThai": this.dataSrv.statusList[0].eName,
+        "ghiChu": event.Subject,
+        "noiDung": event.description
+    }
+  }
+
   public createLichTapBay(lichtapbay) {
     return this.http.post(`${Config.api_endpoint}lich-tap-bay/save`, lichtapbay, httpOptions);
   }
@@ -303,7 +338,6 @@ export class LichtapbayService {
       this.droneSrv.findDrone(e.droneDaoTaoID),
       e.droneDaoTaoID)
     return lichTapBay;
-    
   }
 
   // check xem event co phai o trang thai Started hoac Cancelled
@@ -342,6 +376,21 @@ export class LichtapbayService {
         return this.dataSrv.statusList[4].eName;
       default:
         break;
+    }
+  }
+  
+  public getLichBayStatusName(status): string {
+    switch (status) {
+        case this.dataSrv.statusList[0].name:
+            return this.dataSrv.statusList[0].eName
+        case this.dataSrv.statusList[1].name:
+            return this.dataSrv.statusList[1].eName
+        case this.dataSrv.statusList[2].name:
+            return this.dataSrv.statusList[2].eName
+        case this.dataSrv.statusList[3].name:
+            return this.dataSrv.statusList[3].eName
+        default:
+            break;
     }
   }
 
