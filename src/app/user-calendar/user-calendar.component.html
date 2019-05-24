@@ -43,10 +43,9 @@
             </ejs-accordion>
         </div>
         <div class="col-sm-10" style="padding: 0px">
-        <!-- <div *ngIf="loadingData" id="container"></div> -->
-        <div *ngIf="loadingData">
-            <img src="../../assets/images/ajax-loader2.gif" class="loading-data">
-        </div>
+            <div *ngIf="loadingData">
+                <img src="../../assets/images/ajax-loader2.gif" class="loading-data">
+            </div>
             <!-- Schedule -->
             <ejs-schedule *ngIf="!loadingData" #scheduleObj width='100%' height='650px' [selectedDate]="selectedDate"
                 [eventSettings]="eventSettings" [(currentView)]="scheduleView" (eventRendered)="oneventRendered($event)"
@@ -59,10 +58,10 @@
                     <e-view option="MonthAgenda"></e-view>
                 </e-views>
                 <ng-template #editorTemplate>
-                    <!-- <edit-issue [selected]></edit-issue> -->
                     <edit-lichtapbay *ngIf="isLichTapBay" [lichTapBayData]="selectedLichTapBayData"></edit-lichtapbay>
                     <new-lichtapbay *ngIf="isNewLichTapBay"></new-lichtapbay>
                     <edit-issue *ngIf="isIssue" [args]="selectedIssueData"></edit-issue>
+                    <new-issue *ngIf="isNewIssue"></new-issue>
                 </ng-template>
 
             </ejs-schedule>
