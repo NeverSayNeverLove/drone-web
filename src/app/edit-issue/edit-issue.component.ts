@@ -36,10 +36,6 @@ export class EditIssueComponent {
   public minEnd: Date = new Date(0);
   public maxEnd: Date = new Date(1);
 
-  public disabledPlanned: boolean = false;
-  public disabledStarted: boolean = false;
-  public disabledEnded: boolean = false;
-
   constructor(
     private userSrv: UserService,
     private dataSrv: DataService,) { }

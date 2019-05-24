@@ -69,15 +69,12 @@ export class UserCalendarComponent implements OnInit {
     isIssue: boolean = false;
     isLichTapBay: boolean = false;
     isNewLichTapBay: boolean = false;
+    isNewIssue: boolean = false;
     loadingData: boolean = true;
     // Cac thanh phan cua edit template
     @ViewChild('StartTime') startTimeElement: DateTimePicker; // thoi gian bat dau trong user-calendar
     @ViewChild('EndTime') endTimeElement: DateTimePicker;// thoi gian ket thuc trong user-calendar
     @ViewChild('EventPlace') eventPlaceElement: DropDownList; // dia diem trong user-calendar
-
-    @ViewChild('plannedRadio') plannedRadioElement: RadioButtonComponent; // 
-    @ViewChild('startedRadio') startedRadioElement: RadioButtonComponent; // 
-    @ViewChild('endedRadio') endedRadioElement: RadioButtonComponent; // 
 
     // filter
     public droneList: any[] = [];
@@ -133,12 +130,6 @@ export class UserCalendarComponent implements OnInit {
         this.initItems(currentUser);
     }
 
-    ngOnDestroy(): void {
-        console.log(this.dataSrv.getItem('placeTraning'));
-        console.log(this.dataSrv.getItem('droneTraing'));
-        console.log(this.dataSrv.getItem('eventsList'));
-    }
-
     initItems(currentUser) {
         this.getItem(currentUser);
     
@@ -155,10 +146,9 @@ export class UserCalendarComponent implements OnInit {
         await this.fetchDrone(currentUser);
         await this.fetchPlace(currentUser);
         if (this.userSrv.isUser) { // neu la user thi ms fetch nha cung cap
-            this.fetchAllSup();
-        } else {
-            this.loadingData = false;
+            await this.fetchAllSup();
         }
+        this.loadingData = false;
     }
 
     private async fetchEvent(currentUser) {
@@ -171,12 +161,12 @@ export class UserCalendarComponent implements OnInit {
         
         // User or Sup
         this.dataSrv.setItem('events', this.events)
-       this.eventsList = JSON.parse(JSON.stringify(this.events));
-       this.dataSrv.setItem('eventsList', this.eventsList)
+        this.eventsList = JSON.parse(JSON.stringify(this.events));
+        this.dataSrv.setItem('eventsList', this.eventsList)
         this.eventSettings = {
             dataSource: <Object[]>extend([], this.events, null, true),
             enableTooltip: true,
-            tooltipTemplate: this.temp
+            tooltipTemplate: this.temp,
         };
     }
 
@@ -208,32 +198,29 @@ export class UserCalendarComponent implements OnInit {
         issuePromise = await this.issueSrv.fetchIssue(currentUser['id']);
         let stt = 0;
         issuePromise.forEach(issueList => {
-            console.log('issue list:', issueList)
             issueList['content'].forEach(i => {
                 let plannedStart = this.helperSrv.formatDateTime(i.duTinhBatDau);
                 let plannedEnd = this.helperSrv.formatDateTime(i.duTinhKetThuc);
                 let start = this.helperSrv.formatDateTime(i.thoiGianBatDau);
                 let end = this.helperSrv.formatDateTime(i.thoiGianKetThuc);
+                let title = i.moTa;
                 //started
                 if(start && !end){
-                    let title = this.setTitleIssueStarted(i.moTa);
-                    let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(), '',
-                    '', i.moTa, i.nhaCungCap, 2, i.loaiLoi['0']);
+                    let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(),
+                     i.moTa, i.nhaCungCap, 2, i.loaiLoi['0']);
                     // console.log('stared',issue);
                     this.events.push(issue);
                 }
                 //ended
                 if(start && end){
-                    let title = this.setTitleIssueEnded(i.moTa);
-                    let issue = new Issue(i.id, title, new Date(start), new Date(end), '',
-                    '', i.moTa, i.nhaCungCap, 3, i.loaiLoi['0']);
+                    let issue = new Issue(i.id, title, new Date(start), new Date(end),
+                     i.moTa, i.nhaCungCap, 3, i.loaiLoi['0']);
                     this.events.push(issue);
                 }
                 // //planed
                 if(plannedStart && plannedEnd && !start && !end){
-                    let title = this.setTitleIssuePlanned(i.moTa);
-                    let issue = new Issue(i.id, title, new Date(plannedStart), new Date(plannedEnd), plannedStart,
-                    plannedEnd, i.moTa, i.nhaCungCap, 1, i.loaiLoi['0']);
+                    let issue = new Issue(i.id, title, new Date(plannedStart), new Date(plannedEnd),
+                     i.moTa, i.nhaCungCap, 1, i.loaiLoi['0']);
                     this.events.push(issue);
                 }
             });
@@ -248,25 +235,12 @@ export class UserCalendarComponent implements OnInit {
         let issueCatePromise;
         issueCatePromise = await this.issueSrv.fetchIssueCategory();
         issueCatePromise.forEach(issueCateList => {
-            console.log('issuecategory list:', issueCateList)
             issueCateList['content'].forEach(issueCate => {
                 let issuecate = new IssueCategory(issueCate.id, issueCate.mauLoi, issueCate.tenLoi)
                 this.issueCateList.push(issuecate);
             });
         });
         this.dataSrv.setItem('issueCate', this.issueCateList)
-    }
-
-    private setTitleIssuePlanned(title: string): string {
-        return 'Planned - ' + title
-    }
-
-    private setTitleIssueStarted(title: string): string {
-        return 'Started - ' + title
-    }
-
-    private setTitleIssueEnded(title: string): string {
-        return 'Ended - ' + title
     }
 
     private async fetchDrone(currentUser) {
@@ -360,7 +334,6 @@ export class UserCalendarComponent implements OnInit {
                     {id: 1, tenVaiTro: "employee"})
                     supplierList.push(newSup);
             });
-            this.loadingData = false;
             this.dataSrv.setItem('SupplierList', supplierList);
         });
     }
@@ -376,6 +349,9 @@ export class UserCalendarComponent implements OnInit {
 
     // set color for event
     oneventRendered(args: EventRenderedArgs): void {
+        if (this.userSrv.isSup) {
+            this.scheduleObj.allowDragAndDrop = false;
+        }
         let categoryColor: string = args.data.CategoryColor as string;
         if (!args.element || !categoryColor) {
             return;
@@ -393,21 +369,25 @@ export class UserCalendarComponent implements OnInit {
                 this.isLichTapBay = true;
                 this.isIssue = false;
                 this.isNewLichTapBay = false;
+                this.isNewIssue = false;
                 this.selectedLichTapBayData = args.data;
                 
             } else {
                 this.isIssue = true;
                 this.isLichTapBay = false;
                 this.isNewLichTapBay = false;
+                this.isNewIssue = false;
                 this.selectedIssueData = args;
             }
         }
         if (args.type == 'Editor' && !args.data['Id']) {
             if (this.userSrv.isUser) {
                 this.isNewLichTapBay = true;
+                this.isNewIssue = false;
                 this.isLichTapBay = false;
                 this.isIssue = false;
             } else {
+                this.isNewIssue = true;
                 this.isNewLichTapBay = false;
                 this.isLichTapBay = false;
                 this.isIssue = false;
@@ -473,12 +453,6 @@ export class UserCalendarComponent implements OnInit {
         this.addEvent(lichTapBayLocal);
         this.reloadDataSource();
     }
-
-    private saveChangedIssue(event) {
-        // Tạo object để lưu lên server với trạng thái = tiếng anh
-        let issueServer = this.issueSrv.createChangedIssueObject(event);
-        this.issueSrv.saveIssueToServer(issueServer);
-    }
     //#endregion
 
     //#region Create LichTapBay
@@ -487,6 +461,7 @@ export class UserCalendarComponent implements OnInit {
             this.createNewFlyPlan(event);
         }
         if (this.userSrv.isSup) {
+            this.createNewIssue(event);
             console.log('eventCreated sup', event);
         }
     }
@@ -517,6 +492,23 @@ export class UserCalendarComponent implements OnInit {
     }
     //#endregion
 
+    private saveChangedIssue(event) {
+        // Tạo object để lưu lên server với trạng thái = tiếng anh
+        let issueServer = this.issueSrv.createChangedIssueObject(event);
+        console.log('edit issu', issueServer)
+        this.issueSrv.saveIssueToServer(issueServer);
+    }
+
+    public createNewIssue(event) {
+        let issueServer = this.issueSrv.createNewIssueToServer(event);
+        this.issueSrv.saveIssueToServer(issueServer);
+        console.log('issue local', event);
+        console.log('issueServer local', issueServer);
+        let issueLocal = this.issueSrv.createNewIssueToLocal(event);
+        this.removeIssue(event);
+        this.addEvent(issueLocal);
+        this.reloadDataSource();
+    }
     // ======================
 
     private addEvent(event) {

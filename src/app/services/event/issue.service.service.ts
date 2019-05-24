@@ -80,6 +80,54 @@ export class IssueService {
     return issuePromise;
   }
 
+  public createNewIssueToLocal(e): Issue {
+    let currentUser = this.userSrv.getCurrentUser('CurrentUser');
+    console.log('id-issueCate', this.dataSrv.getItem('issueCate'))
+    let issueCategory = this.dataSrv.getItem('issueCate').find(ic => ic.id == e.issuesCategoryID);
+    return new Issue(e.Id, e.Subject, new Date(e.StartTime), new Date(e.EndTime),
+      e.description, currentUser, e.statusID, issueCategory)
+  }
+
+  public createNewIssueToServer(event) {
+    let startTime = this.helperSrv.formatDateTime(event.StartTime);
+    let endTime = this.helperSrv.formatDateTime(event.EndTime);
+    let planned_start = this.helperSrv.formatDateTime(event.StartTime);
+    let planned_end = this.helperSrv.formatDateTime(event.EndTime);
+
+    switch (event.statusID) {
+        case 1: // planned
+            startTime = null;
+            endTime = null;
+            planned_start = this.helperSrv.formatDateTime(event.StartTime);
+            planned_end = this.helperSrv.formatDateTime(event.EndTime);
+            break;
+        case 2: // started
+            startTime = this.helperSrv.formatDateTime(event.StartTime);
+            endTime = null;
+            planned_start = this.helperSrv.formatDateTime(event.StartTime);
+            planned_end = this.helperSrv.formatDateTime(event.EndTime);
+            break;
+        case 3: // ended
+            startTime = this.helperSrv.formatDateTime(event.StartTime);
+            endTime = this.helperSrv.formatDateTime(event.EndTime);
+            planned_start = this.helperSrv.formatDateTime(event.StartTime);
+            planned_end = this.helperSrv.formatDateTime(event.EndTime);
+            break;
+        default:
+            break;
+    }
+
+    return {
+        "nhaCungCapId": this.userSrv.getCurrentUserID('CurrentUser'),
+        "thoiGianBatDau": startTime,
+        "thoiGianKetThuc": endTime,
+        "duTinhBatDau": planned_start,
+        "duTinhKetThuc": planned_end,
+        "moTa": event.Subject,
+        "listLoaiLoiId": [event.issuesCategoryID]
+    }
+  }
+
   public saveIssueToServer(issue) {
     this.updateIssue(issue).subscribe(
       (issue) => {console.log('issue:', issue);},
@@ -98,9 +146,9 @@ export class IssueService {
   public deleteIssueToServer(id) {
     return this.http.delete(`${Config.api_endpoint}loi-phat-sinh/delete/${id}`);
   }
-  
 
   public createChangedIssueObject(event) {
+    console.log('event isse', event)
     let startTime = this.helperSrv.formatDateTime(event.StartTime);
     let endTime = this.helperSrv.formatDateTime(event.EndTime);
     let planned_start = this.helperSrv.formatDateTime(event.StartTime);
@@ -149,13 +197,11 @@ export class Issue {
     public Subject: string = "",//mota
     public StartTime: Date = new Date(),
     public EndTime: Date = new Date(),
-    public Planned_Start: string = '',
-    public Planned_End: string = '',
     public description: string = "",//mota
     public nhaCungCap: User,
     public statusID: number,
     public issuesCategory: IssueCategory,
-    public allDay: boolean = false,
+    public allDay: boolean = true,
     public IsReadonly: boolean = false,
     public typeOfEvent: string = "Issue",
     public CategoryColor: string = "#ea7a57",

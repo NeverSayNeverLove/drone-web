@@ -298,6 +298,7 @@ export class LichtapbayService {
       e.droneDaoTaoId)
     return lichTapBay;
   }
+  
   public saveLichTapBayToLocalBySup(e: LichTapBay, status: string): LichTapBay {
     let lichTapBay = new LichTapBay(
       e.Id,
