@@ -76,6 +76,16 @@
 				</form>
 			</div>
 		</div>
+		<div *ngIf="loadingData">
+            <img src="../../assets/images/ajax-loader2.gif" class="loading-data">
+		</div>
+		<div #container class='root-container'></div>
+		<div>
+			<ejs-dialog id='dialog' #ejDialog header='Dialog' isModal='true' showCloseIcon='true' 
+			content='Email hoặc Mật khẩu nhập sai!' [target]='targetElement' [buttons]='buttons'
+			width='250px' [visible]='hidden'>
+			</ejs-dialog>
+		</div>
 	</div>
 	
 	
