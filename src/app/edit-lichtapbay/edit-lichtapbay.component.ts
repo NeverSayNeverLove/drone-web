@@ -19,11 +19,15 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   public eventStartTime: Date;
   public eventEndTime: Date;
   public eventStatus: string;
-  public eventPlace: number;
+  public eventStatusID: number;
+  public eventPlaceID: number;
   public eventTitle: string;
   
   public placeList;
   public fieldsPlace: any;
+  public statusLichTapBayList;
+  public fieldsStatus: any;
+
   
   @Output() changedLichbay = new EventEmitter<object>();
 
@@ -33,6 +37,7 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   @ViewChild('EventPlace') placeElement: DropDownList; // dia diem trong user-calendar
   @ViewChild('EventTitle') titleElement: HTMLInputElement;
   @ViewChild('EventDescription') descriptionElement: HTMLInputElement;
+  @ViewChild('StatusLichTapBay') statusLichTapBayElement: DropDownList;
 
 
   constructor(
@@ -49,7 +54,11 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     // sended
+    this.statusLichTapBayList = this.dataSrv.statusList;
+    this.fieldsPlace = { text: 'diaChi', value: 'id' }; // value lấy trường nào thì đầu vào phải là trường đấy
+    this.fieldsStatus = { text: 'name', value: 'id'};
     this.renderLichTapBayTemplate();
+
     // this.fieldsPlace = { text: 'diaChi', value: 'id' };
   }
 
@@ -59,17 +68,19 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
 
   public renderLichTapBayTemplate() {
     if (this.lichTapBayData) {
+      console.log('on rendar lichbay', this.lichTapBayData);
       //showUpView
       this.eventTitle = this.lichTapBayData['Subject'];
       this.eventDescription = this.lichTapBayData['description'];
       this.eventStartTime = this.lichTapBayData['StartTime'];
       this.eventEndTime = this.lichTapBayData['EndTime'];
       this.eventStatus = this.lichTapBayData['status'];
-      this.eventPlace = this.lichTapBayData['diaDiemBay']['id'];
-      this.fieldsPlace = { text: 'diaChi', value: 'id' };
+      this.eventPlaceID = this.lichTapBayData['diaDiemBay']['id'];
       // chỉ lấy địa điểm của nhà cung cấp mà lich bay hiện tại đã đăng kí
       // console.log('renderLichTapBayTemplate', this.lichTapBayData)
       this.placeList = this.getCurrSupPlaceList(this.lichTapBayData['nhaCungCap']['id']);
+     
+      
       
       //setTemplate
       // NCC || Đang diễn ra, Kết thúc, Hủy của User
@@ -80,6 +91,7 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
           this.startTimeElement.readonly = true;
           this.endTimeElement.readonly = true;
           this.placeElement.readonly = true;
+          this.eventStatusID = this.getIDStatusLichBay(this.lichTapBayData['status']);
       }
      
       //  Đang chờ của User
@@ -105,5 +117,25 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   // lấy danh sách địa điểm theo id nhà cung cấp.
   private getCurrSupPlaceList(id: number) {
     return this.placeSrv.getPlaceList().filter(e => e['nhaCungCap']['id'] == id);
+  }
+
+  private getIDStatusLichBay(name): number {
+    switch (name) {
+      case this.dataSrv.statusList[0].name:
+        return 1;
+      case this.dataSrv.statusList[1].name:
+        return 2;
+      case this.dataSrv.statusList[2].name:
+        return 3;
+      case this.dataSrv.statusList[3].name:
+        return 4;
+      case this.dataSrv.statusList[4].name:
+        return 5;
+      default:
+        break;
+    }
+  }
+  public changeStatus(event) {
+    console.log("change status", event);
   }
 }
