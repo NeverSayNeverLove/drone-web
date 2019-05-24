@@ -155,7 +155,8 @@ export class User {
     public hoTen: string = "",
     public id: number = 0,
     public soDienThoai: string = "",
-    public vaiTro: VaiTro = {id: 4, tenVaiTro: "user"}
+    public vaiTro: VaiTro = {id: 4, tenVaiTro: "user"},
+    // public password: string
   ) {}
 }
 

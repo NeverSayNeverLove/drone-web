@@ -10,6 +10,7 @@ import { EmitType } from '@syncfusion/ej2-base';
 
 
 @Component({
+  // moduleId: module.id,
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
