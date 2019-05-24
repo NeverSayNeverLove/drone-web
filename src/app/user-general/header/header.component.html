@@ -1,14 +1,15 @@
 <div class="my-header">
     <div class="my-brand">
-        <span id="brand">Drone</span>
-        <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
+        <div id="brand">Drone Calendar</div>
+        <div id="slogan">Come and Book flight schedules</div>
+        <!-- <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
                 routerLinkActive="active menu">Kênh NCC
-        </button>
+        </button> -->
         
-        <div id="searchArea" class="e-input-group">
+        <!-- <div id="searchArea" class="e-input-group">
                 <input class="e-input" type="text" placeholder="Search" />
                 <i class="fas fa-search"></i>
-        </div>
+        </div> -->
     </div>
     
     <div class="menu-section fixed my-nav">
@@ -42,23 +43,15 @@
 
             <ejs-toolbar #toolbar>
                 <e-items>
-                    <e-item [template]='menuTemplate'></e-item>
-                    <!-- <e-item [template]='searchTemplate' align='Right'></e-item>                     -->
+                    <e-item [template]='menuTemplate'></e-item>                   
                     <e-item [template]='cartbtn' align='Right'></e-item>
                     <e-item [template]='ddbTemplate' align='Right'></e-item>
-                    <!-- <e-item [template]='nccbtn' align='Right'></e-item> -->
                     <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
                     <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
                     <e-item *ngIf="!loggedIn" [template]='signupbtn' align='Right'></e-item>
                 </e-items>
             </ejs-toolbar>
         </div>
-        <!-- <div class=" align-self-center ">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Trang chủ</a></li>
-                <li class="breadcrumb-item active">Sản phẩm</li>
-            </ol>
-        </div> -->
     </div>
 </div>
 
