@@ -7,12 +7,12 @@
     <user-header [brand]="brand" [slogan]="slogan"></user-header>
   </div>
 
-  <div class="container-fluid">
+  <div class="container-fluid" style="padding-top: 10px">
     <!-- filter -->
     <div class="col-sm-2">
       <div>
         <span><img src="../../assets/images/icons8-conversion-48.png" style="width: 20px; height: 20px"></span>
-        <b>FILTER</b>
+        <b>LỌC SẢN PHẨM</b>
       </div>
       <ejs-accordion id='filter'>
         <e-accordionitems class="scroll-menu-filter">
@@ -39,16 +39,6 @@
           <e-accordionitem expanded='true'>
             <ng-template #header>
               <div>Khuyến mãi</div>
-            </ng-template>
-            <ng-template #content>
-              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
-                [placeholder]='placeholderDrone'></ejs-multiselect>
-            </ng-template>
-          </e-accordionitem>
-
-          <e-accordionitem expanded='true'>
-            <ng-template #header>
-              <div>Status</div>
             </ng-template>
             <ng-template #content>
               <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
@@ -89,19 +79,19 @@
       <div>
         <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
           <li [ngClass]="{disabled:pager.currentPage === 1}">
-            <a (click)="setPage(1)">First</a>
+            <a (click)="setPage(1)">Đầu</a>
           </li>
           <li [ngClass]="{disabled:pager.currentPage === 1}">
-            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+            <a (click)="setPage(pager.currentPage - 1)">Trước</a>
           </li>
           <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
             <a (click)="setPage(page)">{{page}}</a>
           </li>
           <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+            <a (click)="setPage(pager.currentPage + 1)">Tiếp</a>
           </li>
           <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a (click)="setPage(pager.totalPages)">Last</a>
+            <a (click)="setPage(pager.totalPages)">Cuối</a>
           </li>
         </ul>
       </div>

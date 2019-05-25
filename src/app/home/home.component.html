@@ -1,30 +1,145 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<user-header></user-header>
-<div id="myslide" style="display:block;"
-[style.width]="width">
-<slideshow #slideshow
-        [imageUrls]="imageUrls"
-        [height]="height"
-        [minHeight]="minHeight"
-        [arrowSize]="arrowSize"
-        [showArrows]="showArrows"
-        [disableSwiping]="disableSwiping"
-        [autoPlay]="autoPlay"
-        [stopAutoPlayOnSlide]="stopAutoPlayOnSlide"
-        [debug]="debug"
-        [backgroundSize]="backgroundSize"
-        [backgroundPosition]="backgroundPosition"
-        [backgroundRepeat]="backgroundRepeat"
-        [showDots]="showDots"
-        [dotColor]="dotColor"
-        [showCaptions]="showCaptions"
-        [captionColor]="captionColor"
-        [captionBackground]="captionBackground"
-        [lazyLoad]="lazyLoad"
-        [hideOnNoSlides]="hideOnNoSlides"
-        [fullscreen]="fullscreen">
-</slideshow>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,700,900|Display+Playfair:200,300,400,700"> 
+  <link rel="stylesheet" href="../../assets/home/fonts/icomoon/style.css">
+
+  <link rel="stylesheet" href="../../assets/home/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/home/css/magnific-popup.css">
+  <link rel="stylesheet" href="../../assets/home/css/jquery-ui.css">
+  <link rel="stylesheet" href="../../assets/home/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../assets/home/css/owl.theme.default.min.css">
+
+  <link rel="stylesheet" href="../../assets/home/css/bootstrap-datepicker.css">
+
+  <link rel="stylesheet" href="../../assets/home/fonts/flaticon/font/flaticon.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+
+
+  <link rel="stylesheet" href="../../assets/home/css/aos.css">
+
+  <link rel="stylesheet" href="../../assets/home/css/style.css">
+  
+</head>
+
+  <user-header></user-header>
+  <div id="myslide" style="display:block;"
+      [style.width]="width">
+      <slideshow #slideshow
+              [imageUrls]="imageUrls"
+              [height]="height"
+              [minHeight]="minHeight"
+              [arrowSize]="arrowSize"
+              [showArrows]="showArrows"
+              [disableSwiping]="disableSwiping"
+              [autoPlay]="autoPlay"
+              [stopAutoPlayOnSlide]="stopAutoPlayOnSlide"
+              [debug]="debug"
+              [backgroundSize]="backgroundSize"
+              [backgroundPosition]="backgroundPosition"
+              [backgroundRepeat]="backgroundRepeat"
+              [showDots]="showDots"
+              [dotColor]="dotColor"
+              [showCaptions]="showCaptions"
+              [captionColor]="captionColor"
+              [captionBackground]="captionBackground"
+              [lazyLoad]="lazyLoad"
+              [hideOnNoSlides]="hideOnNoSlides"
+              [fullscreen]="fullscreen">
+      </slideshow>
 </div>
 
+<div class="site-wrap">
+  <div class="site-section bg-light">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-7 text-center">
+          <h2 class="font-weight-light text-black">Drone Website</h2>
+          <p class="color-black-opacity-5">Website Cung Cấp Các Dịch Vụ</p>
+        </div>
+      </div>
+      <div class="row align-items-stretch my_services">
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+          <div class="unit-4 d-flex">
+            <div class="unit-4-icon mr-4"><span class="text-primary flaticon-airplane"></span></div>
+            <div>
+              <h3>Đặt Lịch Tập Bay</h3>
+              <p>Khách hàng có thể đặt lịch tập bay tới giảng viên với giao diện trực quan. Lựa chọn lịch bay theo địa điểm, Drone, nhà cung cấp.</p>
+              <p><a href="user-calendar">Chi Tiết</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+          <div class="unit-4 d-flex">
+            <div class="unit-4-icon mr-4"><span class="text-primary flaticon-ship"></span></div>
+            <div>
+              <h3>Quản Lý Đặt Lịch</h3>
+              <p>Nhà cung cấp xác nhận, quản lí lịch tập bay và đặt lịch dự kiến cho những vấn đề có thể xảy ra.</p>
+              <p><a href="user-calendar">Chi Tiết</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+          <div class="unit-4 d-flex">
+            <div class="unit-4-icon mr-4"><span class="text-primary flaticon-route"></span></div>
+            <div>
+              <h3>Mua Bán Drone</h3>
+              <p>Cung cấp dịch vụ mua bán Drone online. Cung cấp nhiều lựa chọn từ nhiều hãng sản xuất và nhà cung cấp khác nhau.</p>
+              <p><a href="user-product-list">Chi Tiết</a></p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+          <div class="unit-4 d-flex">
+            <div class="unit-4-icon mr-4"><span class="text-primary flaticon-hotel"></span></div>
+            <div>
+              <h3>Học Tập</h3>
+              <p>Cung cấp các bài giảng online, video hướng dẫn điều khiển Drone và các bài thi đánh giá năng lực.</p>
+              <p><a href="#">Chi Tiết</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+          <div class="unit-4 d-flex">
+            <div class="unit-4-icon mr-4"><span class="text-primary flaticon-sailboat"></span></div>
+            <div>
+              <h3>Diễn Đàn</h3>
+              <p>Nơi trao đổi mọi thắc mắc về Drone, Phụ Kiện, Hóa Chất, Cách bảo quản. Đặt câu hỏi và Trả lời dễ dàng.</p>
+              <p><a href="user-forum-topic-list">Chi Tiết</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-4">
+          <div class="unit-4 d-flex">
+            <div class="unit-4-icon mr-4"><span class="text-primary flaticon-ski"></span></div>
+            <div>
+              <h3>Tin Tức</h3>
+              <p>Cập nhật những thông tin mới nhất về cộng đồng sử dụng Drone tại Việt Nam và Thế giới.</p>
+              <p><a href="user-news">Chi Tiết</a></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>  
+</div>
 
 <user-footer></user-footer>
+
+<script src="../../assets/home/js/jquery-3.3.1.min.js"></script>
+<script src="../../assets/home/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="../../assets/home/js/jquery-ui.js"></script>
+<script src="../../assets/home/js/popper.min.js"></script>
+<script src="../../assets/home/js/bootstrap.min.js"></script>
+<script src="../../assets/home/js/owl.carousel.min.js"></script>
+<script src="../../assets/home/js/jquery.stellar.min.js"></script>
+<script src="../../assets/home/js/jquery.countdown.min.js"></script>
+<script src="../../assets/home/js/jquery.magnific-popup.min.js"></script>
+<script src="../../assets/home/js/bootstrap-datepicker.min.js"></script>
+<script src="../../assets/home/js/aos.js"></script>
+<script src="../../assets/home/js/main.js"></script>

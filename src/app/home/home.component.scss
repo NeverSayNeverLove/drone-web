@@ -1,13 +1,19 @@
-//flexbox
-//Sử dụng flexbox: Thêm vào để footer luôn ở dưới cùng trang khi nội dung ngắn hoặc không có
-// .Site {
-//     display: flex;
-//     min-height: 100vh;
-//     flex-direction: column;
-//   }
-//   .Site-content {
-//     flex: 1;
-//   }
+
 #myslide {
   margin-top: 0px;
+}
+.site-wrap {
+  font-family: Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  line-height: 1.7;
+  color: rgb(77, 77, 77);
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.text-black {
+  color: rgb(0, 0, 0) !important;
+}
+.font-weight-light {
+  font-weight: 300 !important;
+  font-size: 30px !important;
 }

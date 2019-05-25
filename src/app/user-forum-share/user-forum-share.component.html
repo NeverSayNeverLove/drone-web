@@ -1,7 +1,7 @@
 <!-- LEFT CONTENT-->
 <div id="topic-list " class="col-sm-2" style="float:left">
   <div>
-    <h2>Topic List</h2>
+    <h2>Chủ đề</h2>
     <hr>
   </div>
 
@@ -13,7 +13,7 @@
   <div class="control-section animation">
     <div class="animate">
       <button *ngIf="loggedIn" id="add-topic" class="e-control e-btn" style="position: absolute;" ejs-button [isPrimary]="true"
-        (click)="topicBtnClick($event)">ADD TOPIC
+        (click)="topicBtnClick($event)">THÊM CHỦ ĐỀ
       </button>
     </div>
 
@@ -26,7 +26,7 @@
   <div class="control-section animation">
     <div class="animate">
       <button *ngIf="loggedIn" id="add-question" class="e-control e-btn" ejs-button [isPrimary]="true"
-        (click)="questionBtnClick($event)">ADD QUESTION
+        (click)="questionBtnClick($event)">THÊM CÂU HỎI
       </button>
     </div>
 
@@ -35,7 +35,7 @@
   <hr>
   <div id="hot-post">
     <div>
-      <div id="hot-post-title"><b>HOT POST</b></div>
+      <div id="hot-post-title"><b>CÂU HỎI NỔI BẬT</b></div>
       <hr />
     </div>
     <div>
@@ -62,7 +62,7 @@
           </div>
           <div *ngIf="nameTopic.invalid && (nameTopic.dirty || nameTopic.touched)" class="alert alert-danger">
             <div *ngIf="nameTopic.errors.required">
-              Topic is required.
+              Chủ đề còn trống.
             </div>
           </div>
         </div>
@@ -70,11 +70,11 @@
         <div class="form-group">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
               <button ejs-button [disabled]="!formtopic.valid" type="button"
-                class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickTopicOK($event)">Submit</button>
+                class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickTopicOK($event)">Đăng</button>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
               <button ejs-button [disabled]="!(nameTopic.valid)" type="reset"
-                class="e-control e-btn e-lib e-flat" (click)="handleOnClickTopicCancel($event)">Cancel</button>
+                class="e-control e-btn e-lib e-flat" (click)="handleOnClickTopicCancel($event)">Hủy</button>
             </div>
           </div>
       </form>
@@ -97,7 +97,7 @@
           </div>
           <div *ngIf="topicselect.invalid && (topicselect.touched)" class="alert alert-danger">
             <div *ngIf="topicselect.errors.required">
-              Topic is required.
+              Chủ đề còn trống.
             </div>
           </div>
         </div>
@@ -111,7 +111,7 @@
           </div>
           <div *ngIf="title.invalid && (title.dirty || title.touched)" class="alert alert-danger">
             <div *ngIf="title.errors.required">
-              Title is required.
+              Tiêu đề còn trống.
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
           </div>
           <div *ngIf="content.invalid && (content.dirty || content.touched)" class="alert alert-danger">
             <div *ngIf="content.errors.required">
-              Content is required.
+              Nội dung còn trống.
             </div>
           </div>
         </div>
@@ -132,11 +132,11 @@
         <div class="form-group">
           <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
             <button ejs-button [disabled]="!formquestion.valid" type="button"
-              class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickQuestionOk($event)">Submit</button>
+              class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickQuestionOk($event)">Đăng</button>
           </div>
           <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
             <button ejs-button [disabled]="!(topicselect.valid || title.valid || content.valid)" type="reset"
-              class="e-control e-btn e-lib e-flat" (click)="handleOnClickQuestionCancel($event)">Cancel</button>
+              class="e-control e-btn e-lib e-flat" (click)="handleOnClickQuestionCancel($event)">Gửi</button>
           </div>
         </div>
       </form>
