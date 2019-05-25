@@ -3,7 +3,9 @@ import { Config } from '../helper/config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataService } from '../helper/data.service';
 import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
+import { map } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     // 'Authorization': ''
@@ -22,15 +24,15 @@ export class AuthService {
     private http: HttpClient,
     private dataSrv: DataService,) { }
 
-  login(email, password) {
-    return this.http.post<{access_token:  string}>(`${Config.api_endpoint_khai}login`, {
-      email,
-      password
-    }).pipe(tap(res => {
+  login(email: string, password: string) {
+    return this.http.post<{access_token:  string}>(`${Config.api_endpoint_khai}login`, {email, password})
+    .pipe(tap(res => {
       // Luu token nhan dc tu server vao localStorage
       this.dataSrv.setItemLocal('access_token', res.access_token)
     }));
   }
+
+
 
   register(email:string, password:string) {
     return this.http.post<{access_token: string}>(`${Config.api_endpoint_khai}signup`, {email, password}).pipe(tap(res => {

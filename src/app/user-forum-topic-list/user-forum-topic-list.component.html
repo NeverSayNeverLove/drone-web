@@ -3,14 +3,14 @@
 </head>
 
 <body>
-  <user-header></user-header>
+  <user-header [brand]="brand" [slogan]="slogan"></user-header>
   <div class="container-fluid">
     <user-forum-share (messageEvent)="receiveMessage($event)"></user-forum-share>
 
 
     <div id="topic-list-table" class="col-sm-7">
       <div>
-        <h2>Topics List</h2>
+        <h2>Các Chủ Đề</h2>
         <hr />
       </div>
       <div>
@@ -18,13 +18,13 @@
           [allowFiltering]="true" [filterSettings]='filterSettings' [selectionSettings]='selectionOptions'
           (rowSelected)='rowSelected($event)'>
           <e-columns>
-            <e-column field='id' headerText='Topic ID' textAlign='Center' width=50></e-column>
-            <e-column id = 'ten'field='tenChuDeCauHoi' headerText='Topic Name' width=120></e-column>
-            <e-column field='numOfPost' headerText='Number Of Posts' textAlign='Center' width=90></e-column>
+            <e-column field='id' headerText='Mã Chủ Đề' textAlign='Center' width=50></e-column>
+            <e-column id = 'ten'field='tenChuDeCauHoi' headerText='Tên' width=120></e-column>
+            <e-column field='numOfPost' headerText='Số Câu Hỏi' textAlign='Center' width=90></e-column>
           </e-columns>
         </ejs-grid>
       </div>
-      <button ej-button class='e-flat' (click)='add()'> Add </button>
+      <button ej-button class='e-flat' (click)='add()'> Cập Nhật Bảng </button>
     </div>
   </div>
   <user-footer></user-footer>

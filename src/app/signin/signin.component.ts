@@ -10,24 +10,23 @@ import { EmitType } from '@syncfusion/ej2-base';
 
 
 @Component({
+  // moduleId: module.id,
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-  // showModal: boolean = false;
+  model: any = {};
   loadingData: boolean = false;
   signupLink = Config.front_endpoint + 'signup';
   forgotpassLink = Config.front_endpoint + 'forgotpass';
 
+  //Dialog if wrong pass or email
   @ViewChild('ejDialog') ejDialog: DialogComponent;
-  // Create element reference for dialog target element.
   @ViewChild('container', { read: ElementRef }) container: ElementRef;
-  // The Dialog shows within the target element.
   public targetElement: HTMLElement;
   public animationSettings: Object = { effect: 'Room' };
-
-    // Close the Dialog, while clicking "OK" Button of Dialog
+  // Close the Dialog, while clicking "OK" Button of Dialog
   public dlgButtonClick: EmitType<object> = () => {
     this.ejDialog.hide();
   }
@@ -45,17 +44,14 @@ export class SigninComponent implements OnInit {
       this.router.navigateByUrl(''); // neu da login thi chuyen sang Home
     }
     this.initilaizeTarget();
-    // this.ejDialog.hide();
   }
 
-  // Initialize the Dialog component target element.
+  //Wrong pass or email
   public initilaizeTarget: EmitType<object> = () => {
     this.targetElement = this.container.nativeElement.parentElement;
   }
-  // Sample level code to handle the button click action
   public onOpenDialog = function(): void {
     this.ejDialog.animationSettings = { effect: 'Zoom', duration: 400 };
-      // Call the show method to open the Dialog
       this.ejDialog.show();
   };
 
@@ -86,7 +82,6 @@ export class SigninComponent implements OnInit {
     (error: any) => {
       console.log(error);
       this.loadingData = false;
-      // this.showModal = true;
       this.onOpenDialog();
     });
   }

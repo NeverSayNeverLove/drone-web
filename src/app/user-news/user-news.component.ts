@@ -17,6 +17,8 @@ import * as _ from 'underscore';
 
 })
 export class UserNewsComponent implements OnInit, OnDestroy {
+  public brand: string = "Drone News";
+  public slogan: string = "Những thông tin mới nhất về Drone";
 
   public postList: Array<Post> = [];
 

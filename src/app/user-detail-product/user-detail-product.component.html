@@ -4,16 +4,16 @@
 
 <body>
   <div>
-    <user-header [count]="totalQuantity" [items]="items"></user-header>
+    <user-header [count]="totalQuantity" [items]="items" [brand]="brand" [slogan]="slogan"></user-header>
   </div>
   <div class="container">
     <div class="col-sm-5">
       <div class="row">
-        <div><img id='big-img' src='../../assets/images/drone_1.jpg'></div>
+        <div><img id='big-img' src='../../assets/images/drone_{{currProduct.id}}.jpg'></div>
         <hr>
-        <div><img id="test" src="../../assets/images/drone_1.jpg"></div>
-        <div><img id="test2" src="../../assets/images/drone_1.jpg"></div>
-        <div><img id="test3" src="../../assets/images/drone_1.jpg"></div>
+        <div><img id="test" src="../../assets/images/drone_{{currProduct.id}}.jpg"></div>
+        <div><img id="test2" src="../../assets/images/drone_{{currProduct.id}}.jpg"></div>
+        <div><img id="test3" src="../../assets/images/drone_{{currProduct.id}}.jpg"></div>
       </div>
     </div>
     <div class="col-sm-7">
@@ -84,10 +84,8 @@
       <div>
         <h3 id="detail-title">Thông tin chi tiết</h3>
       </div>
-      <div>
-        <textarea id="detail-info" rows="5" readonly disabled>
-            {{currProduct.des}}
-        </textarea>
+      <div *ngFor="let des of split_des">
+        <li style="padding-left: 20px">{{des}}</li>
       </div>
     </div>
 

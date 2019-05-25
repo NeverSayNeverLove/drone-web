@@ -43,11 +43,13 @@ export class ProductService {
     this.products = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
     //Nếu k có thì fetch dữ liệu từ Server
     if (!this.products || !this.products.length) {
+      console.log(1);
       this.products = [];
       let productPromises: Array<Object> = [];
       productPromises = await this.fetchProduct();
       productPromises.forEach(element => {
         element['data']['data'].forEach(p => {
+          console.log("product", p);
           let product = new Product();
           product.id = p.id;
           product.supID = p.nha_cung_cap_id;

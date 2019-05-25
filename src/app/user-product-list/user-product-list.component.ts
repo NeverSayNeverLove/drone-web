@@ -12,6 +12,8 @@ import * as _ from 'underscore';
   encapsulation: ViewEncapsulation.None
 })
 export class UserProductListComponent implements OnInit {
+  public brand: string = "Drone Shop";
+  public slogan: string = "Đem lại những lựa chọn hoàn hảo!";
   public productList: Product[] = [];
 
   // pager object

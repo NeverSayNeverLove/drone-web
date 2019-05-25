@@ -20,6 +20,8 @@ import { UserForumShareComponent} from '../user-forum-share/user-forum-share.com
 
 })
 export class UserForumTopicListComponent implements OnInit, OnChanges{
+  public brand: string = "Drone News";
+  public slogan: string = "Những thông tin mới nhất về Drone";
   public topicList: Array<TopicTableRow> = [];
   public data_topicsList: Object[];
 

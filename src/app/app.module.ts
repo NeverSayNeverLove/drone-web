@@ -27,6 +27,10 @@ import { UserCartComponent } from './user-cart/user-cart.component';
 import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
+import { EditIssueComponent } from './edit-issue/edit-issue.component';
+import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.component';
+import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.component';
+import { NewIssueComponent } from './new-issue/new-issue.component';
 
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
@@ -47,10 +51,8 @@ import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { EditIssueComponent } from './edit-issue/edit-issue.component';
-import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.component';
-import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.component';
-import { NewIssueComponent } from './new-issue/new-issue.component';
+
+import {SlideshowModule} from 'ng-simple-slideshow';
 
 
 
@@ -105,6 +107,7 @@ import { NewIssueComponent } from './new-issue/new-issue.component';
     TabModule,
     DateTimePickerModule,
     RadioButtonModule,
+    SlideshowModule,
   ],
   providers: [DayService, WeekService, MonthService, ResizeService, DragAndDropService,
     TimelineMonthService, MonthAgendaService, TimelineViewsService,

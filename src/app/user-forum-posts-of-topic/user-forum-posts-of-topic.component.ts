@@ -18,6 +18,8 @@ import { BaivietService} from '../services/forum/baiviet.service';
   encapsulation: ViewEncapsulation.None
 })
 export class UserForumPostsOfTopicComponent implements OnInit {
+  public brand: string = "Drone News";
+  public slogan: string = "Những thông tin mới nhất về Drone";
   public data1: Object[];
   public postList: Array<CauHoiForum>=[];//Khai báo mà không khởi tạo mảng rỗng thì LIỆU HỒN :v
   

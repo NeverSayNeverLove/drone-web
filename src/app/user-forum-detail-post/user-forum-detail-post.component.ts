@@ -15,6 +15,8 @@ import { BaivietService } from '../services/forum/baiviet.service';
 
 })
 export class UserForumDetailPostComponent implements OnInit {
+  public brand: string = "Drone News";
+  public slogan: string = "Những thông tin mới nhất về Drone";
   public postID: number = 0;
   public currPost: CauHoiForum;
   public answerList: TraLoiForum[] = [];
