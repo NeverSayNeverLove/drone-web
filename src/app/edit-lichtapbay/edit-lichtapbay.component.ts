@@ -22,6 +22,10 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   public eventStatusID: number;
   public eventPlaceID: number;
   public eventTitle: string;
+
+  public eventGuestName: string;
+  public eventGuestTel: string;
+  public eventGuestEmail: string;
   
   public placeList;
   public fieldsPlace: any;
@@ -67,8 +71,10 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
   }
 
   public renderLichTapBayTemplate() {
+    if (this.userSrv.isSup) {
+      this.showSubscriberInfo()
+    }
     if (this.lichTapBayData) {
-      console.log('on rendar lichbay', this.lichTapBayData);
       //showUpView
       this.eventTitle = this.lichTapBayData['Subject'];
       this.eventDescription = this.lichTapBayData['description'];
@@ -81,10 +87,11 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
       this.placeList = this.getCurrSupPlaceList(this.lichTapBayData['nhaCungCap']['id']);
      
       
-      
       //setTemplate
       // NCC || Đang diễn ra, Kết thúc, Hủy của User
-      if (this.userSrv.isSup || this.eventStatus == this.dataSrv.statusList[2].name || this.eventStatus == this.dataSrv.statusList[3].name
+      if (this.userSrv.isSup
+          || this.eventStatus == this.dataSrv.statusList[2].name
+          || this.eventStatus == this.dataSrv.statusList[3].name
           || this.eventStatus == this.dataSrv.statusList[4].name) {
           this.titleElement['nativeElement']['readOnly'] = true;
           this.descriptionElement['nativeElement']['readOnly'] = true;
@@ -112,6 +119,14 @@ export class EditLichtapbayComponent implements OnInit, OnChanges {
           this.placeElement.readonly = true;
       }
     }
+  }
+
+  private showSubscriberInfo() {
+    console.log('on rendar lichbay', this.lichTapBayData);
+    this.eventGuestName = this.lichTapBayData['nguoiDangKy']['hoTen'];
+    this.eventGuestTel = this.lichTapBayData['nguoiDangKy']['soDienThoai'];
+    this.eventGuestEmail = this.lichTapBayData['nguoiDangKy']['email'];
+    console.log('show info sub name', this.eventGuestName)
   }
 
   // lấy danh sách địa điểm theo id nhà cung cấp.

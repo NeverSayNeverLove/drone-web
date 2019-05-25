@@ -33,7 +33,7 @@ L10n.load({
             "deleteEvent": "Xóa sự kiện",
             'cancel': 'Đóng',
             "close": "Đóng",
-            'newEvent': 'Đăng kí lịch',
+            'newEvent': 'Tạo mới',
             'day': 'Ngày',
             'week': 'Tuần',
             'month': 'Tháng',
@@ -59,7 +59,7 @@ export class UserCalendarComponent implements OnInit {
     public eventsList: any[] = [];
     public workHours: WorkHoursModel = { highlight: false };
     public startHour: string = '06:00';
-    public endHour: string = '17:00';
+    public endHour: string = '23:00';
     public allowMultiple: Boolean = true;
     public temp: string = '<div class="tooltip-wrap">' +
     '<div class="content-area"><div class="name">${Subject}</></div>' +
@@ -100,6 +100,7 @@ export class UserCalendarComponent implements OnInit {
 
     // ngModel - data binding in issue template edit
     @Input() selectedIssueData: any;
+
 
     // maps the appropriate column to fields property
     public default : string = 'Default';
@@ -208,7 +209,6 @@ export class UserCalendarComponent implements OnInit {
                 if(start && !end){
                     let issue = new Issue(i.id, title, new Date(i.thoiGianBatDau), new Date(),
                      i.moTa, i.nhaCungCap, 2, i.loaiLoi['0']);
-                    // console.log('stared',issue);
                     this.events.push(issue);
                 }
                 //ended
@@ -417,7 +417,6 @@ export class UserCalendarComponent implements OnInit {
             this.saveChangedFlyPlanByUser(event);
         }
         if (this.userSrv.isSup) {
-            console.log('eventChanged sup', event);
             if (event.typeOfEvent == "LichTapBay") {
                 this.saveChangedFlyPlanBySup(event);
             }
@@ -462,7 +461,6 @@ export class UserCalendarComponent implements OnInit {
         }
         if (this.userSrv.isSup) {
             this.createNewIssue(event);
-            console.log('eventCreated sup', event);
         }
     }
 
@@ -484,7 +482,6 @@ export class UserCalendarComponent implements OnInit {
             });
         }
         if (this.userSrv.isSup) {
-            console.log(events);
             events.forEach(event => {
                 this.issueSrv.deleteIssueToServer(event.Id).subscribe(e => console.log(e));
             });
@@ -495,21 +492,17 @@ export class UserCalendarComponent implements OnInit {
     private saveChangedIssue(event) {
         // Tạo object để lưu lên server với trạng thái = tiếng anh
         let issueServer = this.issueSrv.createChangedIssueObject(event);
-        console.log('edit issu', issueServer)
         this.issueSrv.saveIssueToServer(issueServer);
     }
 
     public createNewIssue(event) {
         let issueServer = this.issueSrv.createNewIssueToServer(event);
         this.issueSrv.saveIssueToServer(issueServer);
-        console.log('issue local', event);
-        console.log('issueServer local', issueServer);
         let issueLocal = this.issueSrv.createNewIssueToLocal(event);
         this.removeIssue(event);
         this.addEvent(issueLocal);
         this.reloadDataSource();
     }
-    // ======================
 
     private addEvent(event) {
         this.events.push(event)
@@ -530,9 +523,24 @@ export class UserCalendarComponent implements OnInit {
     private reloadDataSource() {
         this.eventSettings = {
             dataSource: <Object[]>extend([], this.events, null, true),
+            fields: {
+                subject: { name: 'Subject', validation: { required: true } },
+                // description: {
+                //     name: 'Description', validation: {
+                //         required: true, minLength: 5, maxLength: 500
+                //     }
+                // },
+                // startTime: { name: 'StartTime', validation: { required: true } },
+                // endTime: { name: 'EndTime', validation: { required: true } }
+            },
             enableTooltip: true,
             tooltipTemplate: this.temp
         };
+    }
+
+    receiveMessage(event) {
+        console.log(event)
+        this.eventSettings = event;
     }
 
     public filterAll() {

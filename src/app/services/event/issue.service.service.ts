@@ -82,7 +82,6 @@ export class IssueService {
 
   public createNewIssueToLocal(e): Issue {
     let currentUser = this.userSrv.getCurrentUser('CurrentUser');
-    console.log('id-issueCate', this.dataSrv.getItem('issueCate'))
     let issueCategory = this.dataSrv.getItem('issueCate').find(ic => ic.id == e.issuesCategoryID);
     return new Issue(e.Id, e.Subject, new Date(e.StartTime), new Date(e.EndTime),
       e.description, currentUser, e.statusID, issueCategory)
@@ -148,7 +147,6 @@ export class IssueService {
   }
 
   public createChangedIssueObject(event) {
-    console.log('event isse', event)
     let startTime = this.helperSrv.formatDateTime(event.StartTime);
     let endTime = this.helperSrv.formatDateTime(event.EndTime);
     let planned_start = this.helperSrv.formatDateTime(event.StartTime);
