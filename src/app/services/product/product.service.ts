@@ -17,7 +17,7 @@ export class ProductService {
     private dataSrv: DataService,
   ) {
     //Lấy dữ liệu - Khởi tạo mảng
-    this.getProduct();
+    // this.getProduct();
   }
 
   findAll(): Product[] {
