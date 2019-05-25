@@ -39,16 +39,11 @@ export class UserOrderHistoryComponent implements OnInit {
   public cartTable: Array<CartRow> = [
     {
       id: 1,
-      name: "product 1",
-      price: 10,
+      name: "Mavic Pro Platinum",
+      price: 13000,
       quantity: 1   
     },
-    {
-      id: 2,
-      name: "product 2",
-      price: 10,
-      quantity: 2    
-    }
+    
   ]
   constructor() { }
 
