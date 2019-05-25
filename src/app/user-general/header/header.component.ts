@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.loggedIn = this.authSrv.loggedIn;
-        this.dataSrv.currCart.subscribe(items => this.items = items);
+        // this.dataSrv.currCart.subscribe(items => this.items = items);
         if (this.count == 0) {
             this.items = this.dataSrv.getItemLocal("cartThuy");
             if (this.items) {

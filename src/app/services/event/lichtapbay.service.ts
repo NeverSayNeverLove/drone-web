@@ -38,7 +38,6 @@ export class LichtapbayService {
       flyPlanPromise = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}lich-tap-bay/${id}`, httpOptions)
           .subscribe(data => {
-            console.log(data);
             resolve(data);
           });
       });

@@ -1,18 +1,29 @@
-
 <table class="custom-event-editor" width="100%" cellpadding="5">
   <tbody>
       <tr>
-          <td class="e-textlabel">Tiêu đề</td>
-          <td colspan="4">
-              <input #EventTitle id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text"
-                  name="Subject" style="width: 100%" />
-          </td>
+            <td class="e-textlabel">Tiêu đề</td>
+            <div class="e-float-input" [ngClass]="{'e-success': Subject.valid}">
+                <input type="text" id="EventTitle" name="Subject" [(ngModel)]="eventTitle" #Subject="ngModel" minlength="10" required >
+                <span class="e-float-line"></span>
+            </div>
+            <span class="e-error" *ngIf="Subject.errors && Subject.errors.required && (Subject.dirty || Subject.touched)" >
+                * Nhập tiêu đề
+            </span>
+            <span  class="e-error" *ngIf="Subject.errors && Subject.errors.minlength" >
+                * Tối thiểu 10 kí tự
+            </span>
       </tr>
+
+
       <tr>
           <td class="e-textlabel">Bắt đầu</td>
           <td colspan="4">
-              <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime" [max]="eventEndTime" name="StartTime" class="e-field e-input">
-              </ejs-datetimepicker>
+                <!-- <form #formElement id="form-start-element" class="form-vertical"> -->
+                        <!-- <form id="form-element" class="form-vertical"> -->
+                <ejs-datetimepicker #StartTime id="StartDateTime" [(ngModel)]="eventStartTime" [max]="eventEndTime"
+                    name="StartTime" class="e-field e-input">
+                </ejs-datetimepicker>
+                        <!-- </form> -->
           </td>
       </tr>
       <tr>

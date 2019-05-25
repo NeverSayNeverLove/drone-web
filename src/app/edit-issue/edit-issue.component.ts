@@ -48,9 +48,7 @@ export class EditIssueComponent {
 
   ngOnChanges() {
     // sended
-    // console.log('args: change', this.args);
     this.issueData = this.args['data'];
-    console.log("issue dataaaaaaaaa", this.issueData);
     this.renderIssueTemplate();
   }
 
