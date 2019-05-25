@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  <user-header></user-header>
+  <user-header [brand]="brand" [slogan]="slogan"></user-header>
   <div class="container-fluid">
     <user-forum-share (messageEvent)="receiveMessage($event)"></user-forum-share>
 

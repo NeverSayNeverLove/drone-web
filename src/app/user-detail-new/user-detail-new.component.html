@@ -2,7 +2,7 @@
   <title>Chi tiết Tin Tức</title>
 </head>
 <body>
-  <user-header></user-header>
+  <user-header [brand]="brand" [slogan]="slogan"></user-header>
   <div class= "container detail-new " *ngIf="currPost">
     <div id= "detail-new" class="col-md-9" >
     <h2>{{currPost.tieuDe}}</h2>

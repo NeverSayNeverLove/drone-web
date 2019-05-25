@@ -19,6 +19,9 @@ export class HeaderComponent implements OnInit {
     @Input() count: number = 0;
     @Input() items: Item[] = [];
     loggedIn: boolean; 
+    @Input() brand: string = "Drone Calendar";
+    @Input() slogan: string = "Come and Book flight schedules";
+
 
     constructor(
       private authSrv: AuthService,
@@ -75,7 +78,7 @@ export class HeaderComponent implements OnInit {
             items: [
                 {
                     text: 'Máy bay nông nghiệp',
-                    url: Config.front_endpoint + '#'
+                    url: Config.front_endpoint + 'user-product-list'
                 },
                 {
                     text: 'Phụ kiện',

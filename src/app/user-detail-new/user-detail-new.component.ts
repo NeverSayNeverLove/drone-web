@@ -9,7 +9,8 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-detail-new.component.scss']
 })
 export class UserDetailNewComponent implements OnInit, OnDestroy {
-
+  public brand: string = "Drone News";
+  public slogan: string = "Những thông tin mới nhất về Drone";
   postList: Array<Post> = [];
   currPost: Post;
   postID: number;

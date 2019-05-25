@@ -15,6 +15,8 @@ import { CartRow } from '../services/product/cart.service';
 })
 
 export class UserOrderHistoryComponent implements OnInit {
+  public brand: string = "Drone Shop";
+  public slogan: string = "Đem lại những lựa chọn hoàn hảo!";
   @ViewChild("tree") public treeview: TreeViewComponent;
   public treeViewData: Object[] = [
     {

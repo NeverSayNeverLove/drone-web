@@ -17,6 +17,8 @@ import { AuthService } from '../services/auth/auth.service';
   encapsulation: ViewEncapsulation.None
 })
 export class UserDetailBillComponent implements OnInit {
+  public brand: string = "Drone Shop";
+  public slogan: string = "Đem lại những lựa chọn hoàn hảo!";
   @ViewChild("tree") public treeview: TreeViewComponent;
   private items: Item[] = [];  
   private total: number = 0;

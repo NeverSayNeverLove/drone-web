@@ -11,6 +11,8 @@ import { DataService } from '../services/helper/data.service';
   styleUrls: ['./user-cart.component.scss']
 })
 export class UserCartComponent implements OnInit {
+  public brand: string = "Drone Shop";
+  public slogan: string = "Đem lại những lựa chọn hoàn hảo!";
   items: Item[] = [];
   totalPriceBill: number = 0;
   totalQuantity: number = 0;

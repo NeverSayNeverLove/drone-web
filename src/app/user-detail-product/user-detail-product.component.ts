@@ -10,6 +10,8 @@ import { Item, CartService } from '../services/product/cart.service';
   styleUrls: ['./user-detail-product.component.scss']
 })
 export class UserDetailProductComponent implements OnInit {
+  public brand: string = "Drone Shop";
+  public slogan: string = "Đem lại những lựa chọn hoàn hảo!";
   productList: Product[] = [];
   currProduct: Product;
   productID: number;
