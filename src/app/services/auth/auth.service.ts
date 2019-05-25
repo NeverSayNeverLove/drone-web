@@ -25,7 +25,7 @@ export class AuthService {
     private dataSrv: DataService,) { }
 
   login(email: string, password: string) {
-    return this.http.post<{access_token:  string}>(`${Config.api_endpoint_khai}login`, {email: email, password: password})
+    return this.http.post<{access_token:  string}>(`${Config.api_endpoint_khai}login`, {email, password})
     .pipe(tap(res => {
       // Luu token nhan dc tu server vao localStorage
       this.dataSrv.setItemLocal('access_token', res.access_token)

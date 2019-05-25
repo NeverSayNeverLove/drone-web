@@ -20,7 +20,7 @@
           </tr>
 
           <tr *ngFor="let item of items">
-            <td class="name-product"><img class="product-img" src="../../assets/images/drone_1.jpg"> {{item.product.name}}
+            <td class="name-product"><img class="product-img" src="../../assets/images/drone_{{item.product.id}}.jpg"> {{item.product.name}}
             </td>
             <td>{{item.product.unitPrice}}</td>
             <td>{{item.quantity}}</td>
@@ -44,8 +44,8 @@
         <h3><i class="fas fa-map-marker-alt"></i> Thông Tin Khách Hàng</h3>
 
         <div class="info-customer-box-content">
-          <div id="hoten">Họ Tên: <span><b>Tên khách hàng</b></span></div>
-          <div>SĐT: <span><b>0978916398</b></span></div>
+          <div id="hoten">Họ Tên: <span><b>{{currentUser['ho_ten']}}</b></span></div>
+          <div>SĐT: <span><b>{{currentUser['so_dien_thoai']}}</b></span></div>
 
           <div>Địa chỉ:
             <span>

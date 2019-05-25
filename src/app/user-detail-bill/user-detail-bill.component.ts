@@ -5,6 +5,8 @@ import { CartRow, Item } from '../services/product/cart.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../services/product/product.service';
 import { DataService } from '../services/helper/data.service';
+import { UserService, User } from '../services/auth/user.service';
+import { AuthService } from '../services/auth/auth.service';
 
 // import * as $ from 'jquery';
 
@@ -23,16 +25,24 @@ export class UserDetailBillComponent implements OnInit {
   enableSave = false;
   enableInput = false;
   enableValue = true;
-  addressValue: string = "địa chỉ mặc định";
+	addressValue: string = "địa chỉ mặc định";
+	public currentUser: Object;
 
   
   constructor(
     private activatedRoute: ActivatedRoute,
     private productService: ProductService,
-    private dataSrv: DataService
+		private dataSrv: DataService,
+		private userSrv: UserService,
+		private authSrv: AuthService,
   ){}
 
   ngOnInit() {
+		//currentUser
+		let key = 'CurrentUser'
+		this.currentUser = this.userSrv.getCurrentUser(key);
+		console.log("currentUser",this.currentUser);
+		this.addressValue = this.currentUser['dia_chi'];
     // this.calculatePriceBill();
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
