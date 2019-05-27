@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
 import { Item } from 'src/app/services/product/cart.service';
 import { DataService } from 'src/app/services/helper/data.service';
+import { UserService } from '../../services/auth/user.service';
 
 
 @Component({
@@ -26,16 +27,24 @@ export class HeaderComponent implements OnInit {
     constructor(
       private authSrv: AuthService,
       private dataSrv: DataService,
+      private userSrv: UserService,
       private router: Router) { }
 
     ngOnInit() {
         this.loggedIn = this.authSrv.loggedIn;
         // this.dataSrv.currCart.subscribe(items => this.items = items);
-        if (this.count == 0) {
-            this.items = this.dataSrv.getItemLocal("cartThuy");
-            if (this.items) {
-                this.items.forEach(i => this.count += i.quantity);
-            }
+        // if (this.count == 0) {
+        //     this.items = this.dataSrv.getItemLocal("cartThuy");
+        //     if (this.items) {
+        //         this.items.forEach(i => this.count += i.quantity);
+        //     }
+        // }
+        if (this.userSrv.isAdmin) {
+            this.data.push(
+                {
+                    text: 'Quản lý người dùng',
+                    url: Config.front_endpoint + 'admin-usermanagement'
+                })
         }
     }
 

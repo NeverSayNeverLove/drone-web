@@ -53,6 +53,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 import {SlideshowModule} from 'ng-simple-slideshow';
+import { AdminUsermanagementComponent } from './admin-usermanagement/admin-usermanagement.component';
 
 
 
@@ -86,6 +87,7 @@ import {SlideshowModule} from 'ng-simple-slideshow';
     EditLichtapbayComponent,
     NewLichtapbayComponent,
     NewIssueComponent,
+    AdminUsermanagementComponent,
   ],
   imports: [
     BrowserModule,

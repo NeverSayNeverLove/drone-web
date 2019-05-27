@@ -81,6 +81,44 @@ export class UserService {
     }
     return listPromise;
   }
+  
+  async fetchAllUserList(token) {
+    const httpHeader = {
+      headers: new HttpHeaders({
+        'Authorization': token
+      })
+    };
+    let listPromise: any;
+    listPromise = [];
+    try {
+      let tmp;
+      tmp = await new Promise((resolve, reject) => {
+        this.http.get(`${Config.api_endpoint_khai}users/page=1&limit=${Config.pageSizeMax}`, httpHeader).subscribe(data => {
+          resolve(data);
+        });
+      });
+      listPromise.push(tmp['data']);
+      let total = tmp['data']['total'];
+      let pageSize = tmp['data']['pageSize'];
+      let pages = Math.ceil(total / pageSize);
+      // console.log('tmp:--', tmp, total, pageSize, pages)
+      for (let page = 2; page <= Config.pages; page++) {
+        tmp = await new Promise((resolve, reject) => {
+          this.http.get(`${Config.api_endpoint_khai}users/page=${page}&limit=${pageSize}`, httpHeader).subscribe(data => {
+            resolve(data);
+          });
+        });
+        listPromise.push(tmp['data']);
+      }
+    } catch (error) {
+      throw error;
+    }
+    return listPromise;
+  }
+
+  async updateRoleUser() {
+    
+  }
 
   async whoIAm(token: string) {
     let listPromise: any = null;
@@ -146,6 +184,10 @@ export class UserService {
   public getSupList() {
     return this.dataService.getItem('SupplierList');
   }
+
+  public getRole(role_id) {
+    return this.dataService.roleUserList.find(r => r.id == role_id);
+  }
 }
 
 export class User {
@@ -156,7 +198,6 @@ export class User {
     public id: number = 0,
     public soDienThoai: string = "",
     public vaiTro: VaiTro = {id: 4, tenVaiTro: "user"},
-    // public password: string
   ) {}
 }
 
