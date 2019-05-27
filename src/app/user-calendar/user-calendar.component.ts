@@ -190,8 +190,9 @@ export class UserCalendarComponent implements OnInit {
   
                 this.events.push(event);
             });
-            this.reloadDataSource();
         });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
+        this.reloadDataSource();
     }
 
     private async createIssue(currentUser) {

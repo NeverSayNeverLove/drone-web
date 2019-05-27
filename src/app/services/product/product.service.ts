@@ -38,36 +38,36 @@ export class ProductService {
   }
 
   //Return Array
-  async getProduct() {
-    //kiểm tra dữ liệu trên local cache
-    this.products = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
-    //Nếu k có thì fetch dữ liệu từ Server
-    if (!this.products || !this.products.length) {
-      console.log(1);
-      this.products = [];
-      let productPromises: Array<Object> = [];
-      productPromises = await this.fetchProduct();
-      productPromises.forEach(element => {
-        element['data']['data'].forEach(p => {
-          console.log("product", p);
-          let product = new Product();
-          product.id = p.id;
-          product.supID = p.nha_cung_cap_id;
-          product.categoryID = p.danh_muc_id;
-          product.name = p.ten_san_pham;
-          product.des = p.mo_ta_chung;
-          product.rating = p.diem_danh_gia_tb;
-          product.rest = p.don_vi_ton_kho;
-          product.sale = p.sale;
-          product.sold = p.don_vi_ban;
-          product.unitPrice = p.don_gia;
-          this.products.push(product);
-        });
-      });
-      //lưu lại vào local cache sau khi fetch
-      this.dataSrv.setItemLocal("locProductList", this.products);
-    }
-  }
+  // async getProduct() {
+  //   //kiểm tra dữ liệu trên local cache
+  //   this.products = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
+  //   //Nếu k có thì fetch dữ liệu từ Server
+  //   if (!this.products || !this.products.length) {
+  //     console.log(1);
+  //     this.products = [];
+  //     let productPromises: Array<Object> = [];
+  //     productPromises = await this.fetchProduct();
+  //     productPromises.forEach(element => {
+  //       element['data']['data'].forEach(p => {
+  //         console.log("product", p);
+  //         let product = new Product();
+  //         product.id = p.id;
+  //         product.supID = p.nha_cung_cap_id;
+  //         product.categoryID = p.danh_muc_id;
+  //         product.name = p.ten_san_pham;
+  //         product.des = p.mo_ta_chung;
+  //         product.rating = p.diem_danh_gia_tb;
+  //         product.rest = p.don_vi_ton_kho;
+  //         product.sale = p.sale;
+  //         product.sold = p.don_vi_ban;
+  //         product.unitPrice = p.don_gia;
+  //         this.products.push(product);
+  //       });
+  //     });
+  //     //lưu lại vào local cache sau khi fetch
+  //     this.dataSrv.setItemLocal("locProductList", this.products);
+  //   }
+  // }
 
   // Get From DB - Return Promise
   async fetchProduct() {
@@ -81,21 +81,21 @@ export class ProductService {
             resolve(data);
           });
       });
-      listPromise.push(tmp);
+      listPromise.push(tmp['data']);
 
       let total: number = tmp['data']['total'];
       let pageSize: number = 0;
       pageSize = +tmp['data']['pageSize'];
       let pages: number = Math.ceil(total / pageSize);
 
-      for (let page = 2; page <= pages; page++) {
+      for (let page = 2; page <= Config.pages; page++) {
         tmp = await new Promise((resolve, reject) => {
           this.http.get(`${Config.api_endpoint_khai}product/page=${page}&limit=${Config.pageSizeMax}`)
             .subscribe(data => {
               resolve(data);
             });
         });
-        listPromise.push(tmp);
+        listPromise.push(tmp['data']);
       }
     } catch (error) {
       throw error;
@@ -105,15 +105,25 @@ export class ProductService {
 }
 
 export class Product {
-  public categoryID: number;
-  public supID: number;
-  public name: string;
-  public des: string;
-  public unitPrice: number;
-  public sale: number;
-  public sold: number;
-  public rest: number;
-  public rating: number;
-  public id: number;
-  constructor( ) { }
+  // public categoryID: number;
+  // public supID: number;
+  // public name: string;
+  // public des: string;
+  // public unitPrice: number;
+  // public sale: number;
+  // public sold: number;
+  // public rest: number;
+  // public rating: number;
+  // public id: number;
+  constructor(
+    public categoryID: number,
+    public supID: number,
+    public name: string,
+    public des: string,
+    public unitPrice: number,
+    public sale: number,
+    public sold: number,
+    public rest: number,
+    public rating: number,
+    public id: number) { }
 }

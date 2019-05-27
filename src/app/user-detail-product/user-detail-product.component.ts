@@ -39,26 +39,25 @@ export class UserDetailProductComponent implements OnInit {
 
   }
 
-  async initData(){
-    await this.getDetailProduct(this.productID);
+  private initData(){
+    this.getDetailProduct(this.productID);
     console.log("this.currProduct",this.currProduct);
-    console.log("items hiện tại: ", this.items);
+    // console.log("items hiện tại: ", this.items);
 
-    this.items = await this.dataSrv.getItemLocal("cartThuy");
-    console.log("items hiện tại: ", this.items);
-    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
-    console.log ("totalQuantity: ",this.totalQuantity);
+    // this.items = this.dataSrv.getItemLocal("cartThuy");
+    // console.log("items hiện tại: ", this.items);
+    // this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
+    // console.log ("totalQuantity: ",this.totalQuantity);
   }
 
-  async getDetailProduct(id: number) {
+  private getDetailProduct(id: number) {
     //lấy productList từ local cache
-    this.productList = await JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
-    console.log("this.productList",this.productList);
-    this.currProduct = await this.productList.find(p => p.id == this.productID);
-    console.log("this.currProduct",this.currProduct);
-    this.split_des = this.currProduct.des.split(".");
-    this.split_des.pop();
-    console.log("split_des",this.split_des);
+    this.productList = this.dataSrv.getItemLocal("locProductList");
+    console.log("this is productList",this.productList);
+    this.currProduct = this.productList.find(p => p.id == this.productID);
+    // this.split_des = this.currProduct.des.split(".");
+    // this.split_des.pop();
+    // console.log("split_des",this.split_des);
 
   }
 
