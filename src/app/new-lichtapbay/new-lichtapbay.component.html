@@ -1,77 +1,105 @@
 <table class="custom-event-editor" width="100%" cellpadding="5">
-  <tbody>
-      <tr>
-            <td class="e-textlabel">Tiêu đề</td>
+    <tbody>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="far fa-paper-plane"></i></div>
+                <span>Tiêu đề</span>
+            </td>
             <div class="e-float-input" [ngClass]="{'e-success': Subject.valid}">
-                <input type="text" id="EventTitle" name="Subject" [(ngModel)]="eventTitle" #Subject="ngModel" minlength="10" required >
+                <input type="text" id="EventTitle" name="Subject" [(ngModel)]="eventTitle" #Subject="ngModel"
+                    minlength="10" required>
                 <span class="e-float-line"></span>
             </div>
-            <span class="e-error" *ngIf="Subject.errors && Subject.errors.required && (Subject.dirty || Subject.touched)" >
+            <span class="e-error"
+                *ngIf="Subject.errors && Subject.errors.required && (Subject.dirty || Subject.touched)">
                 * Nhập tiêu đề
             </span>
-            <span  class="e-error" *ngIf="Subject.errors && Subject.errors.minlength" >
+            <span class="e-error" *ngIf="Subject.errors && Subject.errors.minlength">
                 * Tối thiểu 10 kí tự
             </span>
-      </tr>
+        </tr>
 
 
-      <tr>
-          <td class="e-textlabel">Bắt đầu</td>
-          <td colspan="4">
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="far fa-calendar-check"></i></div>
+                <span>Bắt đầu</span>
+            </td>
+            <td colspan="4">
                 <!-- <form #formElement id="form-start-element" class="form-vertical"> -->
-                        <!-- <form id="form-element" class="form-vertical"> -->
+                <!-- <form id="form-element" class="form-vertical"> -->
                 <ejs-datetimepicker #StartTime id="StartDateTime" [(ngModel)]="eventStartTime" [max]="eventEndTime"
                     name="StartTime" class="e-field e-input">
                 </ejs-datetimepicker>
-                        <!-- </form> -->
-          </td>
-      </tr>
-      <tr>
-          <td class="e-textlabel">Kết thúc</td>
-          <td colspan="4">
-              <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime" [min]="eventStartTime" name="EndTime" class="e-field e-input"> 
-              </ejs-datetimepicker>
-          </td>
-      </tr>
-      <tr>
-          <td class="e-textlabel">Trạng thái</td>
-          <td colspan="4">
-            <!-- Đang chờ -->
-              <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status"
-                  class="e-input" style="width: 100%" readonly />
-          </td>
-      </tr>
-      <tr>
-          <td class="e-textlabel">Nhà cung cấp</td>
-          <td colspan="4">
-              <ejs-dropdownlist #EventSup [dataSource]='supList' [(ngModel)]='eventSup' (ngModelChange)='onSelectedSup($event)'
-                [fields]='fieldsSup' [popupHeight]='height' class="e-field e-input" name="nhaCungCapID">
-              </ejs-dropdownlist>
-          </td>
-      </tr>
-      <tr>
-          <td class="e-textlabel">Địa điểm</td>
-          <td colspan="4">
-              <ejs-dropdownlist #EventPlace [dataSource]='placeList' [(ngModel)]='eventPlace'
-                [fields]='fieldsPlace' [popupHeight]='height' class="e-field e-input" name="diaDiemBayID">
-              </ejs-dropdownlist>
-          </td>
-      </tr>
-      <tr>
-          <td class="e-textlabel">Drone</td>
-          <td colspan="4">
-              <ejs-dropdownlist #EventDrone [dataSource]='droneList' [(ngModel)]='eventDrone'
-                [fields]='fieldsDrone' [popupHeight]='height' class="e-field e-input" name="droneDaoTaoID">
-              </ejs-dropdownlist>
-          </td>
-      </tr>
-      <tr>
-          <td class="e-textlabel">Mô tả</td>
-          <td colspan="4">
-              <textarea #EventDescription id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input"
-                  name="description" rows="3" cols="50"
-                  style="width: 100%; height: 60px !important; resize: vertical"></textarea>
-          </td>
-      </tr>
-  </tbody>
+                <!-- </form> -->
+            </td>
+        </tr>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="far fa-calendar-check"></i></div>
+                <span>Kết thúc</span>
+            </td>
+            <td colspan="4">
+                <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime" [min]="eventStartTime" name="EndTime"
+                    class="e-field e-input">
+                </ejs-datetimepicker>
+            </td>
+        </tr>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="fas fa-retweet"></i></div>
+                <span>Trạng thái</span>
+            </td>
+            <td colspan="4">
+                <!-- Đang chờ -->
+                <input type="text" id="EventStatus" [(ngModel)]="eventStatus" name="status" class="e-input"
+                    style="width: 100%" readonly />
+            </td>
+        </tr>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="far fa-user"></i></div>
+                <span>Nhà cung cấp</span>
+            </td>
+            <td colspan="4">
+                <ejs-dropdownlist #EventSup [dataSource]='supList' [(ngModel)]='eventSup'
+                    (ngModelChange)='onSelectedSup($event)' [fields]='fieldsSup' [popupHeight]='height'
+                    class="e-field e-input" name="nhaCungCapID">
+                </ejs-dropdownlist>
+            </td>
+        </tr>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="fas fa-map-marker-alt"></i></div>
+                <span>Địa điểm</span>
+            </td>
+            <td colspan="4">
+                <ejs-dropdownlist #EventPlace [dataSource]='placeList' [(ngModel)]='eventPlace' [fields]='fieldsPlace'
+                    [popupHeight]='height' class="e-field e-input" name="diaDiemBayID">
+                </ejs-dropdownlist>
+            </td>
+        </tr>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="fas fa-plane"></i></div>    
+                <span>Drone</span>
+            </td>
+            <td colspan="4">
+                <ejs-dropdownlist #EventDrone [dataSource]='droneList' [(ngModel)]='eventDrone' [fields]='fieldsDrone'
+                    [popupHeight]='height' class="e-field e-input" name="droneDaoTaoID">
+                </ejs-dropdownlist>
+            </td>
+        </tr>
+        <tr>
+            <td class="e-textlabel">
+                <div class="dung"><i class="fas fa-comment-medical"></i></div>
+                <span>Mô tả</span>
+            </td>
+            <td colspan="4">
+                <textarea #EventDescription id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input"
+                    name="description" rows="3" cols="50"
+                    style="width: 100%; height: 60px !important; resize: vertical"></textarea>
+            </td>
+        </tr>
+    </tbody>
 </table>

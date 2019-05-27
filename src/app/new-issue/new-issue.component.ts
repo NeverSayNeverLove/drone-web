@@ -9,7 +9,7 @@ import { IssueCategory } from '../services/event/issue.service.service';
 @Component({
   selector: 'new-issue',
   templateUrl: './new-issue.component.html',
-  styleUrls: ['./new-issue.component.sass']
+  styleUrls: ['./new-issue.component.scss']
 })
 export class NewIssueComponent implements OnInit {
 

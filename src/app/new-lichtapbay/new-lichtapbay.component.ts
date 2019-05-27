@@ -12,7 +12,7 @@ import { FormValidator, FormValidatorModel } from '@syncfusion/ej2-inputs';
 @Component({
   selector: 'new-lichtapbay',
   templateUrl: './new-lichtapbay.component.html',
-  styleUrls: ['./new-lichtapbay.component.sass']
+  styleUrls: ['./new-lichtapbay.component.scss']
 })
 export class NewLichtapbayComponent implements OnInit {
 

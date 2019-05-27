@@ -9,7 +9,7 @@ import { IssueCategory } from '../services/event/issue.service.service';
 @Component({
   selector: 'edit-issue',
   templateUrl: './edit-issue.component.html',
-  styleUrls: ['./edit-issue.component.sass']
+  styleUrls: ['./edit-issue.component.scss']
 })
 export class EditIssueComponent {
 
