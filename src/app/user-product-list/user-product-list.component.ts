@@ -28,9 +28,21 @@ export class UserProductListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.productList = this.productSrv.findAll();
-    console.log(this.productList);
+    // this.productList = this.productSrv.findAll();
+    this.initItemList();
+  }
+
+  private async initItemList() {
     //initialize to page 1
+    this.productList = [];
+    let productListPro = await this.productSrv.fetchProduct();
+    productListPro.forEach(products => {
+      products['data'].forEach(p => {
+        this.productList.push(new Product(p.danh_muc_id, p.nha_cung_cap_id, p.ten_san_pham, p.mo_ta_chung, p.don_gia,
+          p.sale, p.don_vi_ban, p.don_vi_ton_kho, p.diem_danh_gia_tb, p.id));
+      });
+    });
+    this.dataSrv.setItemLocal("locProductList", this.productList);
     this.setPage(1);
   }
 
