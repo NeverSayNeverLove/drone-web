@@ -28,6 +28,12 @@ export class DataService {
     {id: 2, name: "Đang diễn ra", eName: "started"},
     {id: 3, name: "Kết thúc", eName: "ended"},
   ];
+
+  public roleUserList: any[] = [
+    {id: 1, tenVaiTro: "Nhà cung cấp"},
+    {id: 2, tenVaiTro: "Admin"},
+    {id: 3, tenVaiTro: "Khách hàng"}
+  ]
   
   public storage: Map<string, any> = new Map();
 
