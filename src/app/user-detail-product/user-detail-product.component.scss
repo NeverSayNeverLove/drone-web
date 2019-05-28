@@ -1,5 +1,6 @@
-body {
-    // font-family: Roboto,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,sans-serif!important;
+.my-font {
+    font-family: 'Barlow Semi Condensed', sans-serif !important;
+    font-size: large;
 }
 .container {
     background-color: white;
@@ -11,9 +12,9 @@ body {
 }
 #test, #test2, #test3 {
     float: left;
-    max-width: 100%;
+    max-width: 100%; // so với độ rộng của ảnh
     height: auto;
-    width: 33%;
+    width: 33%; // 33% so với độ rộng của cột đã set
 }
 .fa-star, #rating-score{
     color: #ffcc00;
@@ -21,7 +22,7 @@ body {
 .number {
     font-size: 18px;
     margin-right: 5px;
-    margin-left: 15px;
+    margin-left: 5px;
     
 }
 .name {
@@ -37,13 +38,7 @@ h6 {
     color: #3b3a3a;
     font-size: 30px;
 }
-#rating-score {
-    border-bottom: 1px solid #e6b800;
-}
-#num-of-reviews, #num-of-sold {
-    border-bottom: 1px solid #3b3a3a;
 
-}
 .price-box {
     padding: 15px;
     margin: 15px 0px 15px 15px;
@@ -105,4 +100,25 @@ h6 {
 }
 .review-title {
     background-color: #fafafa;
+}
+.main-box {
+    background-color: #f8f9fa;
+    margin-top: 15px 0px 0px 0px;
+}
+.des-box {
+    // background-color: rgb(99, 39, 39);
+
+}
+.info-right-box {
+    padding-top: 14px;
+    padding-left: 37px;
+}
+.images-box {
+    padding-left: 90px;
+    padding-top: 30px;
+}
+.my-button {
+    background-color: cornflowerblue !important;
+    // border-color: cornflowerblue !important;
+    // color: cornflowerblue !important;
 }
