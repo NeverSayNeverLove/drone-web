@@ -1,15 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BaivietService, Post } from '../services/forum/baiviet.service';
-import { ChuyenmucService, ChuyenMuc } from '../services/forum/chuyenmuc.service';
-import { ForumService, ChuDeForum, CauHoiForum, TraLoiForum } from '../services/forum/forum.service';
-import { DronedaotaoService, DroneDaoTao} from '../services/training/dronedaotao.service';
-import { DiadiembayService,DiaDiemBay} from '../services/training/diadiembay.service';
-import { LichtapbayService} from '../services/event/lichtapbay.service';
-import { ProductService} from '../services/product/product.service';
-import { DataService } from '../services/helper/data.service';
-import { IssueService } from '../services/event/issue.service.service';
 import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
-
 
 @Component({
   selector: 'app-home',
@@ -17,15 +7,6 @@ import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  // public slideIndex = 0;
-  post: Post;
-  chuyenMuc: ChuyenMuc;
-  chuDeForum: ChuDeForum;
-  cauHoiForum: CauHoiForum;
-  traLoiForum: TraLoiForum;
-  traLoiForum1: TraLoiForum;
-  drone: DroneDaoTao;
-  place: DiaDiemBay;
 
   imageUrls: (string | IImage)[] = [
     { url: '../../assets/images/slide_13.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
@@ -56,19 +37,8 @@ export class HomeComponent implements OnInit {
   width: string = '100%';
   fullscreen: boolean = false;
   
-  constructor(
-    private postSrv: BaivietService,
-    private chuyenMucSrv: ChuyenmucService,
-    private forumSrv: ForumService,
-    private droneDaotaoSrv: DronedaotaoService,
-    private placeSrv: DiadiembayService,
-    private planSrv: LichtapbayService,
-    private productSrv: ProductService,
-    private dataSrv: DataService,
-    private issueSrv: IssueService
-  ) { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }
