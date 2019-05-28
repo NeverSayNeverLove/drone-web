@@ -19,6 +19,8 @@ import { UserDetailBillComponent } from './user-detail-bill/user-detail-bill.com
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { SupAddProductComponent } from './sup-add-product/sup-add-product.component';
 import { AdminUsermanagementComponent } from './admin-usermanagement/admin-usermanagement.component';
+import { ContactComponent } from './contact/contact.component';
+
 
 
 const routes: Routes = [
@@ -42,6 +44,8 @@ const routes: Routes = [
   { path: 'user-order-history', component: UserOrderHistoryComponent},
   { path: 'sup-add-product', component: SupAddProductComponent},
   { path: 'admin-usermanagement', component: AdminUsermanagementComponent},
+  { path: 'contact', component: ContactComponent},
+
 
 
 

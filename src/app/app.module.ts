@@ -54,6 +54,7 @@ import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 import {SlideshowModule} from 'ng-simple-slideshow';
 import { AdminUsermanagementComponent } from './admin-usermanagement/admin-usermanagement.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 
@@ -88,6 +89,7 @@ import { AdminUsermanagementComponent } from './admin-usermanagement/admin-userm
     NewLichtapbayComponent,
     NewIssueComponent,
     AdminUsermanagementComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
