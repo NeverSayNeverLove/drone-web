@@ -7,7 +7,7 @@
             </td>
             <div class="e-float-input" [ngClass]="{'e-success': Subject.valid}">
                 <input type="text" id="EventTitle" name="Subject" [(ngModel)]="eventTitle" #Subject="ngModel"
-                    minlength="10" required>
+                class="e-field e-input" name="Subject" minlength="10" required>
                 <span class="e-float-line"></span>
             </div>
             <span class="e-error"

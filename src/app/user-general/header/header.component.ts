@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
         //         this.items.forEach(i => this.count += i.quantity);
         //     }
         // }
-        if (this.userSrv.isAdmin) {
+        if (this.loggedIn && this.userSrv.isAdmin) {
             this.data.push(
                 {
                     text: 'Quản lý người dùng',

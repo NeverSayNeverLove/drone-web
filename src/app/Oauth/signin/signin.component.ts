@@ -42,6 +42,7 @@ export class SigninComponent implements OnInit {
     // kiem tra xem da login chua
     if (this.authSrv.loggedIn) {
       this.router.navigateByUrl(''); // neu da login thi chuyen sang Home
+      return;
     }
     this.initilaizeTarget();
   }
@@ -54,8 +55,6 @@ export class SigninComponent implements OnInit {
     this.ejDialog.animationSettings = { effect: 'Zoom', duration: 400 };
       this.ejDialog.show();
   };
-
-
 
   loginUser(event) {
     this.loadingData = true;
