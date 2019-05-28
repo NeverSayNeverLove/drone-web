@@ -21,8 +21,8 @@
               <div>Nhà cung cấp</div>
             </ng-template>
             <ng-template #content>
-              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
-                [placeholder]='placeholderDrone'></ejs-multiselect>
+              <ejs-multiselect id='sup-list' [dataSource]='supList' [mode]='default' [fields]='fieldsSup'
+              [placeholder]='placeholderSup' [(ngModel)]="selectedSup" (ngModelChange)="filterAll()"></ejs-multiselect>
             </ng-template>
           </e-accordionitem>
 
@@ -31,18 +31,8 @@
               <div>Giá</div>
             </ng-template>
             <ng-template #content>
-              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
-                [placeholder]='placeholderDrone'></ejs-multiselect>
-            </ng-template>
-          </e-accordionitem>
-
-          <e-accordionitem expanded='true'>
-            <ng-template #header>
-              <div>Khuyến mãi</div>
-            </ng-template>
-            <ng-template #content>
-              <ejs-multiselect id='sample-list1' [dataSource]='droneTraining' [mode]='default' [fields]='fieldsDrone'
-                [placeholder]='placeholderDrone'></ejs-multiselect>
+              <ejs-multiselect id='price-list' [dataSource]='priceList' [mode]='default' [fields]='fieldsPrice'
+                [placeholder]='placeholderPrice' [(ngModel)]="selectedPrice" (ngModelChange)="filterAll()"></ejs-multiselect>
             </ng-template>
           </e-accordionitem>
 
