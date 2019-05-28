@@ -129,7 +129,7 @@ export class HeaderComponent implements OnInit {
                 },
                 {
                     text: 'Lịch tập bay',
-                    url: Config.front_endpoint + '/user-calendar',
+                    url: Config.front_endpoint + 'user-calendar',
                 },
             ]
         },

@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { orderDatas } from './data'
+import { Router } from '@angular/router';
+
 import { EditService, PageService, CommandColumnService, CommandModel, Column, IRow, GridComponent, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { UserService, User, VaiTro } from '../services/auth/user.service';
 import { closest } from '@syncfusion/ej2-base';
+import { AuthService } from '../services/auth/auth.service';
+import { DataService } from '../services/helper/data.service';
+
 
 @Component({
   selector: 'admin-usermanagement',
@@ -18,16 +22,30 @@ export class AdminUsermanagementComponent implements OnInit {
   public editSettings: Object;
   public rolerules: Object;
   public toolbar: string[];
-  // public customeridrules: Object;
-  // public freightrules: Object;
   public roleparams: Object;
   public pageSettings: Object;
   public commands: CommandModel[];
 
   constructor(
-    private userSrv: UserService,) { }
+    private userSrv: UserService,
+    private authSrv: AuthService,
+    private dataSrv: DataService,
+    private router: Router) { }
 
   ngOnInit() {
+    // kiem tra xem da login chua
+    if (!this.authSrv.loggedIn) { // neu chua login
+        let key = 'PriorUrl'
+        this.dataSrv.setItem(key, '/admin-usermanagement') // Luu url lai de sau khi login se nhay vao trang nay
+        this.router.navigateByUrl('/signin'); // chuyen sang trang login
+        return;
+    }
+
+    // kiem tra nguoi dung hien tai co la Admin khong, neu khong chuyen ve Home
+    if (!this.userSrv.isAdmin) {
+      this.router.navigateByUrl(''); // chuyen sang trang home
+      return;
+    }
     this.initItemList();
 
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Normal', allowEditOnDblClick: false };
