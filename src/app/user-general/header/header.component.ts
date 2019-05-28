@@ -135,7 +135,7 @@ export class HeaderComponent implements OnInit {
         },
         {
             text: 'Liên hệ',
-            url: Config.front_endpoint + '#'
+            url: Config.front_endpoint + 'contact'
         },
     ];
 

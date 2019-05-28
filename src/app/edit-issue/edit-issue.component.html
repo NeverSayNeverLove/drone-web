@@ -1,14 +1,20 @@
 <table class="custom-event-editor" width="100%" cellpadding="5">
   <tbody>
       <tr>
-          <td class="e-textlabel">Tên vấn đề</td>
+          <td class="e-textlabel">
+              <div class="dung"><i class="far fa-paper-plane"></i></div>
+              <span>Tên vấn đề</span>
+            </td>
           <td colspan="4">
               <input id="EventTitle" [(ngModel)]="eventTitle" class="e-field e-input" type="text"
                   name="Subject" style="width: 100%" />
           </td>
       </tr>
       <tr>
-          <td class="e-textlabel">Loại Issue</td>
+          <td class="e-textlabel">
+              <div class="dung"><i class="fas fa-flag-checkered"></i></div>
+              <span>Loại Issue</span>
+            </td>
           <td colspan="4">
               <ejs-dropdownlist #IssueCategory [dataSource]='issueCateList' class="e-field e-input" name="issuesCategoryID"
                 [(ngModel)]='issueCate' [fields]='fieldsIssueCate' [popupHeight]='height'>
@@ -16,7 +22,10 @@
           </td>
       </tr>
       <tr>
-          <td class="e-textlabel">Bắt đầu</td>
+          <td class="e-textlabel">
+              <div class="dung"><i class="far fa-calendar-check"></i></div>
+              <span>Bắt đầu</span>
+            </td>
           <td colspan="4">
               <ejs-datetimepicker #StartTime [(ngModel)]="eventStartTime" name="StartTime" class="e-field e-input"
                   (ngModelChange)='onChangeStartDate()' [(min)]="minStart" [(max)]="maxStart">
@@ -24,7 +33,10 @@
           </td>
       </tr>
       <tr>
-          <td class="e-textlabel">Kết thúc</td>
+          <td class="e-textlabel">
+              <div class="dung"><i class="far fa-calendar-check"></i></div>
+              <span>Kết thúc</span>
+            </td>
           <td colspan="4">
               <ejs-datetimepicker #EndTime [(ngModel)]="eventEndTime" name="EndTime" class="e-field e-input"
                   (ngModelChange)='onChangeEndDate()' [(min)]="minEnd" [(max)]="maxEnd">
@@ -32,7 +44,9 @@
           </td>
       </tr>
       <tr>
-          <td class="e-textlabel">Trạng thái Issue</td>
+          <td class="e-textlabel">
+              <div class="dung"><i class="fas fa-retweet"></i></div>
+              <span></span>Trạng thái Issue</td>
           <td colspan="4">
               <ejs-dropdownlist #EventStatus [dataSource]='statusIssueList' class="e-field e-input" name="statusID"
                 [(ngModel)]='eventStatus' (ngModelChange)='onSelectedStatusIssue($event)' [fields]='fieldsIssueStatus' [popupHeight]='height'>
@@ -40,7 +54,9 @@
           </td>
       </tr>
       <tr>
-          <td class="e-textlabel">Mô tả</td>
+          <td class="e-textlabel">
+              <div class="dung"><i class="fas fa-comment-medical"></i></div>
+              <span></span>Mô tả</td>
           <td colspan="4">
               <textarea id="EventDescription" [(ngModel)]="eventDescription" class="e-field e-input"
                   name="description" rows="3" cols="50"

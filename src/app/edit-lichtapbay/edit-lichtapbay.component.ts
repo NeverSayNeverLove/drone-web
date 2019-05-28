@@ -10,7 +10,7 @@ import { DataService } from '../services/helper/data.service';
 @Component({
   selector: 'edit-lichtapbay',
   templateUrl: './edit-lichtapbay.component.html',
-  styleUrls: ['./edit-lichtapbay.component.sass']
+  styleUrls: ['./edit-lichtapbay.component.scss']
 })
 export class EditLichtapbayComponent implements OnInit, OnChanges {
 

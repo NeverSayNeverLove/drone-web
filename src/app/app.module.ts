@@ -31,6 +31,8 @@ import { EditIssueComponent } from './edit-issue/edit-issue.component';
 import { EditLichtapbayComponent } from './edit-lichtapbay/edit-lichtapbay.component';
 import { NewLichtapbayComponent } from './new-lichtapbay/new-lichtapbay.component';
 import { NewIssueComponent } from './new-issue/new-issue.component';
+import { AdminUsermanagementComponent } from './admin-usermanagement/admin-usermanagement.component';
+import { ContactComponent } from './contact/contact.component';
 
 // syncfusion
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
@@ -53,7 +55,7 @@ import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
 import { RadioButtonModule } from '@syncfusion/ej2-angular-buttons';
 
 import {SlideshowModule} from 'ng-simple-slideshow';
-import { AdminUsermanagementComponent } from './admin-usermanagement/admin-usermanagement.component';
+
 
 
 
@@ -88,6 +90,7 @@ import { AdminUsermanagementComponent } from './admin-usermanagement/admin-userm
     NewLichtapbayComponent,
     NewIssueComponent,
     AdminUsermanagementComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
