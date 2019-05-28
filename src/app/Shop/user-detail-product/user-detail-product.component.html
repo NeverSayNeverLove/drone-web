@@ -6,7 +6,7 @@
   <div>
     <user-header [count]="totalQuantity" [items]="items" [brand]="brand" [slogan]="slogan"></user-header>
   </div>
-  <div class="container-fluid my-font main-box">
+  <div *ngIf="currProduct" class="container-fluid my-font main-box">
     <div class="col-sm-5">
       <div class="row images-box">
         <div><img id='big-img' src='../../assets/images/drone_{{currProduct.id}}.jpg'></div>
@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  <div class="container-fluid my-font des-box">
+  <div *ngIf="currProduct" class="container-fluid my-font des-box">
     <div class="detail-info-box">
       <div>
         <h3 id="detail-title">Thông tin chi tiết</h3>
@@ -86,7 +86,7 @@
     </div>
 
   </div>
-  <div class="container-fluid my-font">
+  <div *ngIf="currProduct" class="container-fluid my-font">
     <div class="review-box">
       <div class="review-title">
         <h3>Đánh Giá Sản Phẩm</h3>

@@ -102,6 +102,21 @@ export class ProductService {
     }
     return listPromise;
   }
+
+  async fetchProductByID(id) {
+    let listPromise: any;
+    try {
+      listPromise = await new Promise((resolve, reject) => {
+        this.http.get(`${Config.api_endpoint_khai}product=${id}`)
+          .subscribe(data => {
+            resolve(data);
+          });
+      });
+    } catch (error){
+      throw error;
+    }
+    return listPromise['data'];
+  }
 }
 
 export class Product {

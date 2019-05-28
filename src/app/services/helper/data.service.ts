@@ -34,6 +34,14 @@ export class DataService {
     {id: 2, tenVaiTro: "Admin"},
     {id: 3, tenVaiTro: "Khách hàng"}
   ]
+
+  public priceList: any[] = [
+    {id: 1, price: 'nhỏ hơn 100,000'},
+    {id: 2, price: '100,000 - 300,000'},
+    {id: 3, price: '300,000 - 500,000'},
+    {id: 4, price: '500,000 - 1,000,000'},
+    {id: 4, price: 'lớn hơn 1,000,000'}
+  ]
   
   public storage: Map<string, any> = new Map();
 

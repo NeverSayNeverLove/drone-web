@@ -33,16 +33,11 @@ export class UserDetailProductComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.productID = params['productID'];
     });
-    console.log("Id nhận: ",this.productID);
     this.initData();
-
-
   }
 
-  private initData(){
-    this.getDetailProduct(this.productID);
-    console.log("this.currProduct",this.currProduct);
-    // console.log("items hiện tại: ", this.items);
+  private async initData(){
+    await this.fetchProduct(this.productID);
 
     // this.items = this.dataSrv.getItemLocal("cartThuy");
     // console.log("items hiện tại: ", this.items);
@@ -50,16 +45,17 @@ export class UserDetailProductComponent implements OnInit {
     // console.log ("totalQuantity: ",this.totalQuantity);
   }
 
-  private getDetailProduct(id: number) {
-    //lấy productList từ local cache
-    this.productList = this.dataSrv.getItemLocal("locProductList");
-    console.log("this is productList",this.productList);
-    this.currProduct = this.productList.find(p => p.id == this.productID);
+  private async fetchProduct(productID) {
+    let product = await this.productSrv.fetchProductByID(productID);
+    this.currProduct = new Product(product.danh_muc_id, product.nha_cung_cap_id, product.ten_san_pham, product.mo_ta_chung, product.don_gia,
+      product.sale, product.don_vi_ban, product.don_vi_ton_kho, product.diem_danh_gia_tb, product.id)
+  }
+
+  // private getDetailProduct(id: number) {
     // this.split_des = this.currProduct.des.split(".");
     // this.split_des.pop();
     // console.log("split_des",this.split_des);
-
-  }
+  // }
 
   minus() {
     if (this.quantity >= 2) this.quantity--;
