@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { orderDatas } from './data'
 import { EditService, PageService, CommandColumnService, CommandModel, Column, IRow, GridComponent, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { UserService, User, VaiTro } from '../services/auth/user.service';
 import { closest } from '@syncfusion/ej2-base';
@@ -18,8 +17,6 @@ export class AdminUsermanagementComponent implements OnInit {
   public editSettings: Object;
   public rolerules: Object;
   public toolbar: string[];
-  // public customeridrules: Object;
-  // public freightrules: Object;
   public roleparams: Object;
   public pageSettings: Object;
   public commands: CommandModel[];
