@@ -188,6 +188,15 @@ export class UserService {
   public getRole(role_id) {
     return this.dataService.roleUserList.find(r => r.id == role_id);
   }
+
+  public updateRole(userID: number, roleID: number) {
+    const httpHeader = {
+      headers: new HttpHeaders({
+        'Authorization': this.getToken()
+      })
+    };
+    return this.http.put(`${Config.api_endpoint_khai}userrole/${userID}`, {"vai_tro_id": roleID}, httpHeader);
+  }
 }
 
 export class User {
@@ -198,6 +207,8 @@ export class User {
     public id: number = 0,
     public soDienThoai: string = "",
     public vaiTro: VaiTro = {id: 4, tenVaiTro: "user"},
+    public tenVaiTro: string = vaiTro.tenVaiTro,
+
   ) {}
 }
 

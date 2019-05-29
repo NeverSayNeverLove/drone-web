@@ -253,7 +253,6 @@ export class LichtapbayService {
     }
   }
 
-
   public createNewLichTapBayToServer(event): any {
     console.log(event)
     let startTime = this.helperSrv.formatDateTime(event.StartTime);
