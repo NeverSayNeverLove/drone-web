@@ -42,12 +42,12 @@
 
       <div>
         <div class="name-row">
-          <div class="name2">Nhà cung cấp</div>
-          <span><a>Tên nhà cung cấp</a></span>
+          <div class="name2"><span style="margin-right: 5px"><i class="fas fa-plane fa-xs"></i></span>Nhà cung cấp</div>
+          <span><a>MQ SOLUTION ., JP</a></span>
         </div>
 
         <div class="name-row">
-          <div class="name2">Số lượng</div>
+          <div class="name2"><span style="margin-right: 5px"><i class="fas fa-plane fa-xs"></i></span>Số lượng</div>
           <span>
             <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus()">
               <i class="fa fa-minus" aria-hidden="true"></i>
@@ -62,12 +62,12 @@
           </span>
         </div>
         <div>
-          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button my-button"
+          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button"
             (click)="addToCart(quantity)">
             <i class="fa fa-cart-plus" aria-hidden="true"></i><span class="my-font">Thêm vào giỏ</span>
           </button>
-          <button ejs-button [isPrimary]="true" class="button my-button" [routerLink]="['/user-detail-bill', currProduct.id]"
-            routerLinkActive="active menu " style="background-color: cornflowerblue !important">
+          <button ejs-button [isPrimary]="true" class="button" [routerLink]="['/user-detail-bill', currProduct.id]"
+            routerLinkActive="active menu " style="background-color: #1791a9 !important">
             <span class="my-font">Mua ngay</span>
           </button>
         </div>
