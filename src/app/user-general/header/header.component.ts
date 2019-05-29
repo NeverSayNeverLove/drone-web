@@ -22,7 +22,8 @@ export class HeaderComponent implements OnInit {
     loggedIn: boolean; 
     @Input() brand: string = "Drone Calendar";
     @Input() slogan: string = "Come and Book flight schedules";
-
+    @ViewChild('toolbar')
+    public tbObj: ToolbarComponent;
 
     constructor(
       private authSrv: AuthService,
@@ -48,8 +49,7 @@ export class HeaderComponent implements OnInit {
         }
     }
 
-    @ViewChild('toolbar')
-    public tbObj: ToolbarComponent;
+    
     // Menu items definition 
     public data: MenuItemModel[] = [
         {

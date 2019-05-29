@@ -7,12 +7,13 @@ import { closest } from '@syncfusion/ej2-base';
 import { AuthService } from '../services/auth/auth.service';
 import { DataService } from '../services/helper/data.service';
 import { HelperService } from '../services/helper/helper.service'
+import { cssClass } from '@syncfusion/ej2-lists';
 
 
 @Component({
   selector: 'admin-usermanagement',
   templateUrl: './admin-usermanagement.component.html',
-  styleUrls: ['./admin-usermanagement.component.sass'],
+  styleUrls: ['./admin-usermanagement.component.scss'],
   providers: [ EditService, PageService, CommandColumnService]
 })
 export class AdminUsermanagementComponent implements OnInit {
@@ -85,11 +86,14 @@ export class AdminUsermanagementComponent implements OnInit {
     let token = this.userSrv.getToken();
     let userListPro = await this.userSrv.fetchAllUserList(token);
     userListPro.forEach(users => {
-      users['data'].forEach(u => {
-        let vaitro = this.userSrv.getRole(u.vai_tro_id);
-        let user = new User(u.dia_chi, u.email, u.ho_ten, u.id, u.so_dien_thoai, vaitro, vaitro.tenVaiTro);
-        userList.push(user);
-      });
+      if (users) {
+        users['data'].forEach(u => {
+          let vaitro = this.userSrv.getRole(u.vai_tro_id);
+          let user = new User(u.dia_chi, u.email, u.ho_ten, u.id, u.so_dien_thoai, vaitro);
+          user['tenVaiTro'] = vaitro.tenVaiTro;
+          userList.push(user);
+        });
+      }
     });
     this.data = userList;
   }
