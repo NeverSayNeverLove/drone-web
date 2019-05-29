@@ -91,11 +91,10 @@ h6 {
     border: none;
 }
 .detail-info-box, .review-box {
-    margin: 15px 0px;
-    // border: 1px solid rgb(180, 180, 180);
+    margin:30px 90px;
+    
 }
 #detail-title {
-    background-color: #fafafa;
     padding-left: 15px;
 }
 .review-title {
@@ -106,7 +105,7 @@ h6 {
     margin-top: 15px 0px 0px 0px;
 }
 .des-box {
-    background-color: white;
+    background-color: #f8f9fa;
 
 }
 .info-right-box {
@@ -130,4 +129,7 @@ h6 {
 .my-icon {
     color: #178399;
     
+}
+body {
+    background-color: #f8f9fa;
 }
