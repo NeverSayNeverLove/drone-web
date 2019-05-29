@@ -20,4 +20,11 @@ export class HelperService {
   public getRoleIDByName(name: string): number {
     return this.dataSrv.roleUserList.find(r => r.tenVaiTro == name).id;
   }
+
+  // filter duplicate item
+  public filterDuplicateItemByID(items: number[]): number[] {
+    return  items.filter(function (tk, index, self) {
+      return index === self.indexOf(tk);
+    });
+  }
 }

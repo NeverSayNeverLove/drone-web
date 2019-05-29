@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { DataService } from '../helper/data.service';
+import { LichTapBay } from '../event/lichtapbay.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,24 @@ export class FiltercalendarService {
       }
     }, statusNames);
     return events
+  }
+  
+  public filterEventsByID(events: Array<any>, ids: Array<number>) : Array<LichTapBay> {
+    events = events.filter(function (e) {
+      if (e.typeOfEvent == "LichTapBay") {
+        return this.indexOf(e.Id) < 0;
+      } else {
+        return e;
+      }
+    }, ids);
+    return events
+  }
+
+  public filterIDsByOtherIDs(IDs: Array<number>, otherIDs: Array<number>): Array<number> {
+    IDs = IDs.filter(function (id) {
+      return this.indexOf(id) < 0;
+    }, otherIDs)
+    return IDs;
   }
 
   public getStatusLichBay(id): number {

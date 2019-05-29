@@ -394,6 +394,24 @@ export class LichtapbayService {
     }
   }
 
+  public async fetchFlyPlanByIDs(ids) {
+    let flyPlanPromise: any[] = [];
+    try {
+      for (let i = 0; i < ids.length; i++) {
+        let tmp = await new Promise((resolve, reject) => {
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/${ids[i]}`, httpOptions)
+            .subscribe(data => {
+              resolve(data);
+            });
+          });
+        flyPlanPromise.push(tmp);
+      }
+    } catch (error) {
+      throw error;
+    }
+    return flyPlanPromise;
+  }
+
 }
 
 
