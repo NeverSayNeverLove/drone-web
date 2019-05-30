@@ -318,6 +318,7 @@ export class LichtapbayService {
 
 
   public saveLichTapBayToServer(e) {
+    e['nguoiThaoTacId'] = this.userSrv.getCurrentUserID('CurrentUser');
     this.updateLichTapBay(e).subscribe(
       (lichtapbay) => { console.log('lich bay:', lichtapbay); },
       (error: any) => { console.log(error) }

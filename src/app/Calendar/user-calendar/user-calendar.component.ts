@@ -184,14 +184,14 @@ export class UserCalendarComponent implements OnInit {
         if (this.userSrv.isUser) {
             let that = this;
             this.calTimer = setInterval(
-                this.updateChangesFeedFlyPlan,
+                this.updateChangesFeedFlyPlanByUser,
                 Config.changeFeedTime,
                 that
             );
         } else {
             let that = this;
             this.calTimer = setInterval(
-                this.updateChangesFeedFlyPlan,
+                this.updateChangesFeedFlyPlanBySup,
                 Config.changeFeedTime,
                 that
             );
@@ -366,32 +366,31 @@ export class UserCalendarComponent implements OnInit {
         });
     }
 
-    public async updateChangesFeedFlyPlan(that) {
+    public async updateChangesFeedFlyPlanBySup(that) {
         let key = 'priorTime';
         that.priorTime = that.dataSrv.getItem(key);
         if (!that.priorTime) {
-        that.priorTime = (new Date()).toISOString();
+            that.priorTime = (new Date()).toISOString();
         }
         that.dataSrv.setItem(key, (new Date()).toISOString());
         let listCreatedFlyPlanIDs: Array<number> = [];
         let listUpdatedFlyPlanIDs: Array<number> = [];
         let listDeletedFlyPlanIDs: Array<number> = [];
-        let listChangesFeed = await that.changesFeedSrv.fetchChangesFeed(that.priorTime);
-        console.log(listChangesFeed[0]['content']);
+        let listChangesFeed = await that.changesFeedSrv.fetchChangesFeedBySup(that.priorTime);
         listChangesFeed[0]['content'].forEach(cf => {
-        switch (cf['thaoTac']) {
-            case 'TẠO MỚI':
-                listCreatedFlyPlanIDs.push(cf.eventId);
+            switch (cf['thaoTac']) {
+                case 'TẠO MỚI':
+                    listCreatedFlyPlanIDs.push(cf.eventId);
+                    break;
+                case 'CẬP NHẬT':
+                    listUpdatedFlyPlanIDs.push(cf.eventId);
+                    break;
+                case 'XÓA':
+                    listDeletedFlyPlanIDs.push(cf.eventId);
+                    break;
+                default:
                 break;
-            case 'CẬP NHẬT':
-                listUpdatedFlyPlanIDs.push(cf.eventId);
-                break;
-            case 'XÓA':
-                listDeletedFlyPlanIDs.push(cf.eventId);
-                break;
-            default:
-            break;
-        }
+            }
         });
         listCreatedFlyPlanIDs = that.filterCalSrv.filterIDsByOtherIDs(listCreatedFlyPlanIDs, listDeletedFlyPlanIDs)
         listCreatedFlyPlanIDs = that.helperSrv.filterDuplicateItemByID(listCreatedFlyPlanIDs);
@@ -403,33 +402,15 @@ export class UserCalendarComponent implements OnInit {
         if (listUpdatedFlyPlanIDs.length) {
             that.fetchUpdatedFlyPlan(listUpdatedFlyPlanIDs);
         }
+        if (listDeletedFlyPlanIDs.length) {
+            that.deleteFlyPlan(listDeletedFlyPlanIDs);
+        }
     }
 
     private async fetchCreatedFlyPlan(ids) {
         // fetch moi event co id nam trong ids
         let eventsPromise = await this.lichbaySrv.fetchFlyPlanByIDs(ids);
-        console.log(eventsPromise)
-        // eventsPromise.forEach(e => {
-    //         console.log('changes feed create lich bay', e);
-    //         // let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
-    //         //                             e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.nhaCungCap.id,
-    //         //                             e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao,  e.droneDaoTao.id);
-    //         // this.setStatusEvent(event);
-
-    //         // this.events.push(event);
-        // });
-        this.dataSrv.setItem('LichTapBayLocal', this.events);
-        this.reloadDataSource();
-    }
-
-    private async fetchUpdatedFlyPlan(ids) {
-        // xoa nhung event co id nam trong ids
-        this.events = this.filterCalSrv.filterEventsByID(this.events, ids);
-        // fetch moi event co id nam trong ids
-        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByIDs(ids);
-        console.log(eventsPromise)
         eventsPromise.forEach(e => {
-            console.log('changes feed update lich bay', e);
             let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
                                         e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.nhaCungCap.id,
                                         e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao,  e.droneDaoTao.id);
@@ -439,6 +420,49 @@ export class UserCalendarComponent implements OnInit {
         });
         this.dataSrv.setItem('LichTapBayLocal', this.events);
         this.reloadDataSource();
+    }
+
+    private async fetchUpdatedFlyPlan(ids) {
+        // xoa nhung event co id nam trong ids
+        this.events = this.filterCalSrv.filterEventsByID(this.events, ids);
+        this.reloadDataSource();
+        // fetch moi event co id nam trong ids
+        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByIDs(ids);
+        eventsPromise.forEach(e => {
+            let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
+                                        e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.nhaCungCap.id,
+                                        e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao,  e.droneDaoTao.id);
+            this.setStatusEvent(event);
+
+            this.events.push(event);
+        });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
+        this.reloadDataSource();
+    }
+
+    private deleteFlyPlan(ids) {
+        // xoa nhung event co id nam trong ids
+        this.events = this.filterCalSrv.filterEventsByID(this.events, ids);
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
+        this.reloadDataSource();
+    }
+
+    public async updateChangesFeedFlyPlanByUser(that) {
+        let key = 'priorTime';
+        that.priorTime = that.dataSrv.getItem(key);
+        if (!that.priorTime) {
+        that.priorTime = (new Date()).toISOString();
+        }
+        that.dataSrv.setItem(key, (new Date()).toISOString());
+        let listUpdatedFlyPlanIDs: Array<number> = [];
+        let listChangesFeed = await that.changesFeedSrv.fetchChangesFeedByUser(that.priorTime);
+        listChangesFeed[0]['content'].forEach(cf => {
+            listUpdatedFlyPlanIDs.push(cf.lichTapBayId);
+        });
+        listUpdatedFlyPlanIDs = that.helperSrv.filterDuplicateItemByID(listUpdatedFlyPlanIDs);
+        if (listUpdatedFlyPlanIDs.length) {
+            that.fetchUpdatedFlyPlan(listUpdatedFlyPlanIDs);
+        }
     }
 
     gotoDate($event, scheduleObj) {
@@ -583,11 +607,15 @@ export class UserCalendarComponent implements OnInit {
             events.forEach(event => {
                 this.lichbaySrv.deleteLichTapBayToServer(event.Id).subscribe(e => console.log(e));
             });
+            // this.removeLichTapBay(event);
+            // this.reloadDataSource();
         }
         if (this.userSrv.isSup) {
             events.forEach(event => {
                 this.issueSrv.deleteIssueToServer(event.Id).subscribe(e => console.log(e));
             });
+            // this.removeIssue(event);
+            this.reloadDataSource();
         }
     }
     //#endregion
@@ -609,18 +637,21 @@ export class UserCalendarComponent implements OnInit {
 
     private addEvent(event) {
         this.events.push(event)
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
 
     private removeLichTapBay(e) {
         this.events = this.events.filter(function(event){
             return event.TypeOfEvent == 'Issue' || event.Id != e.Id
         });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
 
     private removeIssue(e) {
         this.events = this.events.filter(function(event){
             return  event.TypeOfEvent == 'LichTapBay' || event.Id != e.Id
         });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
 
     private reloadDataSource() {

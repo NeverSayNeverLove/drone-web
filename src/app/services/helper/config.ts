@@ -4,5 +4,5 @@ export class Config {
     static front_endpoint = 'http://localhost:4200/';
     static pageSizeMax = 100;
     static pages = 20;
-    static changeFeedTime = 180000;
+    static changeFeedTime = 10000;
 }
