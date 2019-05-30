@@ -5,6 +5,7 @@ import { ForumService, TopicTableRow, ChuDeForum, CauHoiForum } from '../../serv
 import { DataService } from '../../services/helper/data.service';
 import { BaivietService } from '../../services/forum/baiviet.service';
 import { AuthService } from '../../services/auth/auth.service';
+// import { Input } from '@syncfusion/ej2-inputs';
 
 @Component({
   selector: 'user-forum-share',
@@ -24,6 +25,8 @@ export class UserForumShareComponent implements OnInit {
 
   public topicList: Array<TopicTableRow> = [];
   public data_dropdown_choose_topic: ChuDeForum[];
+  public data_topicsList: any[] = [];
+  // public addedTopicList: Array<TopicTableRow>;
 
   selectedTopicID: number;
 
@@ -49,27 +52,40 @@ export class UserForumShareComponent implements OnInit {
     this.initilaizeTarget();
   }
 
-
-  async initData() {
-    await this.getTopics();
-    this.data_dropdown_choose_topic = this.topicList;
+  sendMessage() {
+    // this.messageEvent.emit(this.addedTopicList);
+    // console.log('messageEvent', this.addedTopicList);
   }
-  async getTopics() {
+
+  initData() {
+    this.getTopic();
+  }
+
+  async getTopic() {
     let topicPromise = await this.forumSrv.fetchChudeForum();
-    topicPromise.forEach(topic => {
-      this.topicList.push(topic);
+    topicPromise.forEach(t => {
+      this.data_topicsList.push({id: t.id, tenChuDeCauHoi: t.tenChuDeCauHoi });
+      let topicTr: TopicTableRow = new TopicTableRow();
+      topicTr.id = t.id;
+      topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
+      // this.addedTopicList.push(topicTr);
     });
-  }
-
-
+  } 
+ 
   public handleOnClickTopicOK: EmitType<object> = () => {
-    let topic = new ChuDeForum(this.inputtopic);
+    let topic = new ChuDeForum (this.inputtopic);
     this.forumSrv.createChuDeForum(topic).subscribe(
-      (topic: ChuDeForum) => { console.log(topic) },
+      (topic: ChuDeForum) => {
+        let topicTr: TopicTableRow = new TopicTableRow();
+        topicTr.id = topic['data'].id;
+        topicTr.tenChuDeCauHoi = topic['data'].tenChuDeCauHoi;
+        // this.addedTopicList.push(topicTr);
+        this.data_topicsList.push({id: topic['data'].id, tenChuDeCauHoi: topic['data'].tenChuDeCauHoi });
+        this.sendMessage();
+      },
       (error: any) => { console.log(error) }
     );
     this.topicDialog.hide();
-
   }
 
   public handleOnClickTopicCancel: EmitType<object> = () => {

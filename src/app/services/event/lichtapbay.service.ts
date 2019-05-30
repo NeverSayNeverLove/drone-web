@@ -254,7 +254,6 @@ export class LichtapbayService {
   }
 
   public createNewLichTapBayToServer(event): any {
-    console.log(event)
     let startTime = this.helperSrv.formatDateTime(event.StartTime);
     let endTime = this.helperSrv.formatDateTime(event.EndTime);
     return {
@@ -319,25 +318,22 @@ export class LichtapbayService {
 
   public saveLichTapBayToServer(e) {
     e['nguoiThaoTacId'] = this.userSrv.getCurrentUserID('CurrentUser');
-    this.updateLichTapBay(e).subscribe(
-      (lichtapbay) => { console.log('lich bay:', lichtapbay); },
-      (error: any) => { console.log(error) }
-    );
+    return this.updateLichTapBay(e)
   }
 
   public createNewLichTapBayToLocal(e): LichTapBay {
     let currentUser = this.userSrv.getCurrentUser('CurrentUser');
-    let lichTapBay = new LichTapBay(e.Id, e.Subject,
-      new Date(e.StartTime),
-      new Date(e.EndTime),
-      e.description, this.dataSrv.statusList[0].name,
+    let lichTapBay = new LichTapBay(e.id, e.ghiChu,
+      new Date(e.thoiGianBatDau),
+      new Date(e.thoiGianKetThuc),
+      e.noiDung, this.dataSrv.statusList[0].name,
       currentUser,
-      this.userSrv.findNhaCungCap(e.nhaCungCapID),
-      e.nhaCungCapID,
-      this.placeSrv.findDiaDiemBay(e.diaDiemBayID),
-      e.diaDiemBayID,
-      this.droneSrv.findDrone(e.droneDaoTaoID),
-      e.droneDaoTaoID)
+      e.nhaCungCap,
+      e.nhaCungCap.id,
+      e.diaDiemBay,
+      e.diaDiemBay.id,
+      e.droneDaoTao,
+      e.droneDaoTao.id)
     return lichTapBay;
   }
 

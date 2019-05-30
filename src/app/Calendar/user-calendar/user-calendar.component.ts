@@ -433,7 +433,6 @@ export class UserCalendarComponent implements OnInit {
                                         e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.nhaCungCap.id,
                                         e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao,  e.droneDaoTao.id);
             this.setStatusEvent(event);
-
             this.events.push(event);
         });
         this.dataSrv.setItem('LichTapBayLocal', this.events);
@@ -558,7 +557,11 @@ export class UserCalendarComponent implements OnInit {
             let statusEvent =this.lichbaySrv.getLichBayStatusName1(event.status); //TV -> TA
             // Tạo object để lưu lên server với trạng thái = tiếng anh
             let lichbayServer = this.lichbaySrv.createChangedLichTapBayObject(event, statusEvent);
-            this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
+            this.lichbaySrv.saveLichTapBayToServer(lichbayServer).subscribe(
+                (lichtapbay) => {
+                },
+                (error: any) => { console.log(error) }
+              );
             // Tạo object để lưu tại Local với trạng thái = tiếng việt
             let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocalByUser(lichbayServer);
             this.setStatusEvent(lichTapBayLocal);
@@ -572,7 +575,11 @@ export class UserCalendarComponent implements OnInit {
     private saveChangedFlyPlanBySup(event) {
         let status =this.lichbaySrv.getLichBayStatusName2(event.status); // id -> eName
         let lichbayServer = this.lichbaySrv.createChangedLichTapBayObject(event, status);
-        this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
+        this.lichbaySrv.saveLichTapBayToServer(lichbayServer).subscribe(
+            (lichtapbay) => {
+            },
+            (error: any) => { console.log(error) }
+          );
         let lichTapBayLocal = this.lichbaySrv.saveLichTapBayToLocalBySup(event, status);
         this.setStatusEvent(lichTapBayLocal);
         this.removeLichTapBay(event);
@@ -591,13 +598,18 @@ export class UserCalendarComponent implements OnInit {
         }
     }
 
-    private createNewFlyPlan(event) {
+    private async createNewFlyPlan(event) {
         let lichbayServer = this.lichbaySrv.createNewLichTapBayToServer(event);
-        this.lichbaySrv.saveLichTapBayToServer(lichbayServer);
-        let lichTapBayLocal = this.lichbaySrv.createNewLichTapBayToLocal(event);
-        this.removeLichTapBay(event);
-        this.addEvent(lichTapBayLocal);
-        this.reloadDataSource();
+        this.lichbaySrv.saveLichTapBayToServer(lichbayServer).subscribe(
+            (lichtapbay) => {
+                let lichTapBayLocal = this.lichbaySrv.createNewLichTapBayToLocal(lichtapbay);
+                this.removeLichTapBay(event);
+                this.addEvent(lichTapBayLocal);
+                this.dataSrv.setItem('LichTapBayLocal', this.events);
+                this.reloadDataSource();
+            },
+            (error: any) => { console.log(error) }
+          );
     }
     //#endregion
 
@@ -606,17 +618,18 @@ export class UserCalendarComponent implements OnInit {
         if (this.userSrv.isUser) {
             events.forEach(event => {
                 this.lichbaySrv.deleteLichTapBayToServer(event.Id).subscribe(e => console.log(e));
-            });
-            // this.removeLichTapBay(event);
+                this.removeLichTapBay(event);
+            }); 
             // this.reloadDataSource();
         }
         if (this.userSrv.isSup) {
             events.forEach(event => {
                 this.issueSrv.deleteIssueToServer(event.Id).subscribe(e => console.log(e));
+                this.removeIssue(event);
             });
-            // this.removeIssue(event);
-            this.reloadDataSource();
+            // this.reloadDataSource();
         }
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
     //#endregion
 
@@ -657,16 +670,6 @@ export class UserCalendarComponent implements OnInit {
     private reloadDataSource() {
         this.eventSettings = {
             dataSource: <Object[]>extend([], this.events, null, true),
-            fields: {
-                subject: { name: 'Subject', validation: { required: true } },
-                // description: {
-                //     name: 'Description', validation: {
-                //         required: true, minLength: 5, maxLength: 500
-                //     }
-                // },
-                // startTime: { name: 'StartTime', validation: { required: true } },
-                // endTime: { name: 'EndTime', validation: { required: true } }
-            },
             enableTooltip: true,
             tooltipTemplate: this.temp
         };
