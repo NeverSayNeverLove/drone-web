@@ -5,7 +5,9 @@
 <body>
   <user-header [brand]="brand" [slogan]="slogan"></user-header>
   <div class="container-fluid">
-    <user-forum-share (messageEvent)="receiveMessage($event)"></user-forum-share>
+    <!-- <user-forum-share (messageEvent)="receiveMessage($event)"></user-forum-share> -->
+    <user-forum-share></user-forum-share>
+
 
 
     <div id="topic-list-table" class="col-sm-7">
@@ -14,7 +16,7 @@
         <hr />
       </div>
       <div>
-        <ejs-grid id='topicGrid'#grid1 [dataSource]='data_topicsList' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
+        <ejs-grid id='topicGrid'#grid1 [dataSource]='data_table_topic_list' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
           [allowFiltering]="true" [filterSettings]='filterSettings' [selectionSettings]='selectionOptions'
           (rowSelected)='rowSelected($event)'>
           <e-columns>

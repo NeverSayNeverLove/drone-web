@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ViewEncapsulation, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ForumService, TopicTableRow, ChuDeForum, CauHoiForum } from '../../services/forum/forum.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrls: ['./user-forum-share.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserForumShareComponent implements OnInit, OnChanges {
+export class UserForumShareComponent implements OnInit {
   @ViewChild('topicDialog') topicDialog: DialogComponent;
   @ViewChild('questionDialog') questionDialog: DialogComponent;
   // Create element reference for dialog target element.
@@ -23,7 +23,7 @@ export class UserForumShareComponent implements OnInit, OnChanges {
   public fields: Object = { text: 'tenChuDeCauHoi', value: 'id' };
 
   public topicList: Array<TopicTableRow> = [];
-  public data_topicsList: TopicTableRow[];
+  public data_dropdown_choose_topic: ChuDeForum[];
 
   selectedTopicID: number;
 
@@ -39,7 +39,6 @@ export class UserForumShareComponent implements OnInit, OnChanges {
   constructor(
     private forumSrv: ForumService,
     private dataSrv: DataService,
-    private baivietSrv: BaivietService,
     private authSrv: AuthService,
 
   ) { }
@@ -48,51 +47,23 @@ export class UserForumShareComponent implements OnInit, OnChanges {
     this.loggedIn = this.authSrv.loggedIn;
     this.initData();
     this.initilaizeTarget();
-    // this.sendMessage();
   }
-  ngOnChanges() {
-    console.log('change');
-    // this.loggedIn = this.authSrv.loggedIn;
-    // this.initData();
-    // this.sendMessage();
-    // this.initilaizeTarget();
-  }
-  // sendMessage() {
-  //   this.messageEvent.emit(this.topicList);
-  //   console.log('messageEvent', this.topicList);
-  // }
+
 
   async initData() {
-    // await this.getTopic();
-    this.data_topicsList = this.topicList;
-    // this.sendMessage();
-    // console.log('share topic list', this.data_topicsList);
+    await this.getTopics();
+    this.data_dropdown_choose_topic = this.topicList;
   }
-  // async getTopic() {
-  //   let topicPromise = await this.forumSrv.fetchChudeForum();
-  //   let postPromise = await this.forumSrv.fetchCauhoiForum();
-  //   topicPromise.forEach(t => {
-  //     let topicTr: TopicTableRow = new TopicTableRow();
-  //     topicTr.id = t.id;
-  //     topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
-  //     this.topicList.push(topicTr);
-  //   });
-  //   this.topicList.forEach(t => {
-  //     postPromise.forEach(postPage => {
-  //       postPage.content.forEach(post => {
-  //         if (post.chuDe.id === t.id) {
-  //           t.numOfPost++;
-  //         }
-  //       });
-  //     });
-  //   });
-  //   this.baivietSrv.setPost(this.topicList, "locPostList");
-  // }
+  async getTopics() {
+    let topicPromise = await this.forumSrv.fetchChudeForum();
+    topicPromise.forEach(topic => {
+      this.topicList.push(topic);
+    });
+  }
 
 
   public handleOnClickTopicOK: EmitType<object> = () => {
-    let topicName: HTMLInputElement = document.getElementById('topic-dialog').querySelector('#nameTopic');
-    let topic = new ChuDeForum(topicName.value);
+    let topic = new ChuDeForum(this.inputtopic);
     this.forumSrv.createChuDeForum(topic).subscribe(
       (topic: ChuDeForum) => { console.log(topic) },
       (error: any) => { console.log(error) }

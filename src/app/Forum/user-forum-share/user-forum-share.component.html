@@ -92,7 +92,7 @@
           <div>
             <label for='topic'>Chủ đề:</label>
             <ejs-dropdownlist required #topicselect='ngModel' [(ngModel)]='topic_autoselect' name="topicselect1"
-              id='topic' [dataSource]='data_topicsList' [fields]='fields' placeholder='Select a topic' [value]='value'
+              id='topic' [dataSource]='data_dropdown_choose_topic' [fields]='fields' placeholder='Select a topic' [value]='value'
               (change)='handleOnSelectedTopic($event)'>
             </ejs-dropdownlist>
           </div>
