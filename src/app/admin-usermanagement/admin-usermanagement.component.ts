@@ -57,15 +57,21 @@ export class AdminUsermanagementComponent implements OnInit {
     this.editSettings = { showDeleteConfirmDialog: true, allowEditing: true, allowDeleting: true, mode: 'Normal', allowEditOnDblClick: true };
     this.rolerules = { required: true };
     this.pageSettings = {pageCount: 5};
-    this.commands = [{ buttonOption: { content: 'update', click: this.onClickSave.bind(this), cssClass: 'e-flat' } },
+    this.commands = [{ buttonOption: { click: this.onClickSave.bind(this), cssClass: 'e-flat', iconCss: 'e-icons e-update' } },
     { type: 'Delete', buttonOption: { click: this.onClickDelete.bind(this), iconCss: 'e-icons e-delete', cssClass: 'e-flat' } },
     { type: 'Cancel', buttonOption: { iconCss: 'e-icons e-cancel-icon', cssClass: 'e-flat' } }];
+    // this.commands = [{ type: 'Edit', buttonOption: { click: this.onClickSave.bind(this), iconCss: ' e-icons e-edit', cssClass: 'e-flat' } },
+    // { type: 'Delete', buttonOption: { iconCss: 'e-icons e-delete', cssClass: 'e-flat' } },
+    // { type: 'Save', buttonOption: { iconCss: 'e-icons e-update', cssClass: 'e-flat' } },
+    // { type: 'Cancel', buttonOption: { iconCss: 'e-icons e-cancel-icon', cssClass: 'e-flat' } }];
     this.toolbar = ['Search'];
   }
 
   private onClickSave(args: Event){
     const rowObj: IRow<Column> = this.grid.getRowObjectFromUID(closest(args.target as Element, '.e-row').getAttribute('data-uid'));
     const editedUser: User = <User> rowObj.data;
+    // console.log(' editedUser', editedUser);
+    // console.log(' editedUser', editedUser);
     if (editedUser['tenVaiTro'] != editedUser['vaiTro']['tenVaiTro']) {
       let roleID = this.helperSrv.getRoleIDByName(editedUser['tenVaiTro']);
       this.userSrv.updateRole(editedUser['id'], roleID).subscribe(e => console.log(e));
