@@ -2,55 +2,46 @@
     <div class="my-brand">
         <div id="brand">{{brand}}</div>
         <div id="slogan">{{slogan}}</div>
-        <!-- <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
-                routerLinkActive="active menu">Kênh NCC
-        </button> -->
-        
-        <!-- <div id="searchArea" class="e-input-group">
-                <input class="e-input" type="text" placeholder="Search" />
-                <i class="fas fa-search"></i>
-        </div> -->
     </div>
-    
-    <div class="menu-section fixed my-nav">
-        <div class="toolbar-menu-control">
-            <!-- <button id="nccbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true" routerLink="/signin"
-                routerLinkActive="active menu">Kênh NCC</button> -->
-            <button *ngIf="loggedIn" id="logoutbtn" type=button ejs-button cssClass='e-flat' (click)="logout()">
-                <i class="fas fa-sign-out-alt my-icon"></i>
-            </button>
-            <button *ngIf="!loggedIn" id="loginbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true"
-                (click)="login()">Đăng nhập</button>
-            <button *ngIf="!loggedIn" id="signupbtn" type=button ejs-button cssClass='e-outline' [isPrimary]="true"
-                (click)="register()">Đăng kí</button>
-            <div id="shoppingMenu">
+
+    <div class="menu-section fixed ">
+        <div class="toolbar-menu-control my-menu">
+            <!-- Right Menu -->
+            <div id="shoppingMenu" class="my-toolbar-items">
                 <ejs-menu [items]="data"></ejs-menu>
             </div>
 
-            <a type=button ejs-dropdownbutton id='userDBtn' [items]='userData'class='e-flat'><i class="fas fa-user my-icon"></i></a>
+            <div class="my-toolbar-items" style="float:right">
+                <!-- Cart Button -->
+                <button id="cartbtn" class="my-toolbar-items" style="position:relative; margin-right: 20px" class="badge-block"
+                    routerLink='/user-cart' routerLinkActive="active menu" ejs-button cssClass="e-flat"
+                    [isPrimary]="true">
+                    <div class="em-icons e-shopping-cart my-icon" style="font-size: 25px"></div>
+                    <span class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">
+                        {{count}}
+                    </span>
+                </button>
 
-            <!-- <div id="searchArea" class="e-input-group"><input class="e-input" type="text" placeholder="Search" />
-                <span class="e-input-group-icon em-icons e-search my-icon "></span>
-            </div> -->
+                <!-- User Button -->
+                <a type=button ejs-dropdownbutton id='userDBtn' class="my-toolbar-items my-menu-right-items" [items]='userData'
+                    class='e-flat'>
+                    <i class="fas fa-user my-icon"></i>
+                </a>
 
-            <button id="cartbtn" style="position:relative" class="badge-block" routerLink='/user-cart'
-                routerLinkActive="active menu" ejs-button cssClass="e-flat" [isPrimary]="true">
-                <div class="em-icons e-shopping-cart my-icon" style="font-size: 25px"></div>
-                <span class="e-badge e-badge-notification e-badge-overlap e-badge-circle e-badge-bottom my-badge">
-                    {{count}}
-                </span>
-            </button>
-
-            <ejs-toolbar #toolbar>
-                <e-items>
-                    <e-item [template]='menuTemplate'></e-item>                   
-                    <e-item [template]='cartbtn' align='Right'></e-item>
-                    <e-item [template]='ddbTemplate' align='Right'></e-item>
-                    <e-item *ngIf="loggedIn" [template]='logoutbtn' align='Right'></e-item>
-                    <e-item *ngIf="!loggedIn" [template]='loginbtn' align='Right'></e-item>
-                    <e-item *ngIf="!loggedIn" [template]='signupbtn' align='Right'></e-item>
-                </e-items>
-            </ejs-toolbar>
+                <!-- Login Button -->
+                <div class="my-toolbar-items">
+                    <button *ngIf="loggedIn" id="logoutbtn" type=button ejs-button cssClass='e-flat' (click)="logout()"
+                        class="my-menu-right-items">
+                        <i class="fas fa-sign-out-alt my-icon"></i>
+                    </button>
+                    <button *ngIf="!loggedIn" id="loginbtn" type=button ejs-button cssClass='e-outline'
+                        class="login-button my-menu-right-items"
+                        [isPrimary]="true" (click)="login()">Đăng nhập</button>
+                    <button *ngIf="!loggedIn" id="signupbtn" type=button ejs-button cssClass='e-outline'
+                        class="my-menu-right-items login-button"
+                        [isPrimary]="true" (click)="register()">Đăng kí</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

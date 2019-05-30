@@ -145,20 +145,23 @@ font-size: 16px;
      height: auto;
      background-color: #11badb; /* For browsers that do not support gradients */
      background-image: linear-gradient( #188ca3, #11badb,#48bcd3) /* Standard syntax (must be last) */
-    // background-image: url(../../../assets/images/banner.jpg);
+
     
 }
-.e-toolbar .e-toolbar-items {
-    background-color: #056477;
-    color: white;
-    opacity: 0.8;
+//Menu
+.my-toolbar-items {
+    display: inline-block;
 }
-.e-menu-wrapper {
-    background-color: #056477;
-    color: white;
+.my-menu {
+    background-color: #147c91;
 }
 
-//NAV RIGHT
+
+//Left Menu
+.e-menu-wrapper {
+    background-color: #147c91;
+    color: white;
+}
 .e-menu-wrapper ul .e-menu-item .e-menu-url {
     color: white;
     font-family: 'Montserrat', sans-serif;
@@ -171,7 +174,27 @@ font-size: 16px;
 }
 .e-menu-wrapper ul .e-menu-item.e-selected{
     background-color: #20a4be !important;
+    color: white;
 }
+//Right Menu
+.my-menu-right-items {
+    margin: 0px 10px 0px 0px;
+}
+
+.login-button {
+    border-color: #96deec !important;
+    color: #91dceb !important;
+}
+.login-button:focus {
+    border-color: #91dceb !important;
+    background-color: #91dceb !important;
+    color: #056477 !important;
+}
+.login-button:hover {
+    border-color: #91dceb !important;
+    background-color: #91dceb !important;
+    color: #056477 !important;
+}   
 
 
 .my-header h1{
@@ -197,38 +220,38 @@ font-size: 16px;
     margin-bottom: 10px;
 }
 
-//KÊNH NCC Button
-#nccbtn.e-btn.e-outline.e-primary  {
+// //KÊNH NCC Button
+// #nccbtn.e-btn.e-outline.e-primary  {
  
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    color: white !important;
-    border-color: white;
-    // background-color: rgb(61, 110, 110) !important;
-}
-#nccbtn.e-btn.e-outline.e-primary:focus  {
-    color: rgb(31, 53, 53) !important;
-    background-color: white !important;
-}
-#nccbtn.e-btn.e-outline.e-primary:hover  {
-    background-color: white !important;
-    color: rgb(31, 53, 53) !important;
+//     font-family: 'Montserrat', sans-serif;
+//     font-size: 11px;
+//     color: white !important;
+//     border-color: white;
+//     // background-color: rgb(61, 110, 110) !important;
+// }
+// #nccbtn.e-btn.e-outline.e-primary:focus  {
+//     color: rgb(31, 53, 53) !important;
+//     background-color: white !important;
+// }
+// #nccbtn.e-btn.e-outline.e-primary:hover  {
+//     background-color: white !important;
+//     color: rgb(31, 53, 53) !important;
 
-}
-#nccbtn {
-    float: right;
-    margin: 10px;
-}
-#searchArea {
-    // display: inline-block;
-    float: right;
-    width: 120px;
-    margin-top: 3px;
-    color: white;
+// }
+// #nccbtn {
+//     float: right;
+//     margin: 10px;
+// }
+// #searchArea {
+//     // display: inline-block;
+//     float: right;
+//     width: 120px;
+//     margin-top: 3px;
+//     color: white;
     
-}
-.fas.fa-search {
-    margin-top: 7px;
-    margin-right: 3px;
+// }
+// .fas.fa-search {
+//     margin-top: 7px;
+//     margin-right: 3px;
     
-}
+// }

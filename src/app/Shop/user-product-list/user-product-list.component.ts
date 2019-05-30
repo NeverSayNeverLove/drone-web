@@ -22,6 +22,9 @@ export class UserProductListComponent implements OnInit {
   pager: any = {};
   // paged items
   pagedProductList: any[];
+  //loading
+  public loadingData: boolean = true;
+
 
   supList: any[];
   fieldsSup: any;
@@ -51,7 +54,7 @@ export class UserProductListComponent implements OnInit {
   }
 
   private initItemList() {
-    this.fetchAllSup();
+    // this.fetchAllSup();
     this.fetchAllProduct();
   }
 
@@ -69,6 +72,7 @@ export class UserProductListComponent implements OnInit {
     });
     this.dataSrv.setItem("locProductList", this.productList);
     this.setPage(1);
+    this.loadingData = false;
   }
 
   // fetch tat ca nha cung cap

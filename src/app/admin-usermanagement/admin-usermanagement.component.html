@@ -1,16 +1,20 @@
 <user-header></user-header>
-<div class="control-section">
+
+<div *ngIf="!loadingData" class="control-section">
   <ejs-grid #grid [dataSource]='data' allowPaging='true' [pageSettings]='pageSettings'
     [editSettings]='editSettings' [toolbar]='toolbar' allowSorting='true'>
       <e-columns>
-          <e-column field='id' headerText='User ID' width='120' textAlign='Right' isPrimaryKey='true'></e-column>
-          <e-column field='hoTen' headerText='Họ Tên' width='120' textAlign='Right' isPrimaryKey='true'></e-column>
-          <e-column field='email' headerText='Email' width='120' textAlign='Right' isPrimaryKey='true'></e-column>
-          <e-column field='diaChi' headerText='Địa chỉ' width='120' textAlign='Right' isPrimaryKey='true'></e-column>
-          <e-column field='soDienThoai' headerText='Số điện thoại' width='120' textAlign='Right' isPrimaryKey='true'></e-column>
-          <e-column field='tenVaiTro' headerText='Vai trò' width='120' textAlign='Right' [validationRules]='rolerules' editType='dropdownedit'></e-column>
-          <e-column headerText='Thao tác' width='160' [commands]='commands'></e-column>
+          <e-column field='id' headerText='User ID' width='8%' textAlign='Left' isPrimaryKey='true'></e-column>
+          <e-column field='hoTen' headerText='Họ Tên' width='18%' textAlign='Left' isPrimaryKey='true'></e-column>
+          <e-column field='email' headerText='Email' width='20%' textAlign='Left' isPrimaryKey='true'></e-column>
+          <e-column field='diaChi' headerText='Địa chỉ' width='18%' textAlign='Left' isPrimaryKey='true'></e-column>
+          <e-column field='soDienThoai' headerText='Số điện thoại' width='12%' textAlign='Left' isPrimaryKey='true'></e-column>
+          <e-column field='tenVaiTro' headerText='Vai trò' width='10%' textAlign='Left' [validationRules]='rolerules' editType='dropdownedit'></e-column>
+          <e-column headerText='Thao tác' width='14%' [commands]='commands'></e-column>
       </e-columns>
   </ejs-grid>
+</div>
+<div *ngIf="loadingData">
+  <img src="../../assets/images/ajax-loader2.gif" class="loading-data">
 </div>
 <user-footer></user-footer>

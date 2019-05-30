@@ -42,12 +42,12 @@
 
       <div>
         <div class="name-row">
-          <div class="name2">Nhà cung cấp</div>
-          <span><a>Tên nhà cung cấp</a></span>
+          <div class="name2"><span style="margin-right: 5px"><i class="fas fa-plane fa-xs"></i></span>Nhà cung cấp</div>
+          <span><a>VNIST</a></span>
         </div>
 
         <div class="name-row">
-          <div class="name2">Số lượng</div>
+          <div class="name2"><span style="margin-right: 5px"><i class="fas fa-plane fa-xs"></i></span>Số lượng</div>
           <span>
             <button ejs-button type=button cssClass='e-flat' [isPrimary]="true" (click)="minus()">
               <i class="fa fa-minus" aria-hidden="true"></i>
@@ -62,20 +62,21 @@
           </span>
         </div>
         <div>
-          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button my-button"
+          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button"
             (click)="addToCart(quantity)">
             <i class="fa fa-cart-plus" aria-hidden="true"></i><span class="my-font">Thêm vào giỏ</span>
           </button>
-          <button ejs-button [isPrimary]="true" class="button my-button" [routerLink]="['/user-detail-bill', currProduct.id]"
-            routerLinkActive="active menu " style="background-color: cornflowerblue !important">
+          <button ejs-button [isPrimary]="true" class="button" [routerLink]="['/user-detail-bill', currProduct.id]"
+            routerLinkActive="active menu " style="background-color: #1791a9 !important">
             <span class="my-font">Mua ngay</span>
           </button>
         </div>
       </div>
     </div>
   </div>
-
+  
   <div *ngIf="currProduct" class="container-fluid my-font des-box">
+    <hr>
     <div class="detail-info-box">
       <div>
         <h3 id="detail-title">Thông tin chi tiết</h3>
@@ -86,14 +87,7 @@
     </div>
 
   </div>
-  <div *ngIf="currProduct" class="container-fluid my-font">
-    <div class="review-box">
-      <div class="review-title">
-        <h3>Đánh Giá Sản Phẩm</h3>
-      </div>
-    </div>
-
-  </div>
+  
 
   <div>
     <user-footer></user-footer>
