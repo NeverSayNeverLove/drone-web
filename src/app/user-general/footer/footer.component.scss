@@ -1,14 +1,17 @@
 #my-footer {
+    font-family: 'Barlow Semi Condensed', sans-serif !important;
+}
+#my-footer {
     color: white;
     padding-top: 10px;
     margin-top: 20px;
     width: 100%;
     max-height: 300px;
-    background: #464444;
+    background: #0e5c6b;
 }
 
 #my-footer .footer-copyright {
-    background-color: #333232;
+    background-color: #106272;
     padding-top: 3px;
     padding-bottom: 3px;
     text-align: center;
@@ -89,7 +92,7 @@
 
 #my-footer .btn {
     color: white;
-    background-color: #d84b6b;
+    background-color: #188ca3 ;
     border-radius: 20px;
     border: none;
     width: 150px;

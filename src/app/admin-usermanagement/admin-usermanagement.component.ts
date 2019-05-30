@@ -28,6 +28,8 @@ export class AdminUsermanagementComponent implements OnInit {
   public pageSettings: Object;
   public commands: CommandModel[];
   public selectedRole;
+  public loadingData: boolean = true;
+  
 
   constructor(
     private userSrv: UserService,
@@ -59,7 +61,6 @@ export class AdminUsermanagementComponent implements OnInit {
     { type: 'Delete', buttonOption: { click: this.onClickDelete.bind(this), iconCss: 'e-icons e-delete', cssClass: 'e-flat' } },
     { type: 'Cancel', buttonOption: { iconCss: 'e-icons e-cancel-icon', cssClass: 'e-flat' } }];
     this.toolbar = ['Search'];
-    
   }
 
   private onClickSave(args: Event){
@@ -79,6 +80,7 @@ export class AdminUsermanagementComponent implements OnInit {
 
   private initItemList() {
     this.fetchAllUser();
+    
   }
 
   private async fetchAllUser(){
@@ -96,5 +98,6 @@ export class AdminUsermanagementComponent implements OnInit {
       }
     });
     this.data = userList;
+    this.loadingData = false;
   }
 }
