@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -19,7 +19,7 @@ import { UserForumShareComponent} from '../user-forum-share/user-forum-share.com
   encapsulation: ViewEncapsulation.None
 
 })
-export class UserForumTopicListComponent implements OnInit, OnChanges{
+export class UserForumTopicListComponent implements OnInit{
   public brand: string = "Drone News";
   public slogan: string = "Những thông tin mới nhất về Drone";
   public topicList: Array<TopicTableRow> = [];
@@ -43,7 +43,8 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
   ) { }
 
   ngOnInit() {
-
+    // this.topicList = this.forumChild.topicList;
+    this.initData();
     this.pageSettings = { pageSize: 4 };
     this.filterSettings = { type: 'CheckBox' };
     this.selectionOptions = { type: 'Single' };
@@ -67,6 +68,7 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
   
   receiveMessage($event) {
     this.topicList = $event;
+    console.log('after receive message', this.topicList)
   }
 
   async initData() {
@@ -79,7 +81,8 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
   async getTopic() {
     let topicPromise = await this.forumSrv.fetchChudeForum();
     let postPromise = await this.forumSrv.fetchCauhoiForum();
-    console.log('postPromise',postPromise);
+    console.log('topic list Promise',topicPromise);
+    console.log('post list Promise',postPromise);
     topicPromise.forEach(t => {      
       let topicTr: TopicTableRow = new TopicTableRow();
       topicTr.id = t.id;
@@ -95,7 +98,7 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
          });
        }); 
     });
-    console.log('topicList',this.topicList);
+    // this.data_topicsList = this.topicList;
     this.baivietSrv.setPost(this.topicList,"locPostList"); 
   } 
 
