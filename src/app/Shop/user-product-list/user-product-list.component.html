@@ -7,7 +7,7 @@
     <user-header [brand]="brand" [slogan]="slogan"></user-header>
   </div>
 
-  <div class="container-fluid" style="padding-top: 10px">
+  <div class="container-fluid" style="padding-top: 10px; background-color: ghostwhite">
     <!-- filter -->
     <!-- <div class="col-sm-2">
       <div>
@@ -43,7 +43,7 @@
     <!--Product List-->
     <div class='container my-font'>
       <div id='product-title'><b>SẢN PHẨM</b></div>
-      <div class="e-card-layout row">
+      <div class="e-card-layout row" style="margin-left: 43px;">
         <div *ngFor="let product of pagedProductList">
           <a href="http://localhost:4200/user-detail-product/{{product.id}}">
             <div class="e-card">
@@ -66,7 +66,7 @@
       </div>
 
       <!--Pagination-->
-      <div>
+      <div style="margin-left: 30%">
         <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
           <li [ngClass]="{disabled:pager.currentPage === 1}">
             <a (click)="setPage(1)">Đầu</a>

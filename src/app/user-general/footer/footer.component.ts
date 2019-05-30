@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItemModel} from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'user-footer',
