@@ -23,7 +23,7 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
   public brand: string = "Drone News";
   public slogan: string = "Những thông tin mới nhất về Drone";
   public topicList: Array<TopicTableRow> = [];
-  public data_topicsList: Object[];
+  public data_table_topic_list: Object[];
 
   //grid service
   public pageSettings: PageSettingsModel;
@@ -47,17 +47,16 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
     this.pageSettings = { pageSize: 4 };
     this.filterSettings = { type: 'CheckBox' };
     this.selectionOptions = { type: 'Single' };
-    
-    this.topicList = this.forumChild.topicList;
-    this.data_topicsList = this.topicList;
-
     this.initData();
+    // this.topicList = this.forumChild.topicList;
+
+    
   }
   ngOnChanges(){
     console.log ('forumChild topicList:', this.forumChild.topicList);
-    this.topicList = this.forumChild.topicList;
-    this.data_topicsList = this.topicList;
-    this.initData();
+    // this.topicList = this.forumChild.topicList;
+    // this.data_topicsList = this.topicList;
+    // this.initData();
     // this.grid.refresh();
     
   }
@@ -72,7 +71,9 @@ export class UserForumTopicListComponent implements OnInit, OnChanges{
 
   async initData() {
     await this.getTopic();
-    this.data_topicsList = this.topicList;
+    this.data_table_topic_list = this.topicList;
+    // console.log("this.data_table_topic_list",this.data_table_topic_list);
+
   }
 
   async getTopic() {
