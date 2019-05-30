@@ -17,9 +17,11 @@ import { DiadiembayService, DiaDiemBay } from '../../services/training/diadiemba
 import { UserService, User } from '../../services/auth/user.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { DataService } from '../../services/helper/data.service';
-import { HelperService } from '../../services/helper/helper.service'
+import { HelperService } from '../../services/helper/helper.service';
 import { Issue, IssueService, IssueCategory } from '../../services/event/issue.service.service';
-import { FiltercalendarService } from '../../services/filter/filtercalendar.service'
+import { FiltercalendarService } from '../../services/filter/filtercalendar.service';
+import { ChangesfeedService } from '../../services/changesfeed/changesfeed.service';
+import { Config } from '../../services/helper/config';
 
 L10n.load({
     'en-US': {
@@ -101,9 +103,13 @@ export class UserCalendarComponent implements OnInit {
     // ngModel - data binding in issue template edit
     @Input() selectedIssueData: any;
 
-
     // maps the appropriate column to fields property
     public default : string = 'Default';
+
+    // changes feed
+    // count down timer
+    priorTime: string;
+    calTimer: any;
   
     constructor(private lichbaySrv: LichtapbayService,
         private issueSrv: IssueService,
@@ -114,6 +120,7 @@ export class UserCalendarComponent implements OnInit {
         private dataSrv: DataService,
         private helperSrv: HelperService,
         private filterCalSrv: FiltercalendarService,
+        private changesFeedSrv: ChangesfeedService,
         private router: Router) {}
 
     ngOnInit() {
@@ -129,6 +136,10 @@ export class UserCalendarComponent implements OnInit {
 
         // init list events
         this.initItems(currentUser);
+    }
+
+    ngOnDestroy(): void {
+        clearInterval(this.calTimer);
     }
 
     initItems(currentUser) {
@@ -169,6 +180,22 @@ export class UserCalendarComponent implements OnInit {
             enableTooltip: true,
             tooltipTemplate: this.temp,
         };
+
+        if (this.userSrv.isUser) {
+            let that = this;
+            this.calTimer = setInterval(
+                this.updateChangesFeedFlyPlanByUser,
+                Config.changeFeedTime,
+                that
+            );
+        } else {
+            let that = this;
+            this.calTimer = setInterval(
+                this.updateChangesFeedFlyPlanBySup,
+                Config.changeFeedTime,
+                that
+            );
+        }
     }
 
     private async createLichTapBay(currentUser) {
@@ -339,6 +366,105 @@ export class UserCalendarComponent implements OnInit {
         });
     }
 
+    public async updateChangesFeedFlyPlanBySup(that) {
+        let key = 'priorTime';
+        that.priorTime = that.dataSrv.getItem(key);
+        if (!that.priorTime) {
+            that.priorTime = (new Date()).toISOString();
+        }
+        that.dataSrv.setItem(key, (new Date()).toISOString());
+        let listCreatedFlyPlanIDs: Array<number> = [];
+        let listUpdatedFlyPlanIDs: Array<number> = [];
+        let listDeletedFlyPlanIDs: Array<number> = [];
+        let listChangesFeed = await that.changesFeedSrv.fetchChangesFeedBySup(that.priorTime);
+        listChangesFeed[0]['content'].forEach(cf => {
+            switch (cf['thaoTac']) {
+                case 'TẠO MỚI':
+                    listCreatedFlyPlanIDs.push(cf.eventId);
+                    break;
+                case 'CẬP NHẬT':
+                    listUpdatedFlyPlanIDs.push(cf.eventId);
+                    break;
+                case 'XÓA':
+                    listDeletedFlyPlanIDs.push(cf.eventId);
+                    break;
+                default:
+                break;
+            }
+        });
+        listCreatedFlyPlanIDs = that.filterCalSrv.filterIDsByOtherIDs(listCreatedFlyPlanIDs, listDeletedFlyPlanIDs)
+        listCreatedFlyPlanIDs = that.helperSrv.filterDuplicateItemByID(listCreatedFlyPlanIDs);
+        listUpdatedFlyPlanIDs = that.filterCalSrv.filterIDsByOtherIDs(listUpdatedFlyPlanIDs, listDeletedFlyPlanIDs)
+        listUpdatedFlyPlanIDs = that.helperSrv.filterDuplicateItemByID(listUpdatedFlyPlanIDs);
+        if (listCreatedFlyPlanIDs.length) {
+            that.fetchCreatedFlyPlan(listCreatedFlyPlanIDs);
+        }
+        if (listUpdatedFlyPlanIDs.length) {
+            that.fetchUpdatedFlyPlan(listUpdatedFlyPlanIDs);
+        }
+        if (listDeletedFlyPlanIDs.length) {
+            that.deleteFlyPlan(listDeletedFlyPlanIDs);
+        }
+    }
+
+    private async fetchCreatedFlyPlan(ids) {
+        // fetch moi event co id nam trong ids
+        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByIDs(ids);
+        eventsPromise.forEach(e => {
+            let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
+                                        e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.nhaCungCap.id,
+                                        e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao,  e.droneDaoTao.id);
+            this.setStatusEvent(event);
+
+            this.events.push(event);
+        });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
+        this.reloadDataSource();
+    }
+
+    private async fetchUpdatedFlyPlan(ids) {
+        // xoa nhung event co id nam trong ids
+        this.events = this.filterCalSrv.filterEventsByID(this.events, ids);
+        this.reloadDataSource();
+        // fetch moi event co id nam trong ids
+        let eventsPromise = await this.lichbaySrv.fetchFlyPlanByIDs(ids);
+        eventsPromise.forEach(e => {
+            let event = new LichTapBay(e.id, e.ghiChu, new Date(e.thoiGianBatDau), new Date(e.thoiGianKetThuc),
+                                        e.noiDung, e.trangThai, e.nguoiDangKy, e.nhaCungCap, e.nhaCungCap.id,
+                                        e.diaDiemBay, e.diaDiemBay.id, e.droneDaoTao,  e.droneDaoTao.id);
+            this.setStatusEvent(event);
+
+            this.events.push(event);
+        });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
+        this.reloadDataSource();
+    }
+
+    private deleteFlyPlan(ids) {
+        // xoa nhung event co id nam trong ids
+        this.events = this.filterCalSrv.filterEventsByID(this.events, ids);
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
+        this.reloadDataSource();
+    }
+
+    public async updateChangesFeedFlyPlanByUser(that) {
+        let key = 'priorTime';
+        that.priorTime = that.dataSrv.getItem(key);
+        if (!that.priorTime) {
+        that.priorTime = (new Date()).toISOString();
+        }
+        that.dataSrv.setItem(key, (new Date()).toISOString());
+        let listUpdatedFlyPlanIDs: Array<number> = [];
+        let listChangesFeed = await that.changesFeedSrv.fetchChangesFeedByUser(that.priorTime);
+        listChangesFeed[0]['content'].forEach(cf => {
+            listUpdatedFlyPlanIDs.push(cf.lichTapBayId);
+        });
+        listUpdatedFlyPlanIDs = that.helperSrv.filterDuplicateItemByID(listUpdatedFlyPlanIDs);
+        if (listUpdatedFlyPlanIDs.length) {
+            that.fetchUpdatedFlyPlan(listUpdatedFlyPlanIDs);
+        }
+    }
+
     gotoDate($event, scheduleObj) {
         let currentViewDate = new Date(scheduleObj.getCurrentViewDates()[15]);
         let miniCalendarDate = new Date($event.value);
@@ -481,11 +607,15 @@ export class UserCalendarComponent implements OnInit {
             events.forEach(event => {
                 this.lichbaySrv.deleteLichTapBayToServer(event.Id).subscribe(e => console.log(e));
             });
+            // this.removeLichTapBay(event);
+            // this.reloadDataSource();
         }
         if (this.userSrv.isSup) {
             events.forEach(event => {
                 this.issueSrv.deleteIssueToServer(event.Id).subscribe(e => console.log(e));
             });
+            // this.removeIssue(event);
+            this.reloadDataSource();
         }
     }
     //#endregion
@@ -507,18 +637,21 @@ export class UserCalendarComponent implements OnInit {
 
     private addEvent(event) {
         this.events.push(event)
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
 
     private removeLichTapBay(e) {
         this.events = this.events.filter(function(event){
             return event.TypeOfEvent == 'Issue' || event.Id != e.Id
         });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
 
     private removeIssue(e) {
         this.events = this.events.filter(function(event){
             return  event.TypeOfEvent == 'LichTapBay' || event.Id != e.Id
         });
+        this.dataSrv.setItem('LichTapBayLocal', this.events);
     }
 
     private reloadDataSource() {

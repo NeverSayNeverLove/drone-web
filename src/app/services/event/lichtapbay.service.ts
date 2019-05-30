@@ -253,7 +253,6 @@ export class LichtapbayService {
     }
   }
 
-
   public createNewLichTapBayToServer(event): any {
     console.log(event)
     let startTime = this.helperSrv.formatDateTime(event.StartTime);
@@ -319,6 +318,7 @@ export class LichtapbayService {
 
 
   public saveLichTapBayToServer(e) {
+    e['nguoiThaoTacId'] = this.userSrv.getCurrentUserID('CurrentUser');
     this.updateLichTapBay(e).subscribe(
       (lichtapbay) => { console.log('lich bay:', lichtapbay); },
       (error: any) => { console.log(error) }
@@ -393,6 +393,24 @@ export class LichtapbayService {
         default:
             break;
     }
+  }
+
+  public async fetchFlyPlanByIDs(ids) {
+    let flyPlanPromise: any[] = [];
+    try {
+      for (let i = 0; i < ids.length; i++) {
+        let tmp = await new Promise((resolve, reject) => {
+          this.http.get(`${Config.api_endpoint}lich-tap-bay/${ids[i]}`, httpOptions)
+            .subscribe(data => {
+              resolve(data);
+            });
+          });
+        flyPlanPromise.push(tmp);
+      }
+    } catch (error) {
+      throw error;
+    }
+    return flyPlanPromise;
   }
 
 }
