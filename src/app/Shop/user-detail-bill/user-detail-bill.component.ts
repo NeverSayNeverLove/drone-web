@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { Config } from '../../services/helper/config';
 import {TreeViewComponent} from "@syncfusion/ej2-angular-navigations";
 import { CartRow, Item } from '../../services/product/cart.service';
@@ -37,64 +38,69 @@ export class UserDetailBillComponent implements OnInit {
 		private dataSrv: DataService,
 		private userSrv: UserService,
 		private authSrv: AuthService,
+		private router: Router
   ){}
 
   ngOnInit() {
+		if (!this.authSrv.loggedIn) { // neu chua login
+				let key = 'PriorUrl'
+				this.dataSrv.setItem(key, '/user-calendar') // Luu url lai de sau khi login se nhay vao trang nay
+				this.router.navigateByUrl('/signin'); // chuyen sang trang login
+				return;
+		}
 		//currentUser
 		let key = 'CurrentUser'
 		this.currentUser = this.userSrv.getCurrentUser(key);
 		console.log("currentUser",this.currentUser);
 		this.addressValue = this.currentUser['dia_chi'];
     // this.calculatePriceBill();
-    this.activatedRoute.params.subscribe(params => {
-      let id = params['id'];
-      id = Number(id);
-			if (id) {
-				let item: Item = {
-					product: this.productService.find(id),
-					quantity: 1
-				};
-				if (this.dataSrv.getItem('cart') == null) {
-					let cart: any = [];
-          cart.push(item);
-					this.dataSrv.setItem('cart', JSON.stringify(cart));
-				} else {
-					let cart: any = this.dataSrv.getItem('cart');
-					let index: number = -1;
-					for (let i = 0; i < cart.length; i++) {
-						let item: Item = JSON.parse(cart[i]);
-						if (item.product.id == id) {
-							index = i;
-							break;
-						}
-					}
-					if (index == -1) {
-						cart.push(JSON.stringify(item));
-						this.dataSrv.setItem('cart', JSON.stringify(cart));
-					} else {
-						let item: Item = JSON.parse(cart[index]);
-						item.quantity += 1;
-						cart[index] = JSON.stringify(item);
-						this.dataSrv.setItem("cart", JSON.stringify(cart));
-					}
-				}
+    // this.activatedRoute.params.subscribe(params => {
+    //   let id = params['id'];
+    //   id = Number(id);
+		// 	if (id) {
+		// 		let item: Item = {
+		// 			product: this.productService.find(id),
+		// 			quantity: 1
+		// 		};
+		// 		if (this.dataSrv.getItem('cart') == null) {
+		// 			let cart: any = [];
+    //       cart.push(item);
+		// 			this.dataSrv.setItem('cart', JSON.stringify(cart));
+		// 		} else {
+		// 			let cart: any = this.dataSrv.getItem('cart');
+		// 			let index: number = -1;
+		// 			for (let i = 0; i < cart.length; i++) {
+		// 				let item: Item = JSON.parse(cart[i]);
+		// 				if (item.product.id == id) {
+		// 					index = i;
+		// 					break;
+		// 				}
+		// 			}
+		// 			if (index == -1) {
+		// 				cart.push(JSON.stringify(item));
+		// 				this.dataSrv.setItem('cart', JSON.stringify(cart));
+		// 			} else {
+		// 				let item: Item = JSON.parse(cart[index]);
+		// 				item.quantity += 1;
+		// 				cart[index] = JSON.stringify(item);
+		// 				this.dataSrv.setItem("cart", JSON.stringify(cart));
+		// 			}
+		// 		}
 				this.loadCart();
-			} else {
-				this.loadCart();
-			}
-		});
+		// 	} else {
+		// 		this.loadCart();
+		// 	}
+		// });
 	}
 
   loadCart(): void {
 		this.total = 0;
 		this.items = [];
-    let cart = this.dataSrv.getItem('cart');
-    let itemList = JSON.parse(cart);
+    let cart = this.dataSrv.getItemLocal('cartUser');
+		let itemList = cart;
+		console.log('itemList', itemList);
     itemList.forEach(item => {
-      	this.items.push({
-      		product: item.product,
-      		quantity: item.quantity
-      	});
+      	this.items.push(item);
       	this.total += item.product.unitPrice * item.quantity;
     });
   }

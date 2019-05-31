@@ -37,7 +37,8 @@
 
       </div>
       <div class="price-box">
-        <span class="price" id='sale-price'><b>${{currProduct.unitPrice*currProduct.sale}}</b></span>
+        <span *ngIf="currProduct.sale" class="price" id='sale-price'><b>${{currProduct.unitPrice*currProduct.sale}}</b></span>
+        <span *ngIf="!currProduct.sale" class="price" id='sale-price'><b>${{currProduct.unitPrice}}</b></span>
       </div>
 
       <div>
