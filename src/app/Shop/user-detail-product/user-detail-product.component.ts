@@ -39,9 +39,9 @@ export class UserDetailProductComponent implements OnInit {
   private async initData(){
     await this.fetchProduct(this.productID);
 
-    // this.items = this.dataSrv.getItemLocal("cartThuy");
+    this.items = this.dataSrv.getItemLocal("cartUser");
     // console.log("items hiện tại: ", this.items);
-    // this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
+    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     // console.log ("totalQuantity: ",this.totalQuantity);
   }
 
@@ -51,6 +51,7 @@ export class UserDetailProductComponent implements OnInit {
       product.sale, product.don_vi_ban, product.don_vi_ton_kho, product.diem_danh_gia_tb, product.id);
     this.split_des = this.currProduct.des.split(".");
     this.split_des.pop();
+    console.log(this.currProduct)
   }
 
 
@@ -90,7 +91,7 @@ export class UserDetailProductComponent implements OnInit {
       }
       console.log("items else: ", this.items);
     }
-    this.dataSrv.setItemLocal("cartThuy", this.items);
+    this.dataSrv.setItemLocal("cartUser", this.items);
     this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     console.log ("totalQuantity: ",this.totalQuantity);
     
