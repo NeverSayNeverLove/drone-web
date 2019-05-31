@@ -16,7 +16,7 @@
         <hr />
       </div>
       <div>
-        <ejs-grid id='topicGrid'#grid1 [dataSource]='data_table_topic_list' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
+        <ejs-grid id='topicGrid'#grid [dataSource]='data_table_topic_list' [allowPaging]="true" [pageSettings]='pageSettings' [allowSorting]="true"
           [allowFiltering]="true" [filterSettings]='filterSettings' [selectionSettings]='selectionOptions'
           (rowSelected)='rowSelected($event)'>
           <e-columns>

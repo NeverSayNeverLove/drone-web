@@ -53,11 +53,6 @@ export class UserDetailProductComponent implements OnInit {
     this.split_des.pop();
   }
 
-  // private getDetailProduct(id: number) {
-    // this.split_des = this.currProduct.des.split(".");
-    // this.split_des.pop();
-    // console.log("split_des",this.split_des);
-  // }
 
   minus() {
     if (this.quantity >= 2) this.quantity--;

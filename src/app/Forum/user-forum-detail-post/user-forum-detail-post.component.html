@@ -4,10 +4,10 @@
 
 <body>
   <user-header [brand]="brand" [slogan]="slogan"></user-header>
-  <div class="container-fluid">
-    <user-forum-share></user-forum-share>
+  <div class="container">
+    <!-- <user-forum-share></user-forum-share> -->
 
-    <div id="forum-content " class="col-sm-7">
+    <div *ngIf="!loadingData" id="forum-content ">
       <div>
         <h2 id="title">{{currPost.tieuDe}} </h2>
         <hr />

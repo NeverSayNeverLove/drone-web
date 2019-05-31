@@ -31,7 +31,7 @@ export class UserForumTopicListComponent implements OnInit{
   public selectionOptions: SelectionSettingsModel;
 
 
-  @ViewChild('grid1')
+  @ViewChild('grid')
   public grid: GridComponent;
   @ViewChild(UserForumShareComponent) forumChild;
 

@@ -91,6 +91,7 @@ import {SlideshowModule} from 'ng-simple-slideshow';
     NewIssueComponent,
     AdminUsermanagementComponent,
     ContactComponent,
+    
   ],
   imports: [
     BrowserModule,
