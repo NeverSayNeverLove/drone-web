@@ -69,7 +69,7 @@
 
         <div class="form-group">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-              <button ejs-button [disabled]="!formtopic.valid" type="button"
+              <button id="addNewTopic" ejs-button [disabled]="!formtopic.valid" type="button"
                 class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickTopicOK($event)">Đăng</button>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
@@ -91,7 +91,7 @@
 
           <div>
             <label for='topic'>Chủ đề:</label>
-            <ejs-dropdownlist required #topicselect='ngModel' [(ngModel)]='topic_autoselect' name="topicselect1"
+            <ejs-dropdownlist required #topicselect='ngModel' [(ngModel)]='topic_autoselect' name="topicselect"
               id='topic' [dataSource]='data_dropdown_choose_topic' [fields]='fields' placeholder='Select a topic' [value]='value'
               (change)='handleOnSelectedTopic($event)'>
             </ejs-dropdownlist>

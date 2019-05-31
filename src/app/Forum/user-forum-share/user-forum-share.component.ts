@@ -5,8 +5,8 @@ import { ForumService, TopicTableRow, ChuDeForum, CauHoiForum } from '../../serv
 import { DataService } from '../../services/helper/data.service';
 import { BaivietService } from '../../services/forum/baiviet.service';
 import { AuthService } from '../../services/auth/auth.service';
-// import { Input } from '@syncfusion/ej2-inputs';
-
+import { DropDownListComponent, DropDownList } from '@syncfusion/ej2-angular-dropdowns';
+import { Router } from '@angular/router';
 @Component({
   selector: 'user-forum-share',
   templateUrl: './user-forum-share.component.html',
@@ -18,6 +18,9 @@ export class UserForumShareComponent implements OnInit {
   @ViewChild('questionDialog') questionDialog: DialogComponent;
   // Create element reference for dialog target element.
   @ViewChild('container', { read: ElementRef }) container: ElementRef;
+  @ViewChild('topicselect') dropDownListObject: DropDownListComponent;
+
+  
 
   public targetElement: HTMLElement;
   public animationSettings: Object = { effect: 'Room' };
@@ -43,13 +46,14 @@ export class UserForumShareComponent implements OnInit {
     private forumSrv: ForumService,
     private dataSrv: DataService,
     private authSrv: AuthService,
-
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.loggedIn = this.authSrv.loggedIn;
     this.initData();
     this.initilaizeTarget();
+    // this.dropDownListObject.appendTo('topicselect');
   }
 
   sendMessage() {
@@ -57,35 +61,42 @@ export class UserForumShareComponent implements OnInit {
     // console.log('messageEvent', this.addedTopicList);
   }
 
-  initData() {
-    this.getTopic();
+
+
+
+  async initData() {
+    await this.getTopics();
+    this.data_dropdown_choose_topic = this.topicList;
   }
 
-  async getTopic() {
+  async getTopics() {
     let topicPromise = await this.forumSrv.fetchChudeForum();
     topicPromise.forEach(t => {
       this.data_topicsList.push({id: t.id, tenChuDeCauHoi: t.tenChuDeCauHoi });
       let topicTr: TopicTableRow = new TopicTableRow();
       topicTr.id = t.id;
       topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
-      // this.addedTopicList.push(topicTr);
+      this.topicList.push(topicTr);
     });
-  } 
- 
+    console.log("gettopics", this.topicList);
+  }
+
+
   public handleOnClickTopicOK: EmitType<object> = () => {
-    let topic = new ChuDeForum (this.inputtopic);
+    let topic = new ChuDeForum(this.inputtopic);
+    let name: string = "";
+    let id: number = 0;
+    console.log ("new topic",topic);
     this.forumSrv.createChuDeForum(topic).subscribe(
-      (topic: ChuDeForum) => {
-        let topicTr: TopicTableRow = new TopicTableRow();
-        topicTr.id = topic['data'].id;
-        topicTr.tenChuDeCauHoi = topic['data'].tenChuDeCauHoi;
-        // this.addedTopicList.push(topicTr);
-        this.data_topicsList.push({id: topic['data'].id, tenChuDeCauHoi: topic['data'].tenChuDeCauHoi });
-        this.sendMessage();
+      (topic: ChuDeForum) => { 
+        console.log("in Subcribe",topic);
       },
       (error: any) => { console.log(error) }
     );
     this.topicDialog.hide();
+    //load lại trang
+    location.reload();
+
   }
 
   public handleOnClickTopicCancel: EmitType<object> = () => {
@@ -105,11 +116,18 @@ export class UserForumShareComponent implements OnInit {
     console.log(tieuDe.value);
     console.log(this.selectedTopicID);
     let question = new CauHoiForum(tieuDe.value, noiDung.value, 1, this.selectedTopicID);
+    let idPost: number = 0;
     this.forumSrv.createCauHoiForum(question).subscribe(
-      (question: CauHoiForum) => { console.log(question) },
+      (question: CauHoiForum) => { 
+        console.log(question);
+        idPost = question['data'].id;
+        console.log(idPost);
+        this.questionDialog.hide();
+        this.dataSrv.sendPostID(idPost);
+        this.router.navigateByUrl('/user-forum-detail-post');
+      },
       (error: any) => { console.log(error) }
     );
-    this.questionDialog.hide();
   }
 
 
@@ -132,7 +150,7 @@ export class UserForumShareComponent implements OnInit {
     this.questionDialog.animationSettings = { effect: 'Zoom', duration: 400 };
     this.questionDialog.show();
   }
-
+  
 
 
 

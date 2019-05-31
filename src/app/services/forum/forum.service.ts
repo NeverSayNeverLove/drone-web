@@ -145,14 +145,12 @@ export class ForumService {
   async fetchCauhoiById(Id) {
     let listPromise: any;
     try {
-      let tmp;
-      tmp = await new Promise((resolve, reject) => {
+      listPromise = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}cau-hoi-forum/${Id}`, httpOptions).subscribe(data => {
           console.log('Cau hoi by Id', data);
           resolve(data);
         });
       });
-
     } catch (error) {
       throw error;
     }
@@ -162,8 +160,7 @@ export class ForumService {
   async fetchTraloiById(Id) {
     let listPromise: any;
     try {
-      let tmp;
-      tmp = await new Promise((resolve, reject) => {
+      listPromise = await new Promise((resolve, reject) => {
         this.http.get(`${Config.api_endpoint}tra-loi-forum/${Id}`, httpOptions).subscribe(data => {
           console.log('Tra loi by Id', data);
           resolve(data);

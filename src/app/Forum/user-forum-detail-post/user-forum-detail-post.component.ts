@@ -20,6 +20,7 @@ export class UserForumDetailPostComponent implements OnInit {
   public postID: number = 0;
   public currPost: CauHoiForum;
   public answerList: TraLoiForum[] = [];
+  public loadingData: boolean = true;
   constructor(
     private dataSrv: DataService,
     private forumSrv: ForumService,
@@ -28,38 +29,45 @@ export class UserForumDetailPostComponent implements OnInit {
 
   ngOnInit() {
     this.dataSrv.currID.subscribe(id => this.postID = id);
-    // console.log(this.postID);
+    console.log(this.postID);
     this.initData();
   }
-  async initData() {
-    await this.getPost();
+  ngOnChanges() {
+    console.log("changes");
   }
-  async getPost() {
-    //Lấy currPost từ localStorage
-    this.currPost = this.dataSrv.getItem('currPost')[0];
-    let answerPromise = await this.forumSrv.fetchTraloiByCauhoiId(this.currPost.id);
-    console.log('1', answerPromise);
-    answerPromise.forEach(ansPage => {
-      ansPage.content.forEach(ans => {
-        console.log(ans);
-        let answer = new TraLoiForum();
-        answer.id = ans.id;
-        answer.noiDung = ans.noiDung;
-        answer.nguoiTraLoiId = ans.nguoiTraLoi.id;
-        answer.cauHoiId = ans.cauHoi.id;
-        answer['nguoiDat'] = ans.nguoiTraLoi.hoTen;
-        answer['ngayTraLoi'] = ans.ngayTraLoi;
-        answer['numOfAns'] = 0;
-        this.answerList.push(answer);
 
-      });
-    });
-    this.baivietSrv.setPost(this.answerList,"locAnswerList"); 
+  private async initData() {
+    await this.getPost(this.postID);
+    this.loadingData = false;
+  }
+  private async getPost(postIDParam: number) {
+      let postPromise = await this.forumSrv.fetchCauhoiById(postIDParam);
+      console.log("postPromise",postPromise);
+      this.currPost = await new CauHoiForum(postPromise.tieuDe, postPromise.noiDung, postPromise.nguoiDat.id, postPromise.chuDe.id, postPromise.id);
+      this.currPost['ngayDat'] = await postPromise.ngayDat;
+      this.currPost['nguoiDat'] = await postPromise.nguoiDat.hoTen;
+      this.dataSrv.setItemLocal("currPost1",this.currPost);
+    
+    
+    
+    // let answerPromise = await this.forumSrv.fetchTraloiByCauhoiId(postIDParam);
+    // console.log('1', answerPromise);
+    // answerPromise.forEach(ansPage => {
+    //   ansPage.content.forEach(ans => {
+    //     console.log(ans);
+    //     let answer = new TraLoiForum();
+    //     answer.id = ans.id;
+    //     answer.noiDung = ans.noiDung;
+    //     answer.nguoiTraLoiId = ans.nguoiTraLoi.id;
+    //     answer.cauHoiId = ans.cauHoi.id;
+    //     answer['nguoiDat'] = ans.nguoiTraLoi.hoTen;
+    //     answer['ngayTraLoi'] = ans.ngayTraLoi;
+    //     answer['numOfAns'] = 0;
+    //     this.answerList.push(answer);
 
-
-
-
-
+    //   });
+    // });
+    // this.baivietSrv.setPost(this.answerList,"locAnswerList"); 
   }
 
 }
