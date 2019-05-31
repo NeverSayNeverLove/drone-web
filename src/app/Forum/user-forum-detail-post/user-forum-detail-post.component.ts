@@ -50,24 +50,24 @@ export class UserForumDetailPostComponent implements OnInit {
     
     
     
-    let answerPromise = await this.forumSrv.fetchTraloiByCauhoiId(postIDParam);
-    console.log('1', answerPromise);
-    answerPromise.forEach(ansPage => {
-      ansPage.content.forEach(ans => {
-        console.log(ans);
-        let answer = new TraLoiForum();
-        answer.id = ans.id;
-        answer.noiDung = ans.noiDung;
-        answer.nguoiTraLoiId = ans.nguoiTraLoi.id;
-        answer.cauHoiId = ans.cauHoi.id;
-        answer['nguoiDat'] = ans.nguoiTraLoi.hoTen;
-        answer['ngayTraLoi'] = ans.ngayTraLoi;
-        answer['numOfAns'] = 0;
-        this.answerList.push(answer);
+    // let answerPromise = await this.forumSrv.fetchTraloiByCauhoiId(postIDParam);
+    // console.log('1', answerPromise);
+    // answerPromise.forEach(ansPage => {
+    //   ansPage.content.forEach(ans => {
+    //     console.log(ans);
+    //     let answer = new TraLoiForum();
+    //     answer.id = ans.id;
+    //     answer.noiDung = ans.noiDung;
+    //     answer.nguoiTraLoiId = ans.nguoiTraLoi.id;
+    //     answer.cauHoiId = ans.cauHoi.id;
+    //     answer['nguoiDat'] = ans.nguoiTraLoi.hoTen;
+    //     answer['ngayTraLoi'] = ans.ngayTraLoi;
+    //     answer['numOfAns'] = 0;
+    //     this.answerList.push(answer);
 
-      });
-    });
-    this.baivietSrv.setPost(this.answerList,"locAnswerList"); 
+    //   });
+    // });
+    // this.baivietSrv.setPost(this.answerList,"locAnswerList"); 
   }
 
 }

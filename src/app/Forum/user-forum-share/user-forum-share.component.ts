@@ -76,7 +76,7 @@ export class UserForumShareComponent implements OnInit {
       let topicTr: TopicTableRow = new TopicTableRow();
       topicTr.id = t.id;
       topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
-      // this.addedTopicList.push(topicTr);
+      this.topicList.push(topicTr);
     });
     console.log("gettopics", this.topicList);
   }
