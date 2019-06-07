@@ -29,9 +29,11 @@ export class UserCartComponent implements OnInit {
   }
 
   async initData() {
-    this.items = await this.dataSrv.getItemLocal("cartThuy");
-    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
-    this.calculateBill();
+    this.items = await this.dataSrv.getItemLocal("cartUser");
+    if (this.items) {
+      this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
+      this.calculateBill();
+    }
   }
 
   calculateBill() {
@@ -47,7 +49,7 @@ export class UserCartComponent implements OnInit {
         item.quantity--;
       }
     });
-    this.dataSrv.setItemLocal("cartThuy",this.items);
+    this.dataSrv.setItemLocal("cartUser",this.items);
     this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   }
@@ -58,13 +60,14 @@ export class UserCartComponent implements OnInit {
         item.quantity++;
       }
     });
-    this.dataSrv.setItemLocal("cartThuy",this.items);
+    this.dataSrv.setItemLocal("cartUser",this.items);
     this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   }
   
   remove(id: number) {    
     this.items = this.items.filter(e => e.product.id != id);
+    this.dataSrv.setItemLocal("cartUser",this.items);
     this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     this.calculateBill();
   }

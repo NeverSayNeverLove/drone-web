@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { Config } from '../../services/helper/config';
 import { ToolbarComponent, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import { TooltipModule, Position, TooltipComponent } from '@syncfusion/ej2-angular-popups';
 import { removeClass } from '@syncfusion/ej2-base';
 import { AuthService } from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
@@ -33,13 +32,12 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.loggedIn = this.authSrv.loggedIn;
-        // this.dataSrv.currCart.subscribe(items => this.items = items);
-        // if (this.count == 0) {
-        //     this.items = this.dataSrv.getItemLocal("cartThuy");
-        //     if (this.items) {
-        //         this.items.forEach(i => this.count += i.quantity);
-        //     }
-        // }
+        if (this.count == 0) {
+            this.items = this.dataSrv.getItemLocal("cartUser");
+            if (this.items) {
+                this.items.forEach(i => this.count += i.quantity);
+            }
+        }
         if (this.loggedIn && this.userSrv.isAdmin) {
             this.data.push(
                 {

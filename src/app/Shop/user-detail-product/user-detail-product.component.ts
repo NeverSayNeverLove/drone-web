@@ -40,9 +40,14 @@ export class UserDetailProductComponent implements OnInit {
     await this.fetchProduct(this.productID);
 
     this.items = this.dataSrv.getItemLocal("cartUser");
-    // console.log("items hiện tại: ", this.items);
-    this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
-    // console.log ("totalQuantity: ",this.totalQuantity);
+    if (!this.items) {
+      this.items = [];
+      // this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
+      // this.items.push(new Item(this.currProduct, this.totalQuantity));
+      // this.dataSrv.setItemLocal("cartUser", this.items);
+    } else {
+      this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
+    }
   }
 
   private async fetchProduct(productID) {
@@ -51,18 +56,15 @@ export class UserDetailProductComponent implements OnInit {
       product.sale, product.don_vi_ban, product.don_vi_ton_kho, product.diem_danh_gia_tb, product.id);
     this.split_des = this.currProduct.des.split(".");
     this.split_des.pop();
-    console.log(this.currProduct)
   }
 
 
   minus() {
     if (this.quantity >= 2) this.quantity--;
-    console.log(this.quantity);
     return this.quantity;
   }
   add() {
     if (this.quantity < 10) this.quantity++;
-    console.log(this.quantity);
     return this.quantity;
   }
 
@@ -74,7 +76,6 @@ export class UserDetailProductComponent implements OnInit {
         quantity: this.quantity
       };
       this.items.push(item);
-      console.log("thêm vào mảng rỗng ", this.items);
     } else {
       let existedItem: Item = this.items.find(i => i.product.id == this.currProduct.id);
       if (existedItem == null) {
@@ -94,8 +95,6 @@ export class UserDetailProductComponent implements OnInit {
     this.dataSrv.setItemLocal("cartUser", this.items);
     this.totalQuantity = this.cartSrv.countTotalQuantity(this.items);
     console.log ("totalQuantity: ",this.totalQuantity);
-    
-
   }
 
 }

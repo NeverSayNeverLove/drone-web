@@ -29,6 +29,10 @@ export class CartRow {
 
 //alt class
 export class Item {
-  product: Product;
-  quantity: number;
+  // product: Product;
+  // quantity: number;
+  constructor(
+    public product: Product,
+    public quantity: number
+  ){}
 }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ProductComponent } from './Shop/product/product.component';
 import { UserCalendarComponent } from './Calendar/user-calendar/user-calendar.component';
 import { UserNewsComponent } from './Forum/user-news/user-news.component';
 import { SigninComponent } from './Oauth/signin/signin.component';
@@ -25,7 +24,6 @@ import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'product', component: ProductComponent},
   { path: 'user-calendar', component: UserCalendarComponent},
   { path: 'user-news', component: UserNewsComponent},
   { path: 'user-detail-new', component: UserDetailNewComponent},
