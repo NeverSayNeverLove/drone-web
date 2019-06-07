@@ -5,6 +5,7 @@ import { enableRipple, createElement } from '@syncfusion/ej2-base';
 import { TabComponent} from '@syncfusion/ej2-angular-navigations';
 
 import { CartRow } from '../../services/product/cart.service';
+import { DataService } from '../../services/helper/data.service';
 
 
 
@@ -47,10 +48,11 @@ export class UserOrderHistoryComponent implements OnInit {
     },
     
   ]
-  constructor() { }
+  constructor(
+		private dataSrv: DataService,) { }
 
   ngOnInit() {
-    
+    this.dataSrv.setItemLocal('cartUser', []);
   }
   // Treeview
   public field: Object = { dataSource: this.treeViewData, id: 'id', text: 'name', iconCss: 'icon' };

@@ -8,7 +8,6 @@ import { DatePipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ProductComponent } from './Shop/product/product.component';
 import { SigninComponent } from './Oauth/signin/signin.component';
 import { UserNewsComponent } from './Forum/user-news/user-news.component';
 import { UserCalendarComponent } from './Calendar/user-calendar/user-calendar.component';
@@ -66,7 +65,6 @@ import {SlideshowModule} from 'ng-simple-slideshow';
   declarations: [
     AppComponent,
     HomeComponent,
-    ProductComponent,
     SigninComponent,
     UserCalendarComponent,
     HeaderComponent,

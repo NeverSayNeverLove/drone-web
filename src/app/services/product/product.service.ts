@@ -16,8 +16,6 @@ export class ProductService {
     private http: HttpClient,
     private dataSrv: DataService,
   ) {
-    //Lấy dữ liệu - Khởi tạo mảng
-    // this.getProduct();
   }
 
   findAll(): Product[] {
@@ -36,38 +34,6 @@ export class ProductService {
     }
     return -1;
   }
-
-  //Return Array
-  // async getProduct() {
-  //   //kiểm tra dữ liệu trên local cache
-  //   this.products = JSON.parse(JSON.stringify(this.dataSrv.getItemLocal("locProductList")));
-  //   //Nếu k có thì fetch dữ liệu từ Server
-  //   if (!this.products || !this.products.length) {
-  //     console.log(1);
-  //     this.products = [];
-  //     let productPromises: Array<Object> = [];
-  //     productPromises = await this.fetchProduct();
-  //     productPromises.forEach(element => {
-  //       element['data']['data'].forEach(p => {
-  //         console.log("product", p);
-  //         let product = new Product();
-  //         product.id = p.id;
-  //         product.supID = p.nha_cung_cap_id;
-  //         product.categoryID = p.danh_muc_id;
-  //         product.name = p.ten_san_pham;
-  //         product.des = p.mo_ta_chung;
-  //         product.rating = p.diem_danh_gia_tb;
-  //         product.rest = p.don_vi_ton_kho;
-  //         product.sale = p.sale;
-  //         product.sold = p.don_vi_ban;
-  //         product.unitPrice = p.don_gia;
-  //         this.products.push(product);
-  //       });
-  //     });
-  //     //lưu lại vào local cache sau khi fetch
-  //     this.dataSrv.setItemLocal("locProductList", this.products);
-  //   }
-  // }
 
   // Get From DB - Return Promise
   async fetchProduct() {
