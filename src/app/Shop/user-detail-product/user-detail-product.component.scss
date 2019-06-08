@@ -71,7 +71,7 @@ h6 {
 .name-row {
     margin: 15px;
 }
-.button {
+.add_to_cart_button {
     margin-left: 15px;
     margin-top: 15px; 
     text-transform: capitalize; 
@@ -117,12 +117,12 @@ h6 {
     padding-top: 30px;
 }
 
-.e-btn.e-outline.e-primary:hover {
+.add_to_cart_button:hover {
     background-color:  #1791a9;
     border-color: transparent;
     color: white;
 }
-.e-btn.e-outline.e-primary {
+.add_to_cart_button{
     border-color: #1791a9;
     color:  #1791a9;
 } 

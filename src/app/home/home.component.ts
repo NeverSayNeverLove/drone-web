@@ -11,9 +11,10 @@ export class HomeComponent implements OnInit {
   imageUrls: (string | IImage)[] = [
     { url: '../../assets/images/slide_13.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
     { url: '../../assets/images/slide_9.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
-    { url: '../../assets/images/drone_4.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
-    { url: '../../assets/images/slide_16.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
     { url: '../../assets/images/slide_15.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
+    { url: '../../assets/images/drone_32.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
+    { url: '../../assets/images/slide_16.jpg', caption: 'Drone Calendar', href: 'user-calendar' },
+    
   ];
   height: string = '400px';
   minHeight: string;

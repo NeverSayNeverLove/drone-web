@@ -44,7 +44,7 @@
       <div>
         <div class="name-row">
           <div class="name2"><span style="margin-right: 5px"><i class="fas fa-plane fa-xs"></i></span>Nhà cung cấp</div>
-          <span><a>VNIST</a></span>
+          <span><a>{{currProduct.supName}}</a></span>
         </div>
 
         <div class="name-row">
@@ -63,7 +63,7 @@
           </span>
         </div>
         <div>
-          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="button"
+          <button ejs-button cssClass="e-outline" [isPrimary]="true" class="add_to_cart_button"
             (click)="addToCart(quantity)">
             <i class="fa fa-cart-plus" aria-hidden="true"></i><span class="my-font">Thêm vào giỏ</span>
           </button>
