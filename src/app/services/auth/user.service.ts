@@ -82,6 +82,30 @@ export class UserService {
     return listPromise;
   }
   
+  async fetchSupByID(token,supID: number) {
+    const httpHeader = {
+      headers: new HttpHeaders({
+        'Authorization': token
+      })
+    };
+    let listPromise: any;
+    listPromise = [];
+    try {
+      let tmp;
+      tmp = await new Promise((resolve, reject) => {
+        this.http.get(`${Config.api_endpoint_khai}userssup/id=${supID}&page=1&limit=${Config.pageSizeMax}`, httpHeader).subscribe(data => {
+          resolve(data);
+        });
+      });
+      listPromise.push(tmp);
+      
+    } catch (error) {
+      throw error;
+    }
+    return listPromise;
+  }
+
+
   async fetchAllUserList(token) {
     const httpHeader = {
       headers: new HttpHeaders({

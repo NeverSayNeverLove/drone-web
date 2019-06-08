@@ -3,6 +3,7 @@ import { Product, ProductService } from '../../services/product/product.service'
 import { DataService } from '../../services/helper/data.service';
 import { ActivatedRoute } from "@angular/router";
 import { Item, CartService } from '../../services/product/cart.service';
+import { UserService, User } from 'src/app/services/auth/user.service';
 
 @Component({
   selector: 'user-detail-product',
@@ -25,7 +26,8 @@ export class UserDetailProductComponent implements OnInit {
     private dataSrv: DataService,
     private productSrv: ProductService,
     private route: ActivatedRoute,
-    private cartSrv: CartService
+    private cartSrv: CartService,
+    private userSrv: UserService
   ) { }
 
   ngOnInit() {
@@ -38,7 +40,7 @@ export class UserDetailProductComponent implements OnInit {
 
   private async initData(){
     await this.fetchProduct(this.productID);
-
+    await this.fetchSup(this.currProduct.supID);
     this.items = this.dataSrv.getItemLocal("cartUser");
     if (!this.items) {
       this.items = [];
@@ -58,6 +60,12 @@ export class UserDetailProductComponent implements OnInit {
     this.split_des.pop();
   }
 
+  private async fetchSup(supID: number){
+    let token = this.userSrv.getToken();
+    let currSup = await this.userSrv.fetchSupByID(token,supID);
+    console.log("sup by id", currSup);
+    this.currProduct['supName'] = currSup[0]['userdetail']['ho_ten'];
+  }
 
   minus() {
     if (this.quantity >= 2) this.quantity--;

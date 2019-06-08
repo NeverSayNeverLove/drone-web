@@ -6,6 +6,7 @@ import { DataService } from '../../services/helper/data.service';
 import { UserService } from '../../services/auth/user.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { CartService } from '../../services/product/cart.service';
+import { HelperService } from 'src/app/services/helper/helper.service';
 
 // import * as $ from 'jquery';
 
@@ -35,7 +36,8 @@ export class UserDetailBillComponent implements OnInit {
 		private userSrv: UserService,
 		private authSrv: AuthService,
 		private router: Router,
-		private cartSrv: CartService 
+		private cartSrv: CartService,
+		private helper: HelperService 
 	){}
 
 	ngOnInit() {
