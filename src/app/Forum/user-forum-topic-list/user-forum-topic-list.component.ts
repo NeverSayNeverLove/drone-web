@@ -23,7 +23,7 @@ export class UserForumTopicListComponent implements OnInit{
   public brand: string = "Drone News";
   public slogan: string = "Những thông tin mới nhất về Drone";
   public topicList: Array<TopicTableRow> = [];
-  public data_table_topic_list: Object[];
+  public data_table_topic_list: Object[] = [];
 
   //grid service
   public pageSettings: PageSettingsModel;
@@ -62,9 +62,9 @@ export class UserForumTopicListComponent implements OnInit{
     
   }
 
-  add() {
-    this.grid.refresh();
-  }
+  // add() {
+  //   this.grid.refresh();
+  // }
   
   receiveMessage($event) {
     this.topicList = $event;
@@ -73,8 +73,7 @@ export class UserForumTopicListComponent implements OnInit{
 
   async initData() {
     await this.getTopic();
-    this.data_table_topic_list = this.topicList;
-    // console.log("this.data_table_topic_list",this.data_table_topic_list);
+    // this.data_table_topic_list = this.topicList;
 
   }
 
@@ -88,6 +87,7 @@ export class UserForumTopicListComponent implements OnInit{
       topicTr.id = t.id;
       topicTr.tenChuDeCauHoi = t.tenChuDeCauHoi;
       this.topicList.push(topicTr);
+      this.data_table_topic_list.push(topicTr);
     });
     this.topicList.forEach(t => {
        postPromise.forEach(postPage =>{

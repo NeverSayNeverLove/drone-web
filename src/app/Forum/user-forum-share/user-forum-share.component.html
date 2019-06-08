@@ -67,7 +67,7 @@
                 class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickTopicOK($event)">Đăng</button>
             </div>
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-              <button ejs-button [disabled]="!(nameTopic.valid)" type="reset"
+              <button ejs-button type="reset"
                 class="e-control e-btn e-lib e-flat" (click)="handleOnClickTopicCancel($event)">Hủy</button>
             </div>
           </div>
@@ -130,8 +130,8 @@
               class="e-control e-btn e-lib e-primary e-flat" (click)="handleOnClickQuestionOk($event)">Đăng</button>
           </div>
           <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-            <button ejs-button [disabled]="!(topicselect.valid || title.valid || content.valid)" type="reset"
-              class="e-control e-btn e-lib e-flat" (click)="handleOnClickQuestionCancel($event)">Gửi</button>
+            <button ejs-button type="reset"
+              class="e-control e-btn e-lib e-flat" (click)="handleOnClickQuestionCancel($event)">Hủy</button>
           </div>
         </div>
       </form>
