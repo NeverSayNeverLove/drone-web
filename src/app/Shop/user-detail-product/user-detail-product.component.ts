@@ -54,6 +54,7 @@ export class UserDetailProductComponent implements OnInit {
 
   private async fetchProduct(productID) {
     let product = await this.productSrv.fetchProductByID(productID);
+    console.log(product);
     this.currProduct = new Product(product.danh_muc_id, product.nha_cung_cap_id, product.ten_san_pham, product.mo_ta_chung, product.don_gia,
       product.sale, product.don_vi_ban, product.don_vi_ton_kho, product.diem_danh_gia_tb, product.id);
     this.split_des = this.currProduct.des.split(".");
