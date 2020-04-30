@@ -32,7 +32,7 @@
     "@syncfusion/ej2-notifications": "^17.1.42",
     "@syncfusion/ej2-splitbuttons": "^17.1.42",
     "core-js": "^2.5.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
     "ng-simple-slideshow": "^1.2.9",
     "rxjs": "~6.3.3",
